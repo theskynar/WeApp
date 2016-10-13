@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="app"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>Painel Administrativo WeApp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/dest/css/styleDash.css">
+        <script src="/libs/jquery/dist/jquery.min.js"></script>
+        <script src="/libs/angular/angular.min.js"></script>
+        <!-- Angular files by Matheus Bordin -->
+        <script src="/dest/js/AppDash.js"></script>
+        <script type="text/javascript" src="dest/js/token-interceptor.js"></script>
+        <!-- Finish of Angular files -->
+    </head>
+    <body>
+        <aside class="sidebar" ng-controller="loguser">
+            <div class="logUser">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#"><img class="media-object img-circle" src="images/noicon.svg" alt="No icon"></a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Breno Agnani</h4>
+                            <div class="dropdown poll-right">
+                                Fundador
+                                <a href="javascript:;" class="pull-right" id="userOpt" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></a>
+                                <ul class="dropdown-menu" aria-labelledby="userOpt">
+                                    <li><a href="#">Perfil</a></li>
+                                    <li><a href="#" id="logout">Sair</a></li>
+                                </ul>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-group">
+                <li href="#" class="list-group-item disable"> Helpdesk </li>
+                <a href="#" class="list-group-item"> Tickets <span class="badge red">5</span></a>
+                <a href="#" class="list-group-item"> Erros </a>
+                <a href="#" class="list-group-item"> Gerenciar <span class="badge green">1</span></a>
+            </div>
+            <div class="list-group">
+                <li href="#" class="list-group-item disable"> Gerenciar </li>
+                <a href="#" class="list-group-item"> Pagamentos </a>
+                <a href="#" class="list-group-item"> Licenças <span class="badge blue">7</span></a>
+                <a href="#" class="list-group-item"> Clientes </a>
+            </div>
+            <div class="list-group">
+                <li href="#" class="list-group-item disable"> exemplo4 </li>
+                <a href="#" class="list-group-item"> exemplo5 </a>
+                <a href="#" class="list-group-item"> exemplo6 </a>
+                <a href="#" class="list-group-item"> exemplo7 </a>
+            </div>
+        </aside>
+        <section class="content">
+            <div class="row center-align">
+                <div class="col-xs-12">
+                    <div class="subcontent nopad">
+                        <h4 class="header"> ESTASTÍSTICAS </h4>
+                        <div class="body">
+                            <canvas id="estChart" style="max-width: 100%"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row center-align">
+                <div class="col-xs-12 col-lg-6" ng-controller="financesHome">
+                    <div class="subcontent nopad">
+                        <h4 class="header">FINANCEIRO
+                            <div class="btn-group btn-group-xs pull-right" role="group" id="financeTabs">
+                                <a href="#financesTable" role="tab" data-toggle="tab" class="btn btn-xs btn-default">Tabela</a>
+                                <a href="#financesGraph" role="tab" data-toggle="tab" class="btn btn-xs btn-default">Gráfico</a>
+                            </div>
+                        </h4>
+                        <div class="body">
+                            <!-- Nav tabs -->
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="financesTable">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Cat.</th>
+                                                <th>Valor</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td>Em conta</td>
+                                            <td>{{ moneyCart | currency }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>A Receber</td>
+                                            <td>{{ receiveMoney | currency }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>A Pagar</td>
+                                            <td>{{ payMoney | currency }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="financesGraph">
+                                    <canvas id="financeChart" style="max-width: 100%"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <div class="subcontent nopad">
+                        <h4 class="header">last Tickets <a href="#"><i class="glyphicon glyphicon-eye-open pull-right"></i></a></h4>
+                        <div class="body nopad">
+                            <ul class="list-group">
+                                <li class="list-group-item"><span class="label label-default">Suporte</span> Erro ao cadastrar item</li>
+                                <li class="list-group-item"><span class="label label-default">Venda</span> Confirmação de pagamento</li>
+                                <li class="list-group-item"><span class="label label-default">Dúvida</span> Controle de estoque </li>
+                                <li class="list-group-item"><span class="label label-default">Suporte</span> Erro #404 </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
+        <script src="/dest/js/charts/home.js"></script>
+        <script>
+            window.onload = function(){
+                $('#financeTabs a').click(function(e){
+                    $('#financeTabs a').removeClass('active');
+                    $('#financeTabs a').tab('show');
+                });
+
+                $('#estatisticas a').click(function(e){
+                    $('#estatisticas a').removeClass('active');
+                    $('#estatisticas a').tab('show');
+                });
+            }
+        </script>
+    </body>
+</html>
