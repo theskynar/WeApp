@@ -71,17 +71,6 @@ module.exports = function(grunt) {
       options: {
         watch: ['routes/*.js','server.js']
       }
-    },
-    gitinfo: {
-      options: {
-        cmd: 'git',
-        cwd: './'
-      },
-      commands: {
-        'gitAdd' : ['add', '.', '--no-all'],
-        'gitCommit' : ['commit', "-am'Update by grunt'", '--no-all'],
-        'gitPush' : ['push','--force', 'origin', 'master']
-      }
     }
 
 
@@ -92,11 +81,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-nodemon');
-  grunt.loadNpmTasks('grunt-gitinfo');
 
   // Default task(s).
   grunt.registerTask('view', ['watch']);
   grunt.registerTask('server', ['nodemon']);
-  grunt.registerTask('git', ['gitinfo']);
 
 };

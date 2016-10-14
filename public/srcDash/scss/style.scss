@@ -1,0 +1,201 @@
+@import 'https://fonts.googleapis.com/css?family=Lato:300,400,700';
+
+$green: rgb(76, 175, 80);
+
+$border-color: rgba(0, 0, 0, 0.10);
+$red: #e53935;
+$green: #8bc34a;
+$blue: #03a9f4;
+
+body {
+    background: #EEE;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400  !important;
+}
+
+/* Sidebar */
+
+.sidebar {
+    width: 20%;
+    max-width: 250px;
+    background: #FFF;
+    position: fixed;
+    height: 100%;
+    box-shadow: 1px 0 0 $border-color;
+    overflow-y: auto;
+    overflow-x: hidden;
+    & > .logUser {
+        width: 100%;
+        padding: 15px;
+        box-shadow: 0 1px 0 $border-color;
+        color: #666;
+        font-size: 16px;
+    }
+}
+
+/** Content */
+
+section.content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80%;
+    min-width: calc(100% - 250px);
+    padding: 20px;
+    box-sizing: border-box;
+    & .subcontent {
+        width: 100%;
+        box-sizing: border-box;
+        background: #FFF;
+        border: 1px solid $border-color;
+        color: #666;
+        padding: 20px;
+        &.nopad {
+            padding: 0;
+            margin-bottom: 20px;
+            & .body {
+                padding: 15px;
+                &.nopad {
+                    padding: 0;
+                }
+                & .list-group {
+                    border-radius: 0;
+                    border: 0;
+                    margin-bottom: 0;
+                }
+                & .list-group-item {
+                    border-left: 0;
+                    border-right: 0;
+                    border-radius: 0;
+                    &:first-child {
+                        border:0;
+                    }
+                    &:last-child {
+                        border-bottom: 0;
+                    }
+                    & .label {
+                        margin-right: 15px;
+                    }
+                }
+            }
+            & .header {
+                text-transform: uppercase;
+                margin: 0;
+                font-weight: 300;
+                border-bottom: 1px solid $border-color;
+                padding: 20px;
+                & .caret.pull-right {
+                    margin-top: 6px;
+                }
+            }
+        }
+    }
+}
+
+div.row.center-align {
+    display: -webkit-flex; /* Safari */
+    -webkit-justify-content: center; /* Safari 6.1+ */
+    display: flex;
+    justify-content: center;
+}
+
+/** Geral uses */
+
+span.bigText {
+    font-size: 54px;
+    font-weight: 100;
+    color: #666;
+    text-transform: uppercase;
+}
+span.mdText {
+    font-size: 34px;
+    font-weight: 100;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/** Bootstrap replace */
+
+div.media {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    overflow: visible;
+    & .media-body {
+        overflow: visible;
+    }
+    & .media-body > a{
+        color: #666;
+        padding-top: 3px;
+        font-size: 12px;
+    }
+}
+
+div.list-group {
+    border-radius: 0;
+    border-top: 1px solid $border-color;
+    & a.list-group-item {
+        border: none;
+        border-radius: 0;
+    }
+    & li.list-group-item.disable {
+        border: none;
+        font-size: 12px;
+        color: #666;
+        border-radius: 0;
+        padding-left: 30px;
+    }
+}
+
+span.badge {
+    border-radius: 3px;
+    &.red {
+        background-color: $red;
+    }
+    &.green {
+        background-color: $green;
+    }
+    &.blue {
+        background-color: $blue;
+    }
+}
+
+section.login {
+  background: #FFF;
+  border: 1px solid $border-color;
+  padding: 35px 20px;
+  & div.input-group{
+    margin-bottom: 5px;
+  }
+  & h1 {
+    margin: 0 0 20px 0;
+  }
+  & .alert.alert-danger {
+    margin: 5px 0;
+  }
+}
+
+.middle {
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: center;
+}
+
+/** Medias Reponsives */
+
+@media only screen and (max-device-width: 600px){
+
+}
+@media only screen and (min-device-width: 600px){
+
+}
+@media only screen and (min-device-width: 992px){
+
+}
