@@ -39,7 +39,8 @@ module.exports = function(app){
           next();
       });
     } else {
-      res.status(401).send("Unauthorized");
+      console.log(token);
+      res.status(401).send('Não Autorizado');
     }
   }
 

@@ -6,7 +6,7 @@ app.controller("loginCtrl", function($scope, $http){
   };
   $scope.login = function(user, invalid){
     if(!invalid){
-      $http.post('/dashboard/auth.py',user).success(function(data){
+      $http.post('/login',user).success(function(data){
         if(data == 'logado') console.log('logou');
         else console.log(data);
       });
