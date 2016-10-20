@@ -1,3 +1,4 @@
+
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
@@ -10,6 +11,21 @@ module.exports = function(sequelize, dataTypes) {
 				len: [1,255]
 			}
 		},
+		Tel: {
+			type: dataTypes.STRING,
+			allowNull: false,
+			validate: {
+				len:[1]
+			}
+		},
+		email: {
+      			type: dataTypes.STRING,
+      			allowNull: false,
+     			unique: true, /* VALOR ÚNICO */
+      			validate: {
+        			isEmail: true
+      			}
+    		},
 		nomeEmpresa: {
 			type:dataTypes.STRING,
 			allowNull:false,

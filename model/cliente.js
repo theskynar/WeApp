@@ -46,7 +46,7 @@ module.exports = function(sequelize, dataTypes) {
     }, /* END OF COLUNM DATA DE NIVER - FORMATO  07-05-2016 */
   }, { /* END OF CLIENTE*/
     hooks: {
-      beforeValidate: function(user, options) {
+      beforeValidate: function(cliente, options) {
         if(typeof cliente.email === 'string') {
           cliente.email = cliente.email.toLowerCase();
         }
@@ -55,10 +55,14 @@ module.exports = function(sequelize, dataTypes) {
     classMethods: {
       verificar: function (body) {
         return new Promise(function (resolve, reject) {
-            if(typeof body.email !== 'string' || typeof body.password !== 'string') {
+            if(typeof body.email !== 'string') {
                 return reject();
             }
-            cliente.findOne({where: {email: body.email} }).then(function(cliente) {
+            cliente.findOne({
+		where: {
+			email: body.email
+	    	}
+	    }).then(function(cliente) {
               if(!cliente) {
                 return reject();
               }

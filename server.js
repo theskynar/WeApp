@@ -1,6 +1,6 @@
 const app = require('./config/express.js');
 const db = require('./db.js');
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 db.sequelize.sync().then(function() { // force true is set when u wanna zero out the db.
  app.listen(PORT, function() {

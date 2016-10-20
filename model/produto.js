@@ -4,33 +4,27 @@
 
 module.exports = function(sequelize, dataTypes) {
   var produto = sequelize.define('produto', {
-    descricao: {
-        type: dataTypes.STRING,
-        allowNull: false,
-        validate: {
-            len:[2, 250]
-        }
-      },/* AQUI NA DESCRICAO, PODE IR O ESTABELECIMENTO */
     valor: {
         type: dataTypes.DOUBLE,
         allowNull: false,
         defaultValue: 0.0
       },
-    totalCliente: {
+    valorTotal: {
         type: dataTypes.DOUBLE,
         allowNull: false,
         defaultValue: 0.0
       },
-    descontoAplicado: {
+    avaliacao: {
       type: dataTypes.DOUBLE,
       allowNull: false,
-      defaultValue: 0.0
-    },
-    totalGeradoDesconto: {
-      type: dataTypes.DOUBLE,
-      allowNull: false,
-      defaultValue: 0.0
+      defaultValue: 5.0,
+      validate: {
+        min: 1,
+        max: 5
+      }
     }
   });
+
   return produto;
 }
+

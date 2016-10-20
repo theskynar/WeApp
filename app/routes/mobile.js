@@ -1,10 +1,21 @@
 module.exports = function(app) {
-  let api = app.api.mobile;
+  let cliente = app.api.cliente;
+  let estabelecimento = app.api.estabelecimento;
   // RESTANDO TOLEN FACEBOOK;
 
-  app.get('/mobile/estabelecimentos', api.getAllEstabelecimentos);
-  //app.get('/mobile/minhasCompras', cliente.getCompras);
-  app.post('/mobile/verificarUsuario', api.autenticaUser);
-  app.post('/mobile/cadastrarUsuario', api.cadastraUser);
-  app.put('/mobile/atualizarUsuario', api.atualizaUser);
+  app.route('/mobile/estabelecimentos')
+     .get(estabelecimento.getAllEstabelecimentos);
+
+  app.route('/mobile/verUsuario')
+     .post(cliente.autenticaUser);
+
+  app.route('/mobile/usuario')
+     .post(cliente.cadastraUser);
+
+  app.route('/mobile/usuario/:id')
+     .put(cliente.atualizaUser);
+
+  app.route('/mobile/desconto')
+     .post(cliente.gerarDesconto);
 }
+

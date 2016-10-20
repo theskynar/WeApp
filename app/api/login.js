@@ -17,13 +17,11 @@ module.exports = function(app){
         console.log('Não Autorizado!');
       } else {
         var token = jwt.sign(admin.email , app.get('secret'));
-        console.log(token);
         res.set('x-access-token', token);
         res.end();
       }
     }).catch(function (err) {
-      console.log(err);
-        res.status(401).send('Unauthorized');
+        res.status(401).send('Não autorizado!');
     });
   }
 
@@ -39,7 +37,6 @@ module.exports = function(app){
           next();
       });
     } else {
-      console.log(token);
       res.status(401).send('Não Autorizado');
     }
   }
