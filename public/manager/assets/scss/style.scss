@@ -1,0 +1,99 @@
+html, body {
+  background: url("../img/login-bg.jpg");
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  width: 100%;
+  height: 100%;
+}
+
+.login {
+  width: 100%;
+  min-height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+table td .btn {
+  margin-left: 5px;
+}
+
+table.ltd-effect tr td:last-child {
+  width: 110px;
+
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+table.ltd-effect tr:hover td:last-child {
+  opacity: 1;
+}
+
+.btn.btn-sm i{
+  line-height: 25px;
+}
+
+.btn.no-bgcolor-success {
+  color: #7AC29A;
+  background: transparent;
+  border: none;
+  transition: transform 0.3s;
+
+  &:hover {
+    color: #7AC29A;
+    border: none;
+    background: transparent;
+
+    transform: scale(1.02);
+  }
+}
+
+.modal-backdrop.in {
+  display: none;
+}
+
+#pass div {
+  background: #7A9E9F;
+  color: #fff;
+  cursor: pointer;
+}
+
+div.add-category {
+  border-top: 1px solid #CCC5B9;
+  border-bottom: 1px solid #CCC5B9;
+
+  & div {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: -o-flex;
+
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    & .form-group {
+      min-width: 100%;
+    }
+  }
+}
+
+#loading-bar {
+
+  & .bar{
+    background: #d43f3a;
+  }
+}
+
+@import 'collapse.scss';

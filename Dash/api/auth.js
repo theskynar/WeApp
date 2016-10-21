@@ -3,11 +3,7 @@ const _ = require('underscore');
 const db = require('./../../db.js');
 
 module.exports = function(app){
-  let api = {};
-
-  api.getLogin = function(req, res) {
-    res.render('login');
-  }
+  var api = {};
 
   api.autenticaLogin = function(req, res) {
     var body = _.pick(req.body, 'email', 'password');
@@ -18,7 +14,7 @@ module.exports = function(app){
       } else {
         var token = jwt.sign(admin.email , app.get('secret'));
         res.set('x-access-token', token);
-        res.end();
+        res.json(admin);
       }
     }).catch(function (err) {
         res.status(401).send('Não autorizado!');

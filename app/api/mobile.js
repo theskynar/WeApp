@@ -1,8 +1,8 @@
 const _ = require('underscore');
 const db = require('./../../db.js');
-  let api = {};
+  var api = {};
   // RESTANDO APENAS GET COMPRAS;
-  
+
   api.getAllEstabelecimentos = function(req, res) {
     db.estabelecimento.findById(1).then(function (estabelecimento) {
       if(!!estabelecimento) {

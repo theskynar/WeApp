@@ -1,6 +1,6 @@
 module.exports = function(app) {
-  let cliente = app.api.cliente;
-  let estabelecimento = app.api.estabelecimento;
+  var cliente = app.api.cliente;
+  var estabelecimento = app.api.estabelecimento;
   // RESTANDO TOLEN FACEBOOK;
 
   app.route('/mobile/estabelecimentos')
@@ -18,4 +18,3 @@ module.exports = function(app) {
   app.route('/mobile/desconto')
      .post(cliente.gerarDesconto);
 }
-

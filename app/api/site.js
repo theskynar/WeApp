@@ -1,6 +1,6 @@
 const db = require('./../../db.js');
 const _ = require('underscore');
-let api = {};
+var api = {};
 
 
 api.getIndex = function(req, res) {

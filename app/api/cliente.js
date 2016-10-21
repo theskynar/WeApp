@@ -1,6 +1,6 @@
 const _ = require('underscore');
 const db = require('./../../db.js');
-  let api = {};
+  var api = {};
   // RESTANDO APENAS GET COMPRAS;
 
   api.autenticaUser = function(req, res) {
@@ -68,4 +68,3 @@ const db = require('./../../db.js');
   }
 
 module.exports = api;
-

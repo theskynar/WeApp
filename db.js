@@ -3,10 +3,9 @@ var env = process.env.NODE_ENV || 'development';
 
 var sequelize;
 
-sequelize = new Sequelize('weapp', 'ealvarenga', 'Weapp44!', {
-    dialect: 'mysql',
-    host: '159.203.37.82',
-    port: 3306
+sequelize = new Sequelize('undefined', 'undefined', 'undefined!', {
+    "dialect": 'sqlite',
+    "storage": __dirname + '/data/dbxxx.sqlite'
 });
 
 var db = {};

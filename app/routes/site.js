@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  let api = app.api.site;
+  var api = app.api.site;
 
   app.get('/', api.getIndex);
   app.get('/table', api.getTable);

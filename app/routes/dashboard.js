@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  const admin = app.api.admin;
+  /**const admin = app.api.admin;
   const estabelecimento = app.api.estabelecimento;
   const login  = app.api.login;
 
@@ -30,6 +30,6 @@ module.exports = function(app) {
 
 
   app.delete('/dashboard/logout',  admin.logout);
+  */
 
 }
-

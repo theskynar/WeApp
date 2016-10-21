@@ -1,0 +1,10 @@
+
+	<div class="wrapper">
+	    <div class="sidebar" data-background-color="white" data-active-color="danger" ng-include="'views/parts/menu.html'"></div>
+
+	    <div class="main-panel">
+					<div ng-include="'views/parts/nav.html'"></div> <!-- Include top nav -->
+	        <div class="content" ui-view=""></div> <!-- Routes view -->
+	        <footer class="footer" ng-include="'views/parts/footer.html'"></footer> <!-- Include footer -->
+	    </div>
+	</div>
