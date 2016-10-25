@@ -1,4 +1,4 @@
-angular.module("dash", ['ui.router','geral','angular-loading-bar']);
+angular.module("dash", ['ui.router','geral','angular-loading-bar','angucomplete']);
 
 angular.module("dash")
   .config(['$stateProvider', '$urlRouterProvider', '$httpProvider','cfpLoadingBarProvider',
@@ -56,12 +56,20 @@ angular.module("dash")
         nome: 'Estabelecimentos'
       })
 
-      .state('dash.postagem', {
-        url: '/postagens',
-        templateUrl: 'views/postagem.html',
-        controller: 'postCtrl',
-        active: 'postagem',
-        nome: 'Postagens'
+      .state('dash.notificacao', {
+        url: '/notificacoes',
+        templateUrl: 'views/notificacoes.html',
+        controller: 'notCtrl',
+        active: 'notificacoes',
+        nome: 'Notificações'
+      })
+
+      .state('dash.evento', {
+        url: '/eventos',
+        templateUrl: 'views/eventos.html',
+        controller: 'eventosCtrl',
+        active: 'eventos',
+        nome: 'Eventos'
       })
 
       .state('login', {

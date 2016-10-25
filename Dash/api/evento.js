@@ -56,14 +56,14 @@ module.exports = function(app){
 
   api.update = function(req, res) {
     var id = parseInt(req.params.id, 10);
-    var body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status,', 'estabelecimentoId');
+    var body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
     var where = {};
 
     if(body.hasOwnProperty('titulo')) { where.titulo = body.titulo; }
     if(body.hasOwnProperty('desc')) { where.desc = body.desc; }
     if(body.hasOwnProperty('dataInicio')) { where.dataInicio = body.dataInicio; }
     if(body.hasOwnProperty('dataFim')) { where.dataFim = body.dataFim; }
-    if(body.hasOwnProperty('status')) { where.status = body.status; }
+    if(body.hasOwnProperty('status')) where.status = body.status;
     if(body.hasOwnProperty('estabelecimentoId')) { where.estabelecimentoId = body.estabelecimentoId; }
 
     db.evento.findOne({
@@ -71,15 +71,15 @@ module.exports = function(app){
         id: id
       }
     }).then(function (evento) {
-      if(evento) {
+      if(evento)
         evento.update(where).then(function (evento) {
             res.status(200).json(evento);
         }).catch(function (err) {
             res.status(400).send(err);
         });
-      } else {
+      else
         res.status(404).send();
-      }
+
     }).catch(function (err) {
         res.status(500).send(err);
     });

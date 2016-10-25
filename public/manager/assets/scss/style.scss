@@ -40,6 +40,17 @@ table.ltd-effect tr:hover td:last-child {
   opacity: 1;
 }
 
+table.status-effect tr td{
+
+  box-sizing: border-box;
+  &.on {
+    border-left: 4px solid rgb(96, 170, 86);
+  }
+  &.off {
+    border-left: 4px solid rgb(170, 86, 86);
+  }
+}
+
 .btn.btn-sm i{
   line-height: 25px;
 }
@@ -69,31 +80,15 @@ table.ltd-effect tr:hover td:last-child {
   cursor: pointer;
 }
 
-div.add-category {
-  border-top: 1px solid #CCC5B9;
-  border-bottom: 1px solid #CCC5B9;
-
-  & div {
-    display: flex;
-    display: -webkit-flex;
-    display: -ms-flex;
-    display: -o-flex;
-
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: row;
-
-    & .form-group {
-      min-width: 100%;
-    }
-  }
-}
-
 #loading-bar {
 
   & .bar{
     background: #d43f3a;
   }
+}
+
+input.block {
+  width: 100% !important;
 }
 
 @import 'collapse.scss';

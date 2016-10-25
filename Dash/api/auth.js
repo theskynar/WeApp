@@ -6,6 +6,7 @@ module.exports = function(app){
   var api = {};
 
   api.autenticaLogin = function(req, res) {
+    console.log(req.body);
     var body = _.pick(req.body, 'email', 'password');
     var adminInstance;
     db.admin.verificar(body).then(function (admin) {

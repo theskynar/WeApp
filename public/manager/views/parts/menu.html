@@ -24,16 +24,16 @@
                   <p>Estabelecimentos</p>
               </a>
           </li>
-          <li>
-              <a href="/icons">
+          <li ng-class="{active: $route.current.active == 'notificacoes'}">
+              <a ui-sref="dash.notificacao">
                   <i class="ti-comments"></i>
                   <p>Notificações</p>
               </a>
           </li>
-          <li>
-              <a href="/maps">
-                  <i class="ti-settings"></i>
-                  <p>Configurações</p>
+          <li ng-class="{active: $route.current.active == 'eventos'}">
+              <a ui-sref="dash.evento">
+                  <i class="ti-medall-alt"></i>
+                  <p>Eventos</p>
               </a>
           </li>
       </ul>

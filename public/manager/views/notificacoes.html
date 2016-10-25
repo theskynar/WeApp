@@ -1,0 +1,61 @@
+
+<div class="container-fluid">
+    <div class="row">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Notificações
+                      <button type="button" data-toggle="collapse" data-target="#addnotificacao" aria-expanded="false" aria-controls="addnotificacao" class="btn btn-sm btn-warning pull-right">Nova</button>
+                    </h4>
+                </div>
+                <div class="content table-responsive table-full-width">
+                  <div class="collapse add-notify" id="addnotificacao">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Titulo</label>
+                          <input ng-model="notify.titulo" type="text" class="form-control border-input">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Subtitulo</label>
+                          <input ng-model="notify.subtitulo" type="text" class="form-control border-input">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Texto</label>
+                          <input ng-model="notify.texto" type="text" class="form-control border-input">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Descrição</label>
+                          <input ng-model="notify.descricao" type="text" class="form-control border-input">
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <button ng-click="enviar(notify)" ng-disabled="!notify" class="btn btn-success pull-right">Enviar</button>
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table table-striped">
+                      <thead>
+                        <th>Titulo</th>
+                        <th>Descrição</th>
+                        <th>Autor</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in notificacoes | orderBy: '':true">
+                          <td>{{item.titulo}}</td>
+                          <td>{{item.descricao}}</td>
+                          <td>{{item.adminId}}</td>
+                        </tr>
+                      </tbody>
+                  </table>
+                </div>
+        </div>
+
+
+    </div>
+</div>

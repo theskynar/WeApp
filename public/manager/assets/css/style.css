@@ -30,6 +30,13 @@ table.ltd-effect tr td:last-child {
 table.ltd-effect tr:hover td:last-child {
   opacity: 1; }
 
+table.status-effect tr td {
+  box-sizing: border-box; }
+  table.status-effect tr td.on {
+    border-left: 4px solid #60aa56; }
+  table.status-effect tr td.off {
+    border-left: 4px solid #aa5656; }
+
 .btn.btn-sm i {
   line-height: 25px; }
 
@@ -52,6 +59,12 @@ table.ltd-effect tr:hover td:last-child {
   color: #fff;
   cursor: pointer; }
 
+#loading-bar .bar {
+  background: #d43f3a; }
+
+input.block {
+  width: 100% !important; }
+
 div.add-category {
   border-top: 1px solid #CCC5B9;
   border-bottom: 1px solid #CCC5B9; }
@@ -66,10 +79,9 @@ div.add-category {
     div.add-category div .form-group {
       min-width: 100%; }
 
-#loading-bar .bar {
-  background: #d43f3a; }
-
-.add-category {
+.add-category, .add-notify {
+  border-top: 1px solid #CCC5B9;
+  border-bottom: 1px solid #CCC5B9;
   padding: 20px; }
 
 /*# sourceMappingURL=style.css.map */

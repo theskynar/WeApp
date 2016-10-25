@@ -1,4 +1,4 @@
-angular.module("dash", ['ui.router','geral','angular-loading-bar']);
+angular.module("dash", ['ui.router','geral','angular-loading-bar','angucomplete']);
 
 angular.module("dash")
   .config(['$stateProvider', '$urlRouterProvider', '$httpProvider','cfpLoadingBarProvider',
@@ -56,12 +56,20 @@ angular.module("dash")
         nome: 'Estabelecimentos'
       })
 
-      .state('dash.postagem', {
-        url: '/postagens',
-        templateUrl: 'views/postagem.html',
-        controller: 'postCtrl',
-        active: 'postagem',
-        nome: 'Postagens'
+      .state('dash.notificacao', {
+        url: '/notificacoes',
+        templateUrl: 'views/notificacoes.html',
+        controller: 'notCtrl',
+        active: 'notificacoes',
+        nome: 'Notificações'
+      })
+
+      .state('dash.evento', {
+        url: '/eventos',
+        templateUrl: 'views/eventos.html',
+        controller: 'eventosCtrl',
+        active: 'eventos',
+        nome: 'Eventos'
       })
 
       .state('login', {
@@ -159,6 +167,75 @@ angular.module('geral', [])
     }
 
     return interceptor;
+  })
+angular.module('dash')
+  .factory('notification', function($window, $http){
+
+    return {
+
+      send: function(titulo, subtitulo, texto, descricao){
+
+        return new Promise(function(resolve, reject){
+
+          if(!titulo) return reject('Titulo não foi informado');
+          if(!subtitulo) subtitulo = 'Não informado';
+          if(!texto) return reject('Texto não foi informado');
+          if(!descricao) descricao = 'Não informado';
+
+          var data = {};
+          data.titulo = titulo;
+          data.subtitulo = subtitulo;
+          data.texto = texto;
+          data.descricao = descricao;
+          data.adminId = JSON.parse($window.localStorage.user).id;
+
+          $http.post('/manager/notificacao', data)
+            .success(function(data){
+
+              resolve(data);
+
+            })
+            .error(function(err){
+
+              reject(err);
+
+            })
+
+
+        })
+
+      },
+
+      sendbyJson: function(json){
+
+        return new Promise(function(resolve, reject){
+
+          if(!json.titulo) return reject('Titulo não foi informado');
+          if(!json.subtitulo) json.subtitulo = 'Não informado';
+          if(!json.texto) return reject('Texto não foi informado');
+          if(!json.descricao) json.descricao = 'Não informado';
+
+          $http.post('/manager/notificacao', json)
+            .success(function(data){
+
+              resolve(data);
+
+            })
+            .error(function(err){
+
+              reject(err);
+
+            })
+
+
+        })
+
+      }
+
+
+    }
+
+
   })
 angular.module('dash')
   .factory('validate', function(){
@@ -383,6 +460,90 @@ angular.module('dash')
 
   });
 angular.module('dash')
+  .controller('eventosCtrl', function($scope, $http, alert, notification){
+
+    $scope.eventos = [];
+
+    $scope.salvar = function(evento){
+
+      evento.estabelecimentoId = evento.estabelecimentoId.id;
+      $http.post('/manager/evento', evento)
+        .success(function(data){
+          alert.send('Evento adicionado!', 'success');
+          getEventos();
+
+
+          notification.send('WeApp - Novo evento!', 'Novo Evento', evento.titulo + ' - ' + evento.desc, 'Notificação de evento: ' + evento.titulo);
+
+        })
+        .error(function(err){
+          console.log(err);
+          alert.send('Erro ao adicionar evento', 'danger');
+        })
+
+
+    }
+
+    $scope.edit = function(item){
+
+      var toggle = $("[name='switch']");
+      toggle.bootstrapSwitch();
+      if(item.status == 1){
+        toggle.attr('checked','');
+      }else {
+        toggle.removeAttr('checked');
+      }
+
+      $scope.editactive = angular.copy(item);
+      $('#edit').modal('toggle')
+
+    }
+
+    $scope.update = function(item){
+
+      var toggle = $("[name='switch']");
+      if(toggle.prop('checked'))
+        item.status = 1;
+      else
+        item.status = 0;
+
+      $http.put('/manager/evento/' + item.id, item)
+        .success(function(data){
+          getEventos();
+          alert.send('Evento editado com sucesso', 'success');
+          $('#edit').modal('toggle')
+        })
+        .error(function(err){
+          console.log(err);
+          alert.send('Erro ao editar evento', 'danger');
+        });
+
+    }
+
+    function getEventos(){
+      $http.get('/manager/eventos')
+        .success(function(data){
+          $scope.eventos = data;
+        })
+        .error(function(err){
+          console.log(err);
+          alert.send('Erro ao importar eventos', 'danger');
+        });
+      }
+
+    $http.get('/manager/estabelecimentos')
+      .success(function(data){
+        $scope.estabelecimentos = data;
+      })
+      .error(function(err){
+        console.log(err);
+        alert.send('Erro ao importar estabelecimentos', 'danger');
+      });
+
+      getEventos();
+
+  });
+angular.module('dash')
 
   .controller('homeCtrl', function($scope,$http){
 
@@ -436,6 +597,27 @@ angular.module('dash')
 
     $scope.$route = $state;
     //initMenu();
+
+  });
+angular.module('dash')
+  .controller('notCtrl', function($scope, $http, $window, alert, notification) {
+
+    $scope.notificacoes = [];
+
+    $scope.enviar = function(notifica){
+      notification.sendbyJson(notifica);
+      delete $scope.notify;
+    };
+
+    $http.get('/manager/notificacoes')
+      .success(function(data){
+        $scope.notificacoes = data;
+      })
+      .error(function(err){
+        console.log(err);
+        alert.send('Erro ao importar notificacoes', 'danger');
+      });
+
 
   });
 angular.module('dash')
