@@ -5,17 +5,22 @@ angular.module('dash')
 
     $scope.enviar = function(notifica){
       notification.sendbyJson(notifica);
+      getNotifications();
       delete $scope.notify;
     };
 
-    $http.get('/manager/notificacoes')
-      .success(function(data){
-        $scope.notificacoes = data;
-      })
-      .error(function(err){
-        console.log(err);
-        alert.send('Erro ao importar notificacoes', 'danger');
-      });
+    function getNotifications(){
+      $http.get('/manager/notificacoes')
+        .success(function(data){
+          $scope.notificacoes = data;
+        })
+        .error(function(err){
+          console.log(err);
+          alert.send('Erro ao importar notificacoes', 'danger');
+        });
+    }
+
+    getNotifications();
 
 
   });

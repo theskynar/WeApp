@@ -188,6 +188,7 @@ angular.module('dash')
           data.texto = texto;
           data.descricao = descricao;
           data.adminId = JSON.parse($window.localStorage.user).id;
+          console.log(data.adminId);
 
           $http.post('/manager/notificacao', data)
             .success(function(data){
@@ -214,6 +215,9 @@ angular.module('dash')
           if(!json.subtitulo) json.subtitulo = 'Não informado';
           if(!json.texto) return reject('Texto não foi informado');
           if(!json.descricao) json.descricao = 'Não informado';
+
+
+          json.adminId = JSON.parse($window.localStorage.user).id;
 
           $http.post('/manager/notificacao', json)
             .success(function(data){
@@ -606,17 +610,22 @@ angular.module('dash')
 
     $scope.enviar = function(notifica){
       notification.sendbyJson(notifica);
+      getNotifications();
       delete $scope.notify;
     };
 
-    $http.get('/manager/notificacoes')
-      .success(function(data){
-        $scope.notificacoes = data;
-      })
-      .error(function(err){
-        console.log(err);
-        alert.send('Erro ao importar notificacoes', 'danger');
-      });
+    function getNotifications(){
+      $http.get('/manager/notificacoes')
+        .success(function(data){
+          $scope.notificacoes = data;
+        })
+        .error(function(err){
+          console.log(err);
+          alert.send('Erro ao importar notificacoes', 'danger');
+        });
+    }
+
+    getNotifications();
 
 
   });
