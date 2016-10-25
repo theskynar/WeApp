@@ -17,18 +17,20 @@ app.use(function(req, res, next) {
   next();
 });
 
-consign({cwd: 'Dash' })
-  .include('api')
-  .then('routes/auth.js')//CARREGA PRIMEIRO AFIM DE PROIBIR ACESSO;
-  .then('routes')
+console.log("## Carregando arquivos ##");
+consign()
+  .include('App/api')
+  .then('App/routes')//CARREGA PRIMEIRO AFIM DE PROIBIR ACESSO;
+  .then('Dash/api')
+  .then('Dash/routes/auth.js')
+  .then('Dash/routes')
+  .then('Site/api')
+  .then('Site/routes')
   .into(app);
 
-consign({cwd: 'app' })
-  .include('api')
-  .then('routes/dashboard.js')//CARREGA PRIMEIRO AFIM DE PROIBIR ACESSO;
-  .then('routes')
-  .into(app);
 
+
+console.log("## Todos os arquivos foram carregados ##");
 
 
 module.exports = app;

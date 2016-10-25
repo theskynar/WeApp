@@ -4,12 +4,14 @@ const db = require('./../../db.js');
   // RESTANDO APENAS GET COMPRAS;
 
   api.getAllEstabelecimentos = function(req, res) {
-    db.estabelecimento.findById(1).then(function (estabelecimento) {
+    db.estabelecimento.findAll().then(function (estabelecimento) {
       if(!!estabelecimento) {
-        res.status(200).send(estabelecimento.toJSON());
+        res.status(200).json(estabelecimento);
+      } else {
+        res.status(404).send('Not found!');
       }
-    }).catch(function (err) {
-	 res.status(404).send(err);
+    }, function (err) {
+      res.status(500).send(e);
     })
   }
 

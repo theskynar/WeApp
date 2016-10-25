@@ -56,8 +56,8 @@ module.exports = function(app){
     var where = {};
 
     if(body.hasOwnProperty('CNPJ')) { where.CNPJ = body.CNPJ; }
-    if(body.hasOwnProperty('nomeEmpresa')) { where.Tel = body.Tel; }
-    if(body.hasOwnProperty('nomeEmpresa')) { where.email = body.email; }
+    if(body.hasOwnProperty('Tel')) { where.Tel = body.Tel; }
+    if(body.hasOwnProperty('email')) { where.email = body.email; }
     if(body.hasOwnProperty('nomeEmpresa')) { where.nomeEmpresa = body.nomeEmpresa; }
     if(body.hasOwnProperty('nomeProprietario')) { where.nomeProprietario = body.nomeProprietario; }
     if(body.hasOwnProperty('segmento')) { where.segmento = body.segmento; }

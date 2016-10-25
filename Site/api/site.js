@@ -4,19 +4,19 @@ var api = {};
 
 
 api.getIndex = function(req, res) {
-  res.render('index');
+  res.render('index.html');
 }
 
 api.getTable = function(req, res) {
-  res.render('table');
+  res.render('table.html');
 }
 
 api.getComerciante = function(req, res) {
-  res.render('saler');
+  res.render('saler.html');
 }
 
 api.getConsumidor = function(req, res) {
-  res.render('buyer');
+  res.render('buyer.html');
 }
 
 module.exports = api;
