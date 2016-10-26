@@ -34,7 +34,7 @@ module.exports = function(app){
         res.status(404).send('Not found!');
       }
     }, function (err) {
-      res.status(500).send(e);
+      res.status(500).send(err);
     })
   }
 

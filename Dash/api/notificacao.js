@@ -66,13 +66,16 @@ module.exports = function(app) {
   };
 
   api.list = function(req, res) {
-   db.notificacao.findAll().then(function (notifications) {
-     if(!!notifications) return res.status(200).json(notifications);
-     res.status(404).send('Nenhuma notifcação encontrada.');
-   }, function(err) {
-       res.status(500).send(err);
-   })
- };
+    db.notificacao.findAll({
+      include: [db.admin]
+    }).then(function (notifications) {
+      console.log(JSON.stringify(notifications));
+      if(!!notifications) return res.status(200).json(notifications);
+      res.status(404).send('Nenhuma notifcação encontrada.');
+    }, function(err) {
+        res.status(500).send(err);
+    })
+  };
 
 
   return api;

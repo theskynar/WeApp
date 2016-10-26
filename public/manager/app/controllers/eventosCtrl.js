@@ -2,10 +2,12 @@ angular.module('dash')
   .controller('eventosCtrl', function($scope, $http, alert, notification){
 
     $scope.eventos = [];
+    $scope.estabelecimentos = [];
 
     $scope.salvar = function(evento){
 
-      evento.estabelecimentoId = evento.estabelecimentoId.id;
+      evento.estabelecimentoId = evento.estabelecimento.originalObject.id;
+      delete evento.estabelecimento;
       $http.post('/manager/evento', evento)
         .success(function(data){
           alert.send('Evento adicionado!', 'success');

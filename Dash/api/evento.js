@@ -47,6 +47,7 @@ module.exports = function(app){
 
   api.create = function(req, res) {
     var body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
+    console.log(body);
      db.evento.create(body).then(function(evento) {
          res.json(evento);
      }, function(e) {

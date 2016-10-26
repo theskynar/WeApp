@@ -49,7 +49,7 @@
                         <tr ng-repeat="item in notificacoes | orderBy: '':true">
                           <td>{{item.titulo}}</td>
                           <td>{{item.descricao}}</td>
-                          <td>{{item.adminId}}</td>
+                          <td>{{item.admin.name}}</td>
                         </tr>
                       </tbody>
                   </table>

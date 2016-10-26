@@ -24,6 +24,7 @@ db.cliente.hasMany(db.produto);
 db.estabelecimento.hasMany(db.produto);
 
 db.admin.hasMany(db.notificacao);
+db.notificacao.belongsTo(db.admin);
 db.estabelecimento.hasMany(db.evento);
 
 //db.estabelecimento.hasMany(db.notificacao);
