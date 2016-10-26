@@ -9,7 +9,8 @@ module.exports = function(app){
     db.evento.findAll({
       where: {
         status: status
-      }
+      },
+      include: [db.estabelecimento]
     }).then(function(eventos) {
       if(!!eventos) return res.status(200).json(eventos);
       res.json('Nenhum evento econtrado');

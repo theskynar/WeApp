@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const consign =  require('consign');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
+
 
 app.set('secret', 'fuckinGAssHole12345');
 
@@ -10,7 +12,8 @@ app.set('views', './public');
 app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 app.use(bodyParser.json());
-
+app.use(helmet());
+app.disable('x-powered-by');
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
