@@ -41,7 +41,7 @@ module.exports = function(app){
 
   api.create = function(req, res) {
     var body = _.pick(req.body, 'CNPJ', 'Tel', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
-      'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'descontoAplicado');
+      'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'descontoAplicado', 'localizacao');
      db.estabelecimento.create(body).then(function(estabelecimento) {
          res.json(estabelecimento);
      }, function(e) {
@@ -52,7 +52,7 @@ module.exports = function(app){
   api.update = function(req, res) {
     var id = parseInt(req.params.id, 10);
     var body = _.pick(req.body, 'CNPJ', 'Tel', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
-      'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano');
+      'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'localizacao');
     var where = {};
 
     if(body.hasOwnProperty('CNPJ')) { where.CNPJ = body.CNPJ; }
@@ -69,6 +69,7 @@ module.exports = function(app){
     if(body.hasOwnProperty('urlFace')) { where.urlFace = body.urlFace; }
     if(body.hasOwnProperty('dataEntrada')) { where.dataEntrada = body.dataEntrada; }
     if(body.hasOwnProperty('vencPlano')) { where.vencPlano = body.vencPlano; }
+    if(body.hasOwnProperty('localizacao')) { where.localizacao = body.localizacao; }
 
     db.estabelecimento.findOne({
       where: {

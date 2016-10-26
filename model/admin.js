@@ -97,7 +97,7 @@ module.exports = function(sequelize, dataTypes) {
     instanceMethods: {
       toPublicJSON: function() {
         var json = this.toJSON();
-        return _.pick(json, 'id', 'name', 'email', 'img');
+        return _.pick(json, 'id', 'name', 'email', 'img', 'createdAt', 'updatedAt');
       },
       generateToken: function(type) {
         if(!_.isString(type)){

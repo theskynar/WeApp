@@ -6,12 +6,13 @@ module.exports = function(app) {
   app.route('/mobile/verUsuario')
      .post(app.App.api.cliente.autenticaUser);
 
-  app.route('/mobile/usuario')
+  app.route('/mobile/usuario/:id?')
+     .put(app.App.api.cliente.atualizaUser)
      .post(app.App.api.cliente.cadastraUser);
-
-  app.route('/mobile/usuario/:id')
-     .put(app.App.api.cliente.atualizaUser);
 
   app.route('/mobile/desconto')
      .post(app.App.api.cliente.gerarDesconto);
+
+  app.route('/mobile/eventos')
+     .get(app.App.api.evento.getByStatus);
 }

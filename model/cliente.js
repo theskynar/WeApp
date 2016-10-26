@@ -20,6 +20,10 @@ module.exports = function(sequelize, dataTypes) {
         isEmail: true,
       }
     },/* END OF COLUNM EMAIL */
+    genero: {
+      type:dataTypes.CHAR(1),
+      allowNull:false
+    },
     bairroMora: {
       type:dataTypes.STRING,
       allowNull: false,
@@ -97,7 +101,7 @@ module.exports = function(sequelize, dataTypes) {
     instanceMethods: {
       toPublicJSON: function() {
         var json = this.toJSON();
-        return _.pick(json, 'nome', 'email', 'cel', 'bairroMora', 'bairroTrabalha', 'dob');
+        return _.pick(json, 'nome', 'email', 'genero', 'cel', 'bairroMora', 'bairroTrabalha', 'dob');
       },
       genToken: function(type) {
         if(!_.isString(type)){

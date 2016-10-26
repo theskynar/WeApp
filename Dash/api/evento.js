@@ -59,12 +59,12 @@ module.exports = function(app){
     var body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
     var where = {};
 
-    if(body.hasOwnProperty('titulo')) { where.titulo = body.titulo; }
-    if(body.hasOwnProperty('desc')) { where.desc = body.desc; }
-    if(body.hasOwnProperty('dataInicio')) { where.dataInicio = body.dataInicio; }
-    if(body.hasOwnProperty('dataFim')) { where.dataFim = body.dataFim; }
+    if(body.hasOwnProperty('titulo'))  where.titulo = body.titulo;
+    if(body.hasOwnProperty('desc'))  where.desc = body.desc;
+    if(body.hasOwnProperty('dataInicio'))  where.dataInicio = body.dataInicio;
+    if(body.hasOwnProperty('dataFim')) where.dataFim = body.dataFim;
     if(body.hasOwnProperty('status')) where.status = body.status;
-    if(body.hasOwnProperty('estabelecimentoId')) { where.estabelecimentoId = body.estabelecimentoId; }
+    if(body.hasOwnProperty('estabelecimentoId')) where.estabelecimentoId = body.estabelecimentoId;
 
     db.evento.findOne({
       where: {

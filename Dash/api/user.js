@@ -19,10 +19,11 @@ module.exports = function(app){
     var id = parseInt(req.params.id, 10);
     var body = _.pick(req.body, 'name', 'email', 'img');
     var where = {};
+    var adminInstance;
 
-    if(body.hasOwnProperty('name')) { where.name = body.name; }
-    if(body.hasOwnProperty('email')) { where.email = body.email; }
-    if(body.hasOwnProperty('img')) { where.img= body.img; }
+    if(body.hasOwnProperty('name')) where.name = body.name;
+    if(body.hasOwnProperty('email')) where.email = body.email;
+    if(body.hasOwnProperty('img')) where.img= body.img; 
 
     db.admin.findOne({
       where: {
@@ -31,6 +32,7 @@ module.exports = function(app){
     }).then(function (admin) {
       if(admin) {
         admin.update(where).then(function (admin) {
+          console.log(admin.toPublicJSON());
             res.status(200).json(admin);
         }).catch(function (err) {
             res.status(400).send(err);
@@ -45,12 +47,9 @@ module.exports = function(app){
 
 
   api.list = function(req, res) {
-    db.admin.findAll().then(function (admins) {
-      if(!!admins) {
-        res.json(admins);
-      } else {
+    db.admin.findAll({attributes: ['id', 'name', 'email', 'img', 'createdAt', 'updatedAt']}).then(function (admins) {
+      if(!!admins) return res.json(admins);
         res.status(404).send('Not found');
-      }
     }, function (e) {
         res.status(500).send(e);
     });
@@ -61,6 +60,9 @@ module.exports = function(app){
     db.admin.findOne({
       where: {
         id: id
+      },
+      attributes: {
+        exclude: ['passwordHashed', 'salted']
       }
     }).then(function (admin) {
         if(!!admin) {

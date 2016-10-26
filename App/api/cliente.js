@@ -15,7 +15,7 @@ const db = require('./../../db.js');
   }
 
   api.cadastraUser = function(req, res) {
-    var body = _.pick(req.body, 'email', 'nome', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
+    var body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
     db.cliente.create(body).then(function(cliente) {
       if(cliente) {
         res.status(200).json(cliente);

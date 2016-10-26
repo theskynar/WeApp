@@ -6,7 +6,6 @@ module.exports = function(app){
   var api = {};
 
   api.autenticaLogin = function(req, res) {
-    console.log(req.body);
     var body = _.pick(req.body, 'email', 'password');
     var adminInstance;
     db.admin.verificar(body).then(function (admin) {
@@ -15,7 +14,8 @@ module.exports = function(app){
       } else {
         var token = jwt.sign(admin.email , app.get('secret'));
         res.set('x-access-token', token);
-        res.json(admin);
+        adminInstance = admin;
+        res.json(adminInstance.toPublicJSON());
       }
     }).catch(function (err) {
         res.status(401).send('Não autorizado!');

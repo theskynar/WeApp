@@ -108,12 +108,16 @@ module.exports = function(sequelize, dataTypes) {
 				min: 5.0,
 				max: 100.0
 			}
-		}
+		},
+		localizacao: {
+			type:dataTypes.STRING,
+			defaultValue:"Coordenadas para Google Maps"
+		},
 	}, {
 			instanceMethods: {
 				toPublicJSON : function() {
 					var json = this.toJSON();
-					return _.pick(json, 'nomeEmpresa', 'segmento', 'cidade', 'bairro', 
+					return _.pick(json, 'nomeEmpresa', 'segmento', 'cidade', 'bairro',
 						'descontoAplicado', 'url', 'urlFace');
 				}
 			}
