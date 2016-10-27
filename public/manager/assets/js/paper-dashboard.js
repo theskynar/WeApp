@@ -15,13 +15,6 @@ var navbar_initialized = false;
 
 });*/
 
-// activate collapse right menu when the windows is resized
-$(window).resize(function(){
-    if($(window).width() <= 991){
-        lbd.initRightMenu();
-    }
-});
-
 lbd = {
     misc:{
         navbar_menu_visible: 0
