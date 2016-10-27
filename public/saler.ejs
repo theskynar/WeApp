@@ -19,7 +19,6 @@
                 <li><a class="scroll" href=".members">Membros</a></li>
                 <li><a class="scroll" href=".about">Quem somos</a></li>
                 <li><a class="scroll" href="#">Contato</a></li>
-                <li class="green"><a href="#" class="modal-open">Sign in</a></li>
               </ul>
             </div>
             <a class="navbar-brand noborder" href="#"><img src="images/logo.png" style="max-height: 100%; max-width: 100%" alt="WeApp Logo"></a>
@@ -32,19 +31,14 @@
               <li><a class="scroll" href=".members">Membros</a></li>
               <li><a class="scroll" href=".about">Quem somos</a></li>
               <li><a class="scroll" href="#">Contato</a></li>
-              <li class="button"><a href="#" class="modal-open"><button type="button" class="btn navbar-btn modal-open">Sign in</button></a></li>
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
       <div class="row middle">
-        <div class="item col-xs-12 col-sm-6">
-            <h1 class="right">Quanto de receita nós movimentamos?</h1>
-            <h2 class="right">R$ 201.987.079</h2>
-        </div>
-        <div class="item col-xs-12 col-sm-6">
-          <h1>Quanto nós geramos de descontos?</h1>
-          <h2>R$ 21.587.179</h2>
+        <div class="item col-xs-12">
+          <h1 class="center">Quanto nós geramos de descontos?</h1>
+          <h2 class="center">R$ 21.587.179</h2>
         </div>
       </div>
       <ul class="link-buttons">
@@ -55,32 +49,27 @@
   </header>
   <section class="about">
       <h2><span>Introdução</span></h2>
-      <p>
-        Ser membro da WeApp é valorizar a sua marca, pois será através da sua empresa que seus clientes terão acesso aos beneficios e prêmios. A WeApp garante para a sua empresa o marketing digital com retorno imediato nas midias sociais!
-      </p>
-      <p>
-        Ao estimular o consumo, diretamente aumentamos a sua demanda, isto significa que garantiremos a manutenção dos postos de trabalho ja existentes e geração de novos.
-      </p>
+      <p>Ser membro do WeApp é valorizar a sua marca, pois será através da sua empresa que seus clientes terão acesso aos benefícios e prêmios. O WeApp garante para a sua empresa o Marketing Digital com retorno imediato nas mídias sociais!</p>
+      <p>Ao estimular o consumo, diretamente aumentamos a sua demanda, isto significa que garantiremos a manutenção dos postos de trabalho já existentes e geração de novos.</p>
   </section>
   <section class="about">
       <h2><span>quem somos</span></h2>
       <p>
-        A WeApp nasce devido a crise econômica nacional, com a missão de estimular o consumidor, desenvolver o comércio e consequentemente movimentar a economia do Brasil.
+        O WeApp nasce com a missão de estimular o consumidor, desenvolver o comércio e consequentemente movimentar a economia do Brasil.
+
+        O WeApp é o aplicativo que mais fornece benefícios para sua empresa e clientes!
       </p>
       <h3 class="green">Por que ser membro WeApp?</h3>
       <article>
-        <p>
-          Ja pensou quanto custaria divulgar a sua empresa para milhares de pessoas via facebook fora da WeApp?
-        </p>
-        <p>Agora faça um exercício mental: Tente mensurar o valor de ser recomendado por um amigo dessas milhares milhares de pessoas!</p>
-        <p>E para garantir o acesso a conhecimentos práticos de combate a crise, lhe daremos acesso aos melhores treinamentos e palestras de desenvolvimento organizacional, pelo simples fato de ser membro da WeApp!</p>
-        <p>Aguardar o mercado melhorar sozinho é colocar em risco o negócio que você tanto lutou para conseguir. A WeApp vai direcionar e atuar na continuidade e no desenvolvimento do seu negócio.</p>
+        <p>Já pensou quanto custaria divulgar a sua empresa para milhares de pessoas via Facebook fora do WeApp? </p>
+        <p>Agora faça um exercício mental: Tente mensurar o valor de ser recomendado por amigos dessas milhares milhares de pessoas!</p>
+        <p>Aguardar o mercado melhorar sozinho é colocar em risco o negócio que você tanto lutou para conseguir. O WeApp vai direcionar e atuar na continuidade e no desenvolvimento do seu negócio.</p>
       </article>
       <h3 class="green">Como ajudamos o brasil?</h3>
       <article>
-        <p>Ao estimular o consumo, diretamente aumentamos sua demanda, isto significa que garantiremos a manutenção dos postos ja existentes e geração dos novos.</p>
-        <p>Quem está no controle da sua empresa é <span class="green">você</span>, e não a crise.</p>
-        <p>Comerciante, seja um membro <span class="green">WeApp</span>!</p>
+        <p>Ao estimular o consumo, diretamente aumentamos sua demanda, isto significa que garantiremos a manutenção dos postos já existentes e geração dos novos.</p>
+        <p>Quem está no controle da sua empresa é você.</p>
+        <p>Comerciante, seja um membro WeApp!</p>
       </article>
   </section>
   <section class="members">
@@ -148,38 +137,6 @@
   <footer>
     <%= new Date().getFullYear() %> // WeApp <span>Skynar devs.</span>
   </footer>
-  <div class="modal fade signup-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Criar conta</h4>
-        </div>
-        <div class="modal-body">
-          <form name="signupForm">
-            <input type="text" placeholder="Nome" name="nome" class="form-control">
-            <p class="dica">Seu nome completo.</p>
-            <input type="text" placeholder="Endereço Residencial" name="endres" class="form-control">
-            <p class="dica">Endereço onde mora.</p>
-            <input type="text" placeholder="Endereço Comercial" name="endcom" class="form-control">
-            <p class="dica">Endereço onde trabalha.</p>
-            <input type="text" placeholder="Telefone" name="tel" class="form-control">
-            <p class="dica">Telefone (Somente números e com DDD).</p>
-            <input type="text" placeholder="Email" name="email" class="form-control">
-            <p class="dica">Seu email.</p>
-            <input type="password" placeholder="Senha" name="pass" class="form-control">
-            <p class="dica">Sua senha.</p>
-            <input type="password" placeholder="Confirmar Senha" name="confirmpass" class="form-control">
-            <p class="dica">Confirmar senha.</p>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Criar</button>
-        </div>
-      </div>
-    </div>
-  </div>
     <script type="text/javascript" src="libs/scroll/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript" src="dest/js/script.js"></script>
     <script type="text/javascript" src="libs/bootstrap/dist/js/bootstrap.min.js"></script>

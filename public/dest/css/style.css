@@ -19,6 +19,7 @@ html, body {
   width: 100%; }
 
 .row.middle {
+  overflow: hidden;
   display: -webkit-flex;
   display: flex;
   width: 100%;
@@ -28,10 +29,12 @@ html, body {
   .row.middle > h1.center {
     width: 100%;
     text-align: center; }
-  .row.middle > .item {
-    padding: 15px;
-    box-sizing: border-box;
-    transition: transform 0.6s ease-out; }
+    .row.middle > .item {
+      padding: 15px;
+      box-sizing: border-box;
+      transition: transform 0.6s ease-out;
+      text-align: center;
+    }
     .row.middle > .item:hover {
       transform: scale(1.05); }
 
