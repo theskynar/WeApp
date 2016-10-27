@@ -4,7 +4,7 @@
         <div class="col-lg-4 col-md-5">
             <div class="card">
                 <div class="image">
-                      <img src="assets/img/background.jpg" alt="..."/>
+                      <img src="{{estabelecimento.img}}" alt="..."/>
                 </div>
                 <div class="content">
                       <h4 class="title">{{estabelecimento.nomeEmpresa}}<br />
@@ -20,20 +20,29 @@
                 </div>
                 <div class="content">
                     <form>
-                        <div class="row">
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <label>Nome Empresa</label>
-                                  <input type="text" class="form-control border-input" placeholder="Nome" ng-model="estabelecimento.nomeEmpresa">
-                              </div>
-                          </div>
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <label>CNPJ</label>
-                                  <input type="text" class="form-control border-input" placeholder="CNPJ" ng-model="estabelecimento.CNPJ">
-                              </div>
-                          </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nome Empresa</label>
+                                <input type="text" class="form-control border-input" placeholder="Nome" ng-model="estabelecimento.nomeEmpresa">
+                            </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>CNPJ</label>
+                                <input type="text" class="form-control border-input" placeholder="CNPJ" ng-model="estabelecimento.CNPJ">
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Imagem</label>
+                                <input type="text" class="form-control border-input" placeholder="Imagem" ng-model="estabelecimento.img">
+                            </div>
+                        </div>
+                      </div>
 
                         <div class="row">
                           <div class="col-md-4">
