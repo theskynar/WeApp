@@ -4,8 +4,14 @@ angular.module('dash')
     $scope.notificacoes = [];
 
     $scope.enviar = function(notifica){
-      notification.sendbyJson(notifica);
-      getNotifications();
+      notification.sendbyJson(notifica)
+        .then(function(data){
+          getNotifications();
+          alert.send('A notificação foi enviada com sucesso!', 'success');
+        })
+        .catch(function(err){
+          alert.send('Houve um erro ao enviar a notificação...', 'danger');
+        });
       delete $scope.notify;
     };
 
