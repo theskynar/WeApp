@@ -113,6 +113,10 @@ module.exports = function(sequelize, dataTypes) {
 			type:dataTypes.STRING,
 			defaultValue:"Coordenadas para Google Maps"
 		},
+		img: {
+			type:dataTypes.STRING,
+			defaultValue:"https://forums.roku.com/styles/canvas/theme/images/no_avatar.jpg"
+		},
 	}, {
 			instanceMethods: {
 				toPublicJSON : function() {

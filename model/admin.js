@@ -21,7 +21,8 @@ module.exports = function(sequelize, dataTypes) {
       }
     },/* END OF COLUNM EMAIL */
     img: {
-      type:dataTypes.STRING
+      type:dataTypes.STRING,
+      defaultValue:"https://forums.roku.com/styles/canvas/theme/images/no_avatar.jpg"
     }, /* END OF COLUNM IMG */
     salted: {
       type:dataTypes.STRING,
