@@ -3,9 +3,10 @@ var env = process.env.NODE_ENV || 'development';
 
 var sequelize;
 
-sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
-    "dialect": 'sqlite',
-    "storage": __dirname + '/data/dbxxx.sqlite'
+sequelize = new Sequelize('weapp', 'ealvarenga', 'Weapp44!', {
+    dialect: 'mysql',
+    host: '159.203.37.82',
+    port: 3306
 });
 
 var db = {};
@@ -21,11 +22,16 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.cliente.hasMany(db.produto);
+db.produto.belongsTo(db.cliente);
+
 db.estabelecimento.hasMany(db.produto);
+db.produto.belongsTo(db.estabelecimento);
 
 db.admin.hasMany(db.notificacao);
 db.notificacao.belongsTo(db.admin);
+
 db.estabelecimento.hasMany(db.evento);
+db.evento.belongsTo(db.estabelecimento);
 
 //db.estabelecimento.hasMany(db.notificacao);
 //db.estabelecimento.hasMany(db.evento);
