@@ -26,7 +26,8 @@ module.exports = function(app){
     db.evento.findOne({
       where: {
         id:id
-      }
+      },
+      include: [db.estabelecimento]
     }).then(function(evento){
       if(!evento) return res.status(404).send('Nenhum evento encontrado');
       res.json(evento);
@@ -37,7 +38,9 @@ module.exports = function(app){
 
 
   api.list = function(req, res) {
-    db.evento.findAll().then(function (evento) {
+    db.evento.findAll({
+      include: [db.estabelecimento]
+    }).then(function (evento) {
       if(!!evento) return res.status(200).json(evento);
         res.status(404).send('Not found!');
     }, function (err) {

@@ -6,23 +6,17 @@ module.exports = function(app){
   var api = {};
 
   api.getById = function(req, res){
-
     var id = parseInt(req.params.id, 10);
-
     db.estabelecimento.findOne({
       where: {
         id:id
       }
     }).then(function(estabelecimento){
-
       if(!estabelecimento) return res.status(404).send('Não encontrado nenhum estabelecimento.');
       res.json(estabelecimento);
-
     }, function(err) {
       res.status(500).send(err);
     })
-
-
   }
 
 
@@ -55,21 +49,21 @@ module.exports = function(app){
       'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'localizacao');
     var where = {};
 
-    if(body.hasOwnProperty('CNPJ')) { where.CNPJ = body.CNPJ; }
-    if(body.hasOwnProperty('Tel')) { where.Tel = body.Tel; }
-    if(body.hasOwnProperty('email')) { where.email = body.email; }
-    if(body.hasOwnProperty('nomeEmpresa')) { where.nomeEmpresa = body.nomeEmpresa; }
-    if(body.hasOwnProperty('nomeProprietario')) { where.nomeProprietario = body.nomeProprietario; }
-    if(body.hasOwnProperty('segmento')) { where.segmento = body.segmento; }
-    if(body.hasOwnProperty('cidade')) { where.cidade = body.cidade; }
-    if(body.hasOwnProperty('bairro')) { where.bairro = body.bairro; }
-    if(body.hasOwnProperty('CEP')) { where.CEP = body.CEP; }
-    if(body.hasOwnProperty('descontoAplicado')) { where.descontoAplicado = body.descontoAplicado; }
-    if(body.hasOwnProperty('url')) { where.url = body.url; }
-    if(body.hasOwnProperty('urlFace')) { where.urlFace = body.urlFace; }
-    if(body.hasOwnProperty('dataEntrada')) { where.dataEntrada = body.dataEntrada; }
-    if(body.hasOwnProperty('vencPlano')) { where.vencPlano = body.vencPlano; }
-    if(body.hasOwnProperty('localizacao')) { where.localizacao = body.localizacao; }
+    if(body.hasOwnProperty('CNPJ'))  where.CNPJ = body.CNPJ;
+    if(body.hasOwnProperty('Tel'))  where.Tel = body.Tel;
+    if(body.hasOwnProperty('email'))  where.email = body.email;
+    if(body.hasOwnProperty('nomeEmpresa'))  where.nomeEmpresa = body.nomeEmpresa;
+    if(body.hasOwnProperty('nomeProprietario')) where.nomeProprietario = body.nomeProprietario;
+    if(body.hasOwnProperty('segmento'))  where.segmento = body.segmento;
+    if(body.hasOwnProperty('cidade'))  where.cidade = body.cidade;
+    if(body.hasOwnProperty('bairro'))  where.bairro = body.bairro;
+    if(body.hasOwnProperty('CEP'))  where.CEP = body.CEP;
+    if(body.hasOwnProperty('descontoAplicado')) where.descontoAplicado = body.descontoAplicado;
+    if(body.hasOwnProperty('url')) where.url = body.url;
+    if(body.hasOwnProperty('urlFace')) where.urlFace = body.urlFace;
+    if(body.hasOwnProperty('dataEntrada')) where.dataEntrada = body.dataEntrada;
+    if(body.hasOwnProperty('vencPlano')) where.vencPlano = body.vencPlano;
+    if(body.hasOwnProperty('localizacao')) where.localizacao = body.localizacao;
 
     db.estabelecimento.findOne({
       where: {
@@ -89,8 +83,6 @@ module.exports = function(app){
         res.status(500).send(err);
     });
   }
-
-
 
   return api;
 }

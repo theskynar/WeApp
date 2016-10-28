@@ -6,7 +6,11 @@ var api = {};
 module.exports = function(app) {
 
   api.list = function(req, res) {
-    db.estabelecimento.findAll().then(function (estabelecimento) {
+    db.estabelecimento.findAll({
+      attributes: {
+        exclude: ['CNPJ', 'nomeProprietario', 'dataEntrada', 'vencPlano', 'premiosSorteados', 'capitalRodado']
+      }
+    }).then(function (estabelecimento) {
       if(!!estabelecimento) {
         res.status(200).json(estabelecimento);
       } else {

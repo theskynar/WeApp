@@ -27,15 +27,16 @@ const db = require('./../../db.js');
 
   api.atualizaUser = function(req, res) {
     var id = parseInt(req.params.id, 10);
-    var body = _.pick(req.body, 'email', 'nome', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
+    var body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
     var where = {};
 
-    if(body.hasOwnProperty('email')) { where.email = body.email; }
-    if(body.hasOwnProperty('nome')) { where.nome = body.nome; }
-    if(body.hasOwnProperty('bairroMora')) { where.bairroMora = body.bairroMora; }
-    if(body.hasOwnProperty('bairroTrabalha')) { where.bairroTrabalha = body.bairroTrabalha; }
-    if(body.hasOwnProperty('cel')) { where.cel = body.cel; }
-    if(body.hasOwnProperty('dob')) { where.dob = body.dob; }
+    if(body.hasOwnProperty('email'))  where.email = body.email;
+    if(body.hasOwnProperty('nome'))  where.nome = body.nome;
+    if(body.hasOwnProperty('genero'))  where.genero = body.genero;
+    if(body.hasOwnProperty('bairroMora')) where.bairroMora = body.bairroMora;
+    if(body.hasOwnProperty('bairroTrabalha')) where.bairroTrabalha = body.bairroTrabalha;
+    if(body.hasOwnProperty('cel'))  where.cel = body.cel;
+    if(body.hasOwnProperty('dob'))  where.dob = body.dob;
 
     db.cliente.findOne({
       where: {
@@ -57,8 +58,6 @@ const db = require('./../../db.js');
   }
 
   api.gerarDesconto = function(req, res) {
-    //var idCliente = parseInt(req.params.idCliente, 10);
-    //var idEstabelecimento = parseInt(req.params.idEstabelecimento, 10);
     var body = _.pick(req.body, 'valor', 'valorTotal', 'avaliacao', 'clienteId', 'estabelecimentoId');
     db.produto.create(body).then(function(produto) {
         res.status(200).send('Registro criado!');
