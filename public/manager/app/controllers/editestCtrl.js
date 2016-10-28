@@ -20,7 +20,8 @@ angular.module("dash")
     $http.get('/manager/estabelecimento/' + id)
       .success(function(res){
         $scope.estabelecimento = res;
-        console.log($scope.estabelecimento);
+        var ndt = new Date($scope.estabelecimento.vencPlano);
+        $scope.estabelecimento.vencPlano = ndt;
       })
       .error(function(res){
         alert.send(res, 'danger');

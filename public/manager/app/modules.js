@@ -88,20 +88,13 @@ angular.module("dash")
   .run(function($location, $rootScope, $window){
 
     $rootScope.$on('$stateChangeStart',
-    function(event, toState, toParams, fromState, fromParams, options){
-        if(toState.name != 'login' && $window.localStorage.token == null) {
-          console.log('nao esta autorizado');
-          $location.path('/login');
-        }
+      function(event, toState, toParams, fromState, fromParams, options){
+          if(toState.name != 'login' && (!$window.sessionStorage.token || !$window.sessionStorage.user)) {
 
-        $('title').html(toState.nome + ' - BinaryMind');
-    });
+            $location.path('/login');
+          }
 
-    /**$rootScope.$on('$stateChangeSuccess',function(){
-
-          angular.element(document).ready(function(){
-            lbd.initRightMenu();
-          })
-    }); */
+          $('title').html(toState.nome + ' - WeApp');
+      });
 
   });

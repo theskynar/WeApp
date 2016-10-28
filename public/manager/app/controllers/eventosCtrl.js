@@ -36,6 +36,8 @@ angular.module('dash')
       }
 
       $scope.editactive = angular.copy(item);
+      $scope.editactive.dataInicio = new Date(item.dataInicio);
+      $scope.editactive.dataFim = new Date(item.dataFim);
       $('#edit').modal('toggle')
 
     }

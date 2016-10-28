@@ -88,21 +88,48 @@ angular.module("dash")
   .run(function($location, $rootScope, $window){
 
     $rootScope.$on('$stateChangeStart',
-    function(event, toState, toParams, fromState, fromParams, options){
-        if(toState.name != 'login' && $window.localStorage.token == null) {
-          console.log('nao esta autorizado');
-          $location.path('/login');
-        }
+      function(event, toState, toParams, fromState, fromParams, options){
+          if(toState.name != 'login' && (!$window.sessionStorage.token || !$window.sessionStorage.user)) {
 
-        $('title').html(toState.nome + ' - BinaryMind');
-    });
+            $location.path('/login');
+          }
 
-    /**$rootScope.$on('$stateChangeSuccess',function(){
+          $('title').html(toState.nome + ' - WeApp');
+      });
 
-          angular.element(document).ready(function(){
-            lbd.initRightMenu();
+  });
+angular.module('dash')
+  .factory('session', function($location, $window, $http, $q, $state){
+
+    var session = {};
+    session.auth = function(user){
+      return $q(function( resolve, reject ){
+        $http.post('auth.js', user)
+          .success(function(res){
+            $window.sessionStorage.user = JSON.stringify(res);
+            $state.go('dash.home',{},{reload: 'dash.home'});
+            resolve(res);
           })
-    }); */
+          .error(function(res){
+            reject(res);
+          });
+      });
+    }
+
+    session.user = function(){
+
+      return JSON.parse($window.sessionStorage.user);
+
+    }
+
+    session.destroy = function(){
+
+      delete $window.sessionStorage.token;
+      $state.go('login',{},{reload: 'login'});
+
+    }
+
+    return session;
 
   });
 angular.module('dash')
@@ -142,7 +169,7 @@ angular.module('geral', [])
 
 
         config.headers = config.headers || {};
-        if ($window.localStorage.token) config.headers['x-access-token'] = $window.localStorage.token;
+        if ($window.sessionStorage.token) config.headers['x-access-token'] = $window.sessionStorage.token;
 
         return config;
     }
@@ -151,7 +178,7 @@ angular.module('geral', [])
     interceptor.response = function(response){
 
       var token = response.headers('x-access-token');
-      if (token != null) $window.localStorage.token = token;
+      if (token != null) $window.sessionStorage.token = token;
 
       return response;
 
@@ -160,7 +187,7 @@ angular.module('geral', [])
     interceptor.responseError = function(rejection) {
 
         if (rejection != null && rejection.status === 401) {
-            delete $window.localStorage.token;
+            delete $window.sessionStorage.token;
             $location.path("/login");
         }
         return $q.reject(rejection);
@@ -169,7 +196,7 @@ angular.module('geral', [])
     return interceptor;
   })
 angular.module('dash')
-  .factory('notification', function($window, $http){
+  .factory('notification', function($http, session){
 
     return {
 
@@ -187,8 +214,7 @@ angular.module('dash')
           data.subtitulo = subtitulo;
           data.texto = texto;
           data.descricao = descricao;
-          data.adminId = JSON.parse($window.localStorage.user).id;
-          console.log(data.adminId);
+          data.adminId = session.user().id;
 
           $http.post('/manager/notificacao', data)
             .success(function(data){
@@ -217,7 +243,7 @@ angular.module('dash')
           if(!json.descricao) json.descricao = 'Não informado';
 
 
-          json.adminId = JSON.parse($window.localStorage.user).id;
+          json.adminId = session.user().id;
 
           $http.post('/manager/notificacao', json)
             .success(function(data){
@@ -372,7 +398,8 @@ angular.module("dash")
     $http.get('/manager/estabelecimento/' + id)
       .success(function(res){
         $scope.estabelecimento = res;
-        console.log($scope.estabelecimento);
+        var ndt = new Date($scope.estabelecimento.vencPlano);
+        $scope.estabelecimento.vencPlano = ndt;
       })
       .error(function(res){
         alert.send(res, 'danger');
@@ -501,6 +528,8 @@ angular.module('dash')
       }
 
       $scope.editactive = angular.copy(item);
+      $scope.editactive.dataInicio = new Date(item.dataInicio);
+      $scope.editactive.dataFim = new Date(item.dataFim);
       $('#edit').modal('toggle')
 
     }
@@ -566,38 +595,31 @@ angular.module('dash')
   });
 angular.module('dash')
 
-  .controller('loginCtrl', function($scope, $http, $window, $state, alert){
+  .controller('loginCtrl', function($scope, alert, session){
 
 
     $scope.user = {};
 
     $scope.autentica = function(user){
-      if(!!user.email && !!user.password)
-        $http.post('auth.js', user)
-          .success(function(res){
+      if(!!user.email && !!user.password){
+        session.auth(user)
+          .then(function(res){
             alert.send("Logado com sucesso, bem vindo <span style='font-weight: bold'> "+ res.name + '</span>','success',2000,'top','right','ti-unlock');
-            $window.localStorage.user = JSON.stringify(res);
-            console.log(res);
-            $state.go('dash.home',{},{reload: 'dash.home'});
           })
-          .error(function(res){
-            console.log(res);
-            alert.send('Permissão negada, usuario e/ou senha incorretos','danger',2000,'bottom','center','ti-na');
-          })
-          .finally(function(){
-            $scope.user = {};
+          .catch(function(res){
+            alert.send('Usuário ou senha incorretos.','warning');
           });
-      else {
-        console.log(user);
-        alert.send('Preencha os campos','danger',2000,'bottom','center','ti-na');
+        delete $scope.user;
       }
+      else
+        alert.send('Preencha os campos','danger',2000,'bottom','center','ti-na');
     }
 
 
   });
 angular.module('dash')
 
-  .controller('menuCtrl', function($timeout,$scope, $document, $location, $state){
+  .controller('menuCtrl', function($scope, $document, $state){
 
     $scope.open = lbd.initRightMenu;
 
@@ -606,13 +628,19 @@ angular.module('dash')
 
   });
 angular.module('dash')
-  .controller('notCtrl', function($scope, $http, $window, alert, notification) {
+  .controller('notCtrl', function($scope, $http, alert, notification) {
 
     $scope.notificacoes = [];
 
     $scope.enviar = function(notifica){
-      notification.sendbyJson(notifica);
-      getNotifications();
+      notification.sendbyJson(notifica)
+        .then(function(data){
+          getNotifications();
+          alert.send('A notificação foi enviada com sucesso!', 'success');
+        })
+        .catch(function(err){
+          alert.send('Houve um erro ao enviar a notificação...', 'danger');
+        });
       delete $scope.notify;
     };
 

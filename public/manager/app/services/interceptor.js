@@ -8,7 +8,7 @@ angular.module('geral', [])
 
 
         config.headers = config.headers || {};
-        if ($window.localStorage.token) config.headers['x-access-token'] = $window.localStorage.token;
+        if ($window.sessionStorage.token) config.headers['x-access-token'] = $window.sessionStorage.token;
 
         return config;
     }
@@ -17,7 +17,7 @@ angular.module('geral', [])
     interceptor.response = function(response){
 
       var token = response.headers('x-access-token');
-      if (token != null) $window.localStorage.token = token;
+      if (token != null) $window.sessionStorage.token = token;
 
       return response;
 
@@ -26,7 +26,7 @@ angular.module('geral', [])
     interceptor.responseError = function(rejection) {
 
         if (rejection != null && rejection.status === 401) {
-            delete $window.localStorage.token;
+            delete $window.sessionStorage.token;
             $location.path("/login");
         }
         return $q.reject(rejection);

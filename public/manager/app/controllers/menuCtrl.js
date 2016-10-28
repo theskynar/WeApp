@@ -1,6 +1,6 @@
 angular.module('dash')
 
-  .controller('menuCtrl', function($timeout,$scope, $document, $location, $state){
+  .controller('menuCtrl', function($scope, $document, $state){
 
     $scope.open = lbd.initRightMenu;
 

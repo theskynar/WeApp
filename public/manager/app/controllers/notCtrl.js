@@ -1,5 +1,5 @@
 angular.module('dash')
-  .controller('notCtrl', function($scope, $http, $window, alert, notification) {
+  .controller('notCtrl', function($scope, $http, alert, notification) {
 
     $scope.notificacoes = [];
 

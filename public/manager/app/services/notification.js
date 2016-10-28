@@ -1,5 +1,5 @@
 angular.module('dash')
-  .factory('notification', function($window, $http){
+  .factory('notification', function($http, session){
 
     return {
 
@@ -17,8 +17,7 @@ angular.module('dash')
           data.subtitulo = subtitulo;
           data.texto = texto;
           data.descricao = descricao;
-          data.adminId = JSON.parse($window.localStorage.user).id;
-          console.log(data.adminId);
+          data.adminId = session.user().id;
 
           $http.post('/manager/notificacao', data)
             .success(function(data){
@@ -47,7 +46,7 @@ angular.module('dash')
           if(!json.descricao) json.descricao = 'Não informado';
 
 
-          json.adminId = JSON.parse($window.localStorage.user).id;
+          json.adminId = session.user().id;
 
           $http.post('/manager/notificacao', json)
             .success(function(data){
