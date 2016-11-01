@@ -5,6 +5,8 @@ var api = {};
 
 api.getIndex = function(req, res) {
   res.render('index');
+  var origin = req.get('Origin');
+  console.log(origin);
 }
 
 api.getTable = function(req, res) {

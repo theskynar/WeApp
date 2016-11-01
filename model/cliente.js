@@ -38,10 +38,10 @@ module.exports = function(sequelize, dataTypes) {
         len: [2, 55]
       }
     }, /* END OF COLUNM Bairro onde trabalha */
-    ruaMora: {
+    /*ruaMora: {
       type:dataTypes.STRING,
       defaultValue: "xyz"
-    },
+    },*/
     cel: {
       type:dataTypes.STRING,
       allowNull: false,
