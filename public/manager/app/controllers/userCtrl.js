@@ -17,7 +17,7 @@ angular.module('dash')
             getUsersList();
             $('#adduser').modal('toggle')
           })
-          .error(function(res){
+          .error(function(err){
             alert.send(err,'danger');
           });
     }

@@ -1,5 +1,7 @@
 const db = require('./../../db.js');
 const _ = require('underscore');
+var toMonth = require('../helpers/toMonth.js');
+var toMoney = require('../helpers/toMoney.js');
 
 var api = {};
 
@@ -8,15 +10,10 @@ module.exports = function(app) {
   api.getComprasMes = function (req, res) {
     db.produto.findAll().then(function (compras) {
       if(!!compras) {
-        var meses = new Array(12).map((item) => '0');
-        compras.forEach((item, key) => {
-        	var month = item.createdAt.getMonth();
-          console.log(month);
-          if(meses[month] === undefined) meses[month] = '0';
-          meses[month] = parseInt(meses[month]) + 1;
-        });
-        console.log(meses);
-        return res.status(200).json(meses);
+        console.log(compras);
+        var money = toMoney(compras,"desconto");
+        var compras = toMoney(compras,"valorTotal");
+        return res.status(200).json({total: compras, desconto: money});
       }
       res.status(404).send('Nenhum registro de compra encontrado!');
     }, function (err) {

@@ -1,5 +1,9 @@
 const _ = require('underscore');
 const db = require('./../../db.js');
+
+
+module.exports = function(app, io){
+
   var api = {};
   // RESTANDO APENAS GET COMPRAS;
 
@@ -84,6 +88,10 @@ const db = require('./../../db.js');
     }, function(err) {
         res.status(400).send('Erro ao criar registro ' + err);
     });
+    io.emit('attdesc', body.valorTotal - body.valor);
+    io.emit('attgraphdesc');
   }
 
-module.exports = api;
+  return api;
+
+};

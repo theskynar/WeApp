@@ -1,8 +1,9 @@
 <html>
   <head>
     <% include header.ejs %>
+    <script src="socket.io/socket.io.js"></script>
   </head>
-  <body>
+  <body ng-app="site" ng-controller="home">
     <header>
       <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -38,7 +39,7 @@
       <div class="row middle">
         <div class="item col-xs-12">
           <h1 class="center">Quanto nós geramos de descontos?</h1>
-          <h2 class="center">R$ 21.587.179</h2>
+          <h2 class="center">R$ {{compras}}</h2>
         </div>
       </div>
       <ul class="link-buttons">
@@ -110,26 +111,34 @@
     <form name="contact">
       <div class="row ui-skynar">
         <div class="col-xs-12 col-md-6">
-          <input type="text" placeholder="Nome completo" name="nome">
+          <input type="text" placeholder="Nome completo" ng-model="mail.nome" name="nome" ng-required="true">
         </div>
         <div class="col-xs-12 col-md-6">
-          <input type="text" placeholder="Email" name="email">
+          <input type="text" placeholder="Email" ng-model="mail.email" name="email" ng-required="true">
         </div>
       </div>
       <div class="row ui-skynar">
-        <div class="col-xs-12 col-md-6">
-          <input type="text" placeholder="Telefone" name="tel">
+        <div class="col-xs-12 col-md-4">
+          <input type="text" placeholder="Telefone" ng-model="mail.telefone" name="tel" ng-required="true">
         </div>
-        <div class="col-xs-12 col-md-6">
-          <input type="text" placeholder="Assunto" name="assunto">
+        <div class="col-xs-12 col-md-4">
+          <input type="text" placeholder="Assunto" name="assunto" ng-model="mail.assunto" ng-required="true">
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <input type="text" placeholder="Empresa" name="empresa" ng-model="mail.empresa" ng-required="true">
         </div>
       </div>
       <div class="row ui-skynar">
         <div class="col-xs-12">
-          <textarea placeholder="Mensagem" name="message" cols="30" rows="10"></textarea>
-          <button class="btn btn-block outline">
+          <textarea placeholder="Mensagem" name="message" cols="30" rows="10"  ng-required="true" ng-model="mail.msg"></textarea>
+          <button ng-click="send(mail)" ng-disabled="contact.$invalid" class="btn btn-block outline">
             Enviar mensagem
           </button>
+        </div>
+        <div class="col-xs-12">
+          <div ng-show="message.text" ng-class="{'alert-danger': message.type == 'error', 'alert-success': message.type != 'error'}" class="alert" style="margin-left: 7.5px;">
+            {{message.text}}
+          </div>
         </div>
       </div>
     </form>
@@ -137,6 +146,8 @@
   <footer>
     <%= new Date().getFullYear() %> // WeApp <span>Skynar devs.</span>
   </footer>
+
+    <script src="dest/js/app.js"></script>
     <script type="text/javascript" src="libs/scroll/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript" src="dest/js/script.js"></script>
     <script type="text/javascript" src="libs/bootstrap/dist/js/bootstrap.min.js"></script>

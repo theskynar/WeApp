@@ -7,7 +7,7 @@ var api = {};
 var smtpConfig = "smtps://7aebba0562f0fd4312b40eefbb0df536:39f468a9b789687a74c9ff7a41a031a1@in-v3.mailjet.com"
 var transporter = nodemailer.createTransport(smtpConfig);
 
-module.exports = function(app) {
+module.exports = function(app,io) {
 
   api.send = function(req, res) {
     var body = _.pick(req.body, 'nome', 'email', 'telefone', 'empresa', 'assunto', 'msg');
@@ -22,6 +22,7 @@ module.exports = function(app) {
           console.log(err);
           return res.status(500).send('Ocorreu um erro ao enviar o email - ' + err);
         }
+        io.emit('newemail', 'Você recebeu uma nova mensagem de <strong>' + body.nome + '</strong>');
         db.contato.create(body).then(function (contato) {
           if(!contato) return res.status(400).send('Não foi possível gravar o contato no banco!');
           res.status(200).send('Obrigado por entrar em contato com a WeApp.\nLogo entraremos em contato para esclarecer sua dúvidas...');

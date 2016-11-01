@@ -9,6 +9,8 @@ module.exports = function(app) {
     .post(app.Site.api.contato.send);
 
   app.route('/consumidor')
-    .get(api.getComerciante);
+    .get(api.getConsumidor);
+
+  app.get('/site/compras', api.getcompras);
 
 }

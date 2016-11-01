@@ -159,6 +159,62 @@ angular.module('dash')
 
     return alert;
   });
+angular.module('dash')
+  .factory('graphMaker', function($http){
+
+    var graph = {};
+
+    graph.users = function(){
+      $http.get('/manager/compras')
+        .success(function(data){
+          data.desconto.forEach(function(item, key, array){
+            if(item === null) array[key] = '0';
+          });
+          data.total.forEach(function(item, key, array){
+            if(item === null) array[key] = '0';
+          });
+          dataSales.series[1] = data.desconto;
+          dataSales.series[1][12] = '0';
+          dataSales.series[0] = data.total;
+          dataSales.series[0][12] = '0';
+          Chartist.Line('#chartHours', dataSales, optionsSales, responsiveSales);
+        });
+    }
+
+    return graph;
+
+  })
+
+
+  var dataSales = {
+    labels: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+    series: []
+  };
+
+  var optionsSales = {
+    lineSmooth: false,
+    low: 0,
+    showArea: true,
+    height: "245px",
+    axisX: {
+      showGrid: false,
+    },
+    lineSmooth: Chartist.Interpolation.simple({
+      divisor: 3
+    }),
+    showLine: true,
+    showPoint: false,
+  };
+
+  var responsiveSales = [
+    ['screen and (max-width: 640px)', {
+      axisX: {
+        labelInterpolationFnc: function (value) {
+          return value[0];
+        }
+      }
+    }]
+  ];
 angular.module('geral', [])
   .factory('interceptor', function($window, $location, $q){
 
@@ -580,15 +636,13 @@ angular.module('dash')
   });
 angular.module('dash')
 
-  .controller('homeCtrl', function($scope,$http){
+  .controller('homeCtrl', function($scope,$http, graphMaker){
 
-    demo.initChartist();
 
-    angular.element(document).ready(function(){
-      $http.get('/manager/dbstats')
-        .success(function(data){
-          $scope.dbUses = (data.fileSize / 1000000).toFixed(2);
-        });
+    graphMaker.users();
+    var socket = io();
+    socket.on('attgraphdesc', function(){
+      graphMaker.users();
     });
 
 
@@ -619,7 +673,11 @@ angular.module('dash')
   });
 angular.module('dash')
 
-  .controller('menuCtrl', function($scope, $document, $state){
+  .controller('menuCtrl', function($scope, $document, $state, alert){
+    var socket = io();
+    socket.on('newemail', function(msg){
+      alert.send(msg,'info','','','','ti-email');
+    });
 
     $scope.open = lbd.initRightMenu;
 
@@ -692,7 +750,7 @@ angular.module('dash')
             getUsersList();
             $('#adduser').modal('toggle')
           })
-          .error(function(res){
+          .error(function(err){
             alert.send(err,'danger');
           });
     }

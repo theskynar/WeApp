@@ -3,6 +3,8 @@ const app = express();
 const consign =  require('consign');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 
 app.set('secret', 'fuckinGAssHole12345');
@@ -29,11 +31,11 @@ consign()
   .then('Dash/routes')
   .then('Site/api')
   .then('Site/routes')
-  .into(app);
+  .into(app, io);
 
 
 
 console.log("## Todos os arquivos foram carregados ##");
 
 
-module.exports = app;
+module.exports = http;

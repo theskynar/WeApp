@@ -1,14 +1,12 @@
 angular.module('dash')
 
-  .controller('homeCtrl', function($scope,$http){
+  .controller('homeCtrl', function($scope,$http, graphMaker){
 
-    demo.initChartist();
 
-    angular.element(document).ready(function(){
-      $http.get('/manager/dbstats')
-        .success(function(data){
-          $scope.dbUses = (data.fileSize / 1000000).toFixed(2);
-        });
+    graphMaker.users();
+    var socket = io();
+    socket.on('attgraphdesc', function(){
+      graphMaker.users();
     });
 
 
