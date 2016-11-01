@@ -22,6 +22,7 @@ db.estabelecimento = sequelize.import(__dirname + '/model/estabelecimento.js');
 db.produto = sequelize.import(__dirname + '/model/produto.js');
 db.notificacao = sequelize.import(__dirname + '/model/notificacao.js');
 db.evento = sequelize.import(__dirname + '/model/evento.js');
+db.contato = sequelize.import(__dirname + '/model/contato.js');
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

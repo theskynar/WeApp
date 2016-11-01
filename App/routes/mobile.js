@@ -8,7 +8,8 @@ module.exports = function(app) {
 
   app.route('/mobile/usuario/:id?')
      .put(app.App.api.cliente.atualizaUser)
-     .post(app.App.api.cliente.cadastraUser);
+     .post(app.App.api.cliente.cadastraUser)
+     .delete(app.App.api.cliente.delete);
 
   app.route('/mobile/desconto')
      .post(app.App.api.cliente.gerarDesconto);

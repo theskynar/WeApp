@@ -3,6 +3,12 @@ module.exports = function(app) {
 
   app.get('/', api.getIndex);
   app.get('/table', api.getTable);
-  app.get('/comerciante', api.getComerciante);
-  app.get('/consumidor', api.getConsumidor);
+
+  app.route('/comerciante')
+    .get(api.getComerciante)
+    .post(app.Site.api.contato.send);
+
+  app.route('/consumidor')
+    .get(api.getComerciante);
+
 }

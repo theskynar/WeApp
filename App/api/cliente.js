@@ -57,6 +57,26 @@ const db = require('./../../db.js');
     });
   }
 
+  api.delete = function(req, res) {
+    var id = parseInt(req.params.id, 10);
+    db.cliente.findOne({
+      where: {
+        id:id
+      }
+    }).then(function(clienteDeletado) {
+      if(!!clienteDeletado) {
+        return clienteDeletado.destroy(clienteDeletado).then(function(cliente) {
+            res.status(204).send();
+        }).catch(function (err) {
+            res.status(400).send(err);
+        });
+      }
+      res.status(404).send('Não encontrado');
+    }).catch(function (err) {
+      res.status(500).send(err);
+    })
+  }
+
   api.gerarDesconto = function(req, res) {
     var body = _.pick(req.body, 'valor', 'valorTotal', 'avaliacao', 'clienteId', 'estabelecimentoId');
     db.produto.create(body).then(function(produto) {

@@ -7,13 +7,16 @@ module.exports = function(sequelize, dataTypes) {
     valor: {
         type: dataTypes.DOUBLE,
         allowNull: false,
-        defaultValue: 0.0
+        defaultValue: 20.0
       },
     valorTotal: {
         type: dataTypes.DOUBLE,
         allowNull: false,
-        defaultValue: 0.0
+        defaultValue: 50.0
       },
+    desconto: {
+      type:dataTypes.DOUBLE
+    },
     avaliacao: {
       type: dataTypes.DOUBLE,
       allowNull: false,
@@ -23,8 +26,14 @@ module.exports = function(sequelize, dataTypes) {
         max: 5
       }
     }
+  }, {
+      hooks: {
+        beforeCreate: function(produto, options) {
+            var valDesconto = produto.valorTotal - produto.valor;
+            produto.desconto = valDesconto;
+        }
+      }
   });
 
   return produto;
 }
-

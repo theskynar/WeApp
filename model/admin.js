@@ -49,7 +49,7 @@ module.exports = function(sequelize, dataTypes) {
     }/* END OF COLUNM PASSWORD */
   }, { /* END OF VAR ADMIN */
     hooks: {
-      beforeValidate: function(user, options) {
+      beforeValidate: function(admin, options) {
         if(typeof admin.email === 'string') {
           admin.email = admin.email.toLowerCase();
         }

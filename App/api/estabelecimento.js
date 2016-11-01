@@ -7,6 +7,9 @@ module.exports = function(app) {
 
   api.list = function(req, res) {
     db.estabelecimento.findAll({
+      where: {
+        vencPlano: { $gte: Date.now()}
+      },
       attributes: {
         exclude: ['CNPJ', 'nomeProprietario', 'dataEntrada', 'vencPlano', 'premiosSorteados', 'capitalRodado']
       }

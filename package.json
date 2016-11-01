@@ -23,6 +23,7 @@
     "helmet": "^2.3.0",
     "jsonwebtoken": "^7.1.9",
     "mysql": "^2.11.1",
+    "nodemailer": "^2.6.4",
     "sequelize": "^3.24.1",
     "socket.io": "^1.4.8",
     "sqlite3": "^3.1.4",

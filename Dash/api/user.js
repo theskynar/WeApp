@@ -23,7 +23,7 @@ module.exports = function(app){
 
     if(body.hasOwnProperty('name')) where.name = body.name;
     if(body.hasOwnProperty('email')) where.email = body.email;
-    if(body.hasOwnProperty('img')) where.img= body.img; 
+    if(body.hasOwnProperty('img')) where.img= body.img;
 
     db.admin.findOne({
       where: {
@@ -73,6 +73,27 @@ module.exports = function(app){
     }, function(err) {
         res.status(500).send(err);
     })
+  }
+
+  api.delete = function(req, res) {
+    var id = parseInt(req.params.id, 10);
+    db.admin.findOne({
+      where: {
+        id:id
+      }
+    }).then(function(admin){
+      if(!!admin) {
+        return admin.destroy(admin).then(function(adminDeletado) {
+          res.status(204).send();
+        }).catch(function (err) {
+          res.status(400).send(err);
+        });
+      }
+      res.status(404).send('Admin não encontrado');
+    }).catch(function (err) {
+      console.log(err);
+      res.status(500).send(err);
+    });
   }
 
   return api;

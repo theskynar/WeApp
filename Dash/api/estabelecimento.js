@@ -34,7 +34,7 @@ module.exports = function(app){
 
 
   api.create = function(req, res) {
-    var body = _.pick(req.body, 'CNPJ', 'Tel', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
+    var body = _.pick(req.body, 'CNPJ', 'Tel', 'img', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
       'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'descontoAplicado', 'localizacao');
      db.estabelecimento.create(body).then(function(estabelecimento) {
          res.json(estabelecimento);
@@ -45,13 +45,15 @@ module.exports = function(app){
 
   api.update = function(req, res) {
     var id = parseInt(req.params.id, 10);
-    var body = _.pick(req.body, 'CNPJ', 'Tel', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
+    var body = _.pick(req.body, 'CNPJ', 'Tel', 'email', 'img', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
       'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'localizacao');
     var where = {};
 
     if(body.hasOwnProperty('CNPJ'))  where.CNPJ = body.CNPJ;
     if(body.hasOwnProperty('Tel'))  where.Tel = body.Tel;
+    if(body.hasOwnProperty('img'))  where.img = body.img;
     if(body.hasOwnProperty('email'))  where.email = body.email;
+    if(body.hasOwnProperty('img'))  where.img = body.img;
     if(body.hasOwnProperty('nomeEmpresa'))  where.nomeEmpresa = body.nomeEmpresa;
     if(body.hasOwnProperty('nomeProprietario')) where.nomeProprietario = body.nomeProprietario;
     if(body.hasOwnProperty('segmento'))  where.segmento = body.segmento;
