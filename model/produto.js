@@ -25,7 +25,12 @@ module.exports = function(sequelize, dataTypes) {
         min: 1,
         max: 5
       }
-    }
+    },
+    isChecked: {
+      type: dataTypes.BOOLEAN,
+      allowNull:false,
+      defaultValue: false
+    },
   }, {
       hooks: {
         beforeCreate: function(produto, options) {

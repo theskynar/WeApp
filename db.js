@@ -3,16 +3,16 @@ var env = process.env.NODE_ENV || 'development';
 
 var sequelize;
 
-sequelize = new Sequelize('weapp', 'ealvarenga', 'Weapp44!', {
+/*sequelize = new Sequelize('weapp', 'ealvarenga', 'Weapp44!', {
     dialect: 'mysql',
     host: '159.203.37.82',
     port: 3306
-});
+});*/
 
-/*sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
+sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
   dialect: 'sqlite',
   storage: __dirname + '/data/mcc-sqlite.sqlite'
-});*/
+});
 
 var db = {};
 
@@ -23,6 +23,7 @@ db.produto = sequelize.import(__dirname + '/model/produto.js');
 db.notificacao = sequelize.import(__dirname + '/model/notificacao.js');
 db.evento = sequelize.import(__dirname + '/model/evento.js');
 db.contato = sequelize.import(__dirname + '/model/contato.js');
+db.premio = sequelize.import(__dirname + '/model/premio.js');
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
@@ -32,6 +33,9 @@ db.produto.belongsTo(db.cliente);
 
 db.estabelecimento.hasMany(db.produto);
 db.produto.belongsTo(db.estabelecimento);
+
+db.produto.hasMany(db.premio);
+db.premio.belongsTo(db.produto);
 
 db.admin.hasMany(db.notificacao);
 db.notificacao.belongsTo(db.admin);
