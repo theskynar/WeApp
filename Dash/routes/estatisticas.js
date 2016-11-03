@@ -1,10 +1,9 @@
+
 module.exports = function (app) {
-  app.route('/manager/compras')
-    .get(app.Dash.api.estatistica.getComprasMes);
+   var api = app.Dash.api.stats_v2;
 
-  app.route('/manager/clientes')
-    .get(app.Dash.api.estatistica.getUsersMes);
+  app.route('/manager/estatisticas/:type')
+    .get(app.Dash.api.async.getPromises);
 
-  app.route('/manager/estabelecimentoEstatistica')
-     .get(app.Dash.api.estatistica.getEstabelecimentoMes);
+
 };

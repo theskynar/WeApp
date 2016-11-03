@@ -50,7 +50,7 @@ module.exports = function(sequelize, dataTypes) {
       }
     }, /* END OF COLUNM CELULAR */
     dob: {
-      type:dataTypes.DATEONLY
+      type:dataTypes.DATE
     }, /* END OF COLUNM DATA DE NIVER - FORMATO  07-05-2016 */
   }, { /* END OF CLIENTE*/
     hooks: {

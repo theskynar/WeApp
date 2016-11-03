@@ -82,7 +82,7 @@ module.exports = function(app, io){
   }
 
   api.gerarDesconto = function(req, res) {
-    var body = _.pick(req.body, 'valor', 'valorTotal', 'avaliacao', 'clienteId', 'estabelecimentoId');
+    var body = _.pick(req.body, 'valor', 'valorTotal', 'isChecked', 'avaliacao', 'clienteId', 'estabelecimentoId');
     db.produto.create(body).then(function(produto) {
         res.status(200).send('Registro criado!');
     }, function(err) {
