@@ -1,9 +1,8 @@
 
 module.exports = function (app) {
-   var api = app.Dash.api.stats_v2;
+   var api = app.Dash.api.async;
 
-  app.route('/manager/estatisticas/:type')
-    .get(app.Dash.api.async.getPromises);
+  app.get('/manager/estatisticas/:type', api.getPromises)
 
 
 };

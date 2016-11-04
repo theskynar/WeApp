@@ -1,25 +1,26 @@
-
-var funcs = {};
-
 module.exports = function(app) {
+  var funcs = {};
+  var api = require('./stats_v2.js');
   funcs.getPromises = (req, res) => {
-    api = app.Dash.api.stats_v2;
-    var urlDelimiter = req.params.type.split('+');
-    console.log(urlDelimiter);
-    var functions = [];
-      urlDelimiter.forEach((elem, i) => {
-        functions.push(api[elem]);
-      });
-      Promise.all(functions)
-      .then(data => {
-         var result = {};
-         urlDelimiter.forEach((elem, i) => {
-           result[elem] = data[i];
-         });
-         res.status(200).json(result);
+
+    var types = req.params.type.split('+');
+    var funcs = [];
+    types.forEach(function(elem, index){
+      funcs.push(api[elem]());
+    });
+
+    Promise.all(funcs)
+      .then(function(data){
+
+        var result = {};
+        types.forEach(function(elem, index){
+          result[elem] = data[index];
+        });
+        res.json(result);
+
       })
-      .catch(err => {
-        res.status(500).send(err);
+      .catch(function(err){
+        res.send(err);
       });
   }
 

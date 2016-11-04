@@ -2,10 +2,10 @@ angular.module('dash')
 
   .controller('homeCtrl', function($scope,$http, graphMaker){
 
-
-    graphMaker.users();
+    graphMaker.make();
     var socket = io();
-    socket.on('attgraphdesc', function(){
+
+    socket.on('attgraph', function(){
       graphMaker.users();
     });
 

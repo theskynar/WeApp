@@ -23,6 +23,7 @@ module.exports = function(app, io){
     db.cliente.create(body).then(function(cliente) {
       if(cliente) {
         res.status(200).json(cliente);
+        io.emit('attgraph');
       }
     }).catch(function(err){
         res.status(400).send('Não foi possível criar o usuário: ' + err);
@@ -71,6 +72,7 @@ module.exports = function(app, io){
       if(!!clienteDeletado) {
         return clienteDeletado.destroy(clienteDeletado).then(function(cliente) {
             res.status(204).send();
+            io.emit('attgraph');
         }).catch(function (err) {
             res.status(400).send(err);
         });
@@ -89,7 +91,7 @@ module.exports = function(app, io){
         res.status(400).send('Erro ao criar registro ' + err);
     });
     io.emit('attdesc', body.valorTotal - body.valor);
-    io.emit('attgraphdesc');
+    io.emit('attgraph');
   }
 
   return api;
