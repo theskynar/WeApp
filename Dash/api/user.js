@@ -1,21 +1,17 @@
-const jwt = require('jsonwebtoken');
-const _ = require('underscore');
-const db = require('./../../db.js');
+var api = {};
 
-module.exports = function(app){
+module.exports = (app, io, jwt, cryptojs, db, _) => {
 
-  var api = {};
-
-  api.createUser = function(req, res) {
+  api.createUser = (req, res) => {
     var body = _.pick(req.body,  'name', 'email', 'img', 'password');
-     db.admin.create(body).then(function(admin) {
-         res.json(admin.toPublicJSON());
-     }, function(e) {
+     db.admin.create(body).then((admin) => {
+         res.status(200).json(admin.toPublicJSON());
+     }).catch((err) => {
          res.status(400).json(e);
      });
   }
 
-  api.update = function(req, res) {
+  api.update = (req, res) => {
     var id = parseInt(req.params.id, 10);
     var body = _.pick(req.body, 'name', 'email', 'img');
     var where = {};
@@ -29,33 +25,32 @@ module.exports = function(app){
       where: {
         id: id
       }
-    }).then(function (admin) {
-      if(admin) {
-        admin.update(where).then(function (admin) {
-          console.log(admin.toPublicJSON());
-            res.status(200).json(admin);
-        }).catch(function (err) {
+    }).then((admin) => {
+      if(!!admin) {
+        admin.update(where).then((admin) => {
+            res.status(200).json(admin.toPublicJSON());
+        }).catch((err) => {
             res.status(400).send(err);
         });
       } else {
         res.status(404).send();
       }
-    }).catch(function (err) {
+    }).catch((err) => {
         res.status(500).send(err);
     });
   }
 
 
-  api.list = function(req, res) {
-    db.admin.findAll({attributes: ['id', 'name', 'email', 'img', 'createdAt', 'updatedAt']}).then(function (admins) {
-      if(!!admins) return res.json(admins);
+  api.list = (req, res) => {
+    db.admin.findAll({attributes: ['id', 'name', 'email', 'img', 'createdAt', 'updatedAt']}).then((admins) => {
+      if(!!admins) return res.status(200).json(admins);
         res.status(404).send('Not found');
-    }, function (e) {
+    }).catch((err) => {
         res.status(500).send(e);
     });
   }
 
-  api.getUserById = function (req, res) {
+  api.getUserById = (req, res) => {
     var id = parseInt(req.params.id, 10);
     db.admin.findOne({
       where: {
@@ -64,26 +59,23 @@ module.exports = function(app){
       attributes: {
         exclude: ['passwordHashed', 'salted']
       }
-    }).then(function (admin) {
-        if(!!admin) {
-          res.status(200).send(admin);
-        } else {
-          res.status(404).send('Not Found')
-        }
-    }, function(err) {
+    }).then((admin) => {
+        if(!!admin) return res.status(200).json(admin);
+        res.status(404).send('Not Found')
+    }).catch((err) => {
         res.status(500).send(err);
     })
   }
 
-  api.delete = function(req, res) {
+  api.delete = (req, res) => {
     var id = parseInt(req.params.id, 10);
     db.admin.findOne({
       where: {
         id:id
       }
-    }).then(function(admin){
+    }).then((admin) => {
       if(!!admin) {
-        return admin.destroy(admin).then(function(adminDeletado) {
+        return admin.destroy(admin).then((adminDeletado) => {
           res.status(204).send();
         }).catch(function (err) {
           res.status(400).send(err);
@@ -91,7 +83,6 @@ module.exports = function(app){
       }
       res.status(404).send('Admin não encontrado');
     }).catch(function (err) {
-      console.log(err);
       res.status(500).send(err);
     });
   }

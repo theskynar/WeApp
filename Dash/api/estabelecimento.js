@@ -1,49 +1,44 @@
-const _ = require('underscore');
-const db = require('./../../db.js');
+var api = {};
+var cryptojs
 
-module.exports = function(app){
+module.exports = (app, io, jwt, cryptojs, db, _) => {
 
-  var api = {};
-
-  api.getById = function(req, res){
+  api.getById = (req, res) => {
     var id = parseInt(req.params.id, 10);
     db.estabelecimento.findOne({
       where: {
         id:id
       }
-    }).then(function(estabelecimento){
-      if(!estabelecimento) return res.status(404).send('Não encontrado nenhum estabelecimento.');
-      res.json(estabelecimento);
-    }, function(err) {
+    }).then((estabelecimento) => {
+      if(!!estabelecimento) return res.status(200).json(estabelecimento);
+      res.status(404).json('Nenhum estabelecimento encontrado!');
+    }).catch((err) =>  {
       res.status(500).send(err);
     })
   }
 
 
-  api.list = function(req, res) {
-    db.estabelecimento.findAll().then(function (estabelecimento) {
-      if(!!estabelecimento) {
-        res.status(200).json(estabelecimento);
-      } else {
-        res.status(404).send('Not found!');
-      }
-    }, function (err) {
+  api.list = (req, res) => {
+    db.estabelecimento.findAll().then((estabelecimento) => {
+      if(!!estabelecimento)return res.status(200).json(estabelecimento);
+      res.status(404).send('Not found!');
+    }).catch((err) => {
       res.status(500).send(err);
     })
   }
 
 
-  api.create = function(req, res) {
+  api.create = (req, res) => {
     var body = _.pick(req.body, 'CNPJ', 'Tel', 'img', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
       'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'descontoAplicado', 'localizacao');
-     db.estabelecimento.create(body).then(function(estabelecimento) {
-         res.json(estabelecimento);
-     }, function(e) {
-         res.status(400).json(e);
+     db.estabelecimento.create(body).then((estabelecimento) => {
+         return res.status(200).json(estabelecimento);
+     }).catch((err) => {
+         res.status(400).send(err);
      });
   }
 
-  api.update = function(req, res) {
+  api.update = (req, res) => {
     var id = parseInt(req.params.id, 10);
     var body = _.pick(req.body, 'CNPJ', 'Tel', 'email', 'img', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
       'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'localizacao');
@@ -71,17 +66,17 @@ module.exports = function(app){
       where: {
         id: id
       }
-    }).then(function (estabelecimento) {
-      if(estabelecimento) {
-        estabelecimento.update(where).then(function (estabelecimento) {
-            res.status(200).json(estabelecimento);
-        }).catch(function (err) {
+    }).then((estabelecimento) => {
+      if(!!estabelecimento) {
+        estabelecimento.update(where).then((estabelecimento) => {
+            return res.status(200).json(estabelecimento);
+        }).catch((err) => {
             res.status(400).send(err);
         });
       } else {
         res.status(404).send();
       }
-    }).catch(function (err) {
+    }).catch((err) => {
         res.status(500).send(err);
     });
   }

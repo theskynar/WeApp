@@ -10,7 +10,6 @@ module.exports = function(app) {
   api.getComprasMes = function (req, res) {
     db.produto.findAll().then(function (compras) {
       if(!!compras) {
-        console.log(compras);
         var money = toMoney(compras,"desconto");
         var compras = toMoney(compras,"valorTotal");
         return res.status(200).json({total: compras, desconto: money});

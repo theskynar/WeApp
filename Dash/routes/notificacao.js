@@ -1,8 +1,10 @@
 module.exports = function(app){
 
-  app.get('/manager/notificacoes', app.Dash.api.notificacao.list);
+  var api = app.Dash.api.notificacao;
+
+  app.get('/manager/notificacoes', api.list);
 
   app.route('/manager/notificacao')
-     .post(app.Dash.api.notificacao.send);
+     .post(api.send);
 
 }

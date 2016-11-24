@@ -1,33 +1,28 @@
-const jwt = require('jsonwebtoken');
-const _ = require('underscore');
-const db = require('./../../db.js');
+var api = {};
+module.exports = (app, io, jwt, cryptojs, db, _) => {
 
-module.exports = function(app){
-  var api = {};
-
-  api.autenticaLogin = function(req, res) {
+  api.autenticaLogin = (req, res) => {
     var body = _.pick(req.body, 'email', 'password');
     var adminInstance;
-    db.admin.verificar(body).then(function (admin) {
+    db.admin.verificar(body).then((admin) => {
       if(!admin) {
-        console.log('Não Autorizado!');
+        res.status(401).send('Não autorizado');
       } else {
-        var token = jwt.sign(admin.email , app.get('secret'));
+        var token = jwt.sign(admin , app.get('secret'));
         res.set('x-access-token', token);
         adminInstance = admin;
-        res.json(adminInstance.toPublicJSON());
+        return res.status(200).json(adminInstance.toPublicJSON());
       }
-    }).catch(function (err) {
+    }).catch((err) => {
         res.status(401).send('Não autorizado!');
     });
   }
 
-  api.verificarToken = function(req, res, next) {
+  api.verificarToken = (req, res, next) => {
     var token = req.headers['x-access-token'];
-    if(token) {
+    if(!!token) {
       jwt.verify(token, app.get('secret'), function(err, decoded) {
           if(err) {
-            console.log('Token Unauthorized');
             res.status(401);
           }
           req.admin = decoded;

@@ -76,7 +76,6 @@ module.exports = function(sequelize, dataTypes) {
               }
               resolve(cliente);
             }, function(e) {
-              console.log(e);
                 reject();
             });
         });
@@ -84,8 +83,8 @@ module.exports = function(sequelize, dataTypes) {
       findByToken: function (token) {
         return new Promise(function (resolve, reject) {
           try {
-              var decodeJWT = jwt.verify(token, 'qwerty');
-              var bytes = cryptojs.AES.decrypt(decodeJWT.token, '12345t');
+              var decodeJWT = jwt.verify(token, 'fuckingAssHolexxx123452323');
+              var bytes = cryptojs.AES.decrypt(decodeJWT.token, 'fuckingAssHolexxx12345');
               var tokenData = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
               cliente.findById(tokenData.id).then(function(cliente) {
                   if(cliente) {
@@ -113,12 +112,12 @@ module.exports = function(sequelize, dataTypes) {
         }
         try {
             var stringData = JSON.stringify({id: this.get('id'), type: type});
-            var encryptedData = cryptojs.AES.encrypt(stringData, '12345t').toString();
-            var token = jwt.sign({token: encryptedData}, 'qwerty');
+            var encryptedData = cryptojs.AES.encrypt(stringData, 'fuckingAssHolexxx12345').toString();
+            var token = jwt.sign({token: encryptedData}, 'fuckingAssHolexxx123452323');
 
             return token;
         } catch (e) {
-            console.log(e);
+          throw new Error(e);
         }
       }
     }

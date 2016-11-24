@@ -1,36 +1,46 @@
-const _ = require('underscore');
-const db = require('./../../db.js');
+var api = {};
 
+module.exports = (app, io, jwt, cryptojs, db, _) => {
 
-module.exports = function(app, io){
-
-  var api = {};
-  // RESTANDO APENAS GET COMPRAS;
-
-  api.autenticaUser = function(req, res) {
+  api.autenticaCliente = (req, res) => {
     var body = _.pick(req.body, 'email');
-  	db.cliente.verificar(body).then(function (cliente) {
-      		if(!!cliente) {
-        		res.status(200).json(cliente);
-      		}
-  	}, function(err) {
+	  var clienteInstance;
+	db.cliente.verificar(body).then((cliente) => {
+			var token = cliente.genToken('authentication');
+			clienteInstance = cliente;
+			return db.token.create({
+				token:token
+			});
+	}).then((tokenInstance) => {
+		res.header('Auth', tokenInstance.get('token')).json(clienteInstance.toPublicJSON());
+	}).catch(() => {
+			res.status(401).send();
+  });
+}
+
+  api.autenticaUser = (req, res) => {
+    var body = _.pick(req.body, 'email');
+  	db.cliente.verificar(body).then((cliente) => {
+      		if(!!cliente) return res.status(200).json(cliente);
+          res.status(400).send('Oops!');
+  	}).catch((err) => {
       res.status(401).send(err);
     });
   }
 
-  api.cadastraUser = function(req, res) {
+  api.cadastraUser = (req, res) => {
     var body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
-    db.cliente.create(body).then(function(cliente) {
-      if(cliente) {
+    db.cliente.create(body).then((cliente) => {
+      if(!!cliente) {
         res.status(200).json(cliente);
         io.emit('attgraph');
       }
-    }).catch(function(err){
+    }).catch((err) => {
         res.status(400).send('Não foi possível criar o usuário: ' + err);
     });
   }
 
-  api.atualizaUser = function(req, res) {
+  api.atualizaUser = (req, res) => {
     var id = parseInt(req.params.id, 10);
     var body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
     var where = {};
@@ -47,48 +57,52 @@ module.exports = function(app, io){
       where: {
         id: id
       }
-    }).then(function (cliente) {
-      if(cliente) {
-        cliente.update(where).then(function (cliente) {
-            res.status(200).json(cliente);
-        }).catch(function (err) {
+    }).then((cliente) =>{
+      if(!!cliente) {
+        cliente.update(where).then((cliente) => {
+            return res.status(200).json(cliente);
+        }).catch((err) => {
             res.status(400).send(err);
         });
       } else {
         res.status(404).send();
       }
-    }).catch(function (err) {
+    }).catch((err) => {
         res.status(500).send(err);
     });
   }
 
-  api.delete = function(req, res) {
+  api.delete = (req, res) => {
     var id = parseInt(req.params.id, 10);
     db.cliente.findOne({
       where: {
         id:id
       }
-    }).then(function(clienteDeletado) {
+    }).then((clienteDeletado) => {
       if(!!clienteDeletado) {
-        return clienteDeletado.destroy(clienteDeletado).then(function(cliente) {
+        return clienteDeletado.destroy(clienteDeletado).then((cliente) => {
             res.status(204).send();
             io.emit('attgraph');
-        }).catch(function (err) {
+        }).catch((err) => {
             res.status(400).send(err);
         });
       }
       res.status(404).send('Não encontrado');
-    }).catch(function (err) {
+    }).catch((err) => {
       res.status(500).send(err);
     })
   }
 
-  api.gerarDesconto = function(req, res) {
+  api.gerarDesconto = (req, res) => {
     var body = _.pick(req.body, 'valor', 'valorTotal', 'isChecked', 'avaliacao', 'clienteId', 'estabelecimentoId');
-    db.produto.create(body).then(function(produto) {
-        res.status(200).send('Registro criado!');
-    }, function(err) {
-        res.status(400).send('Erro ao criar registro ' + err);
+    db.produto.create(body).then((produto) => {
+        req.cliente.addProduto(produto).then(()=> {
+          return produto.reload();
+        }).then(produto => {
+          res.status(200).send('Registro criado')
+        });
+    }).catch((err) => {
+      res.status(400).send('Erro ao criar registro ' + err);
     });
     io.emit('attdesc', body.valorTotal - body.valor);
     io.emit('attgraph');

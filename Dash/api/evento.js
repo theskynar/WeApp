@@ -1,65 +1,59 @@
-const _ = require('underscore');
-const db = require('./../../db.js');
+var api = {};
+module.exports = (app, io, jwt, cryptojs, db, _) => {
 
-module.exports = function(app){
-
-  var api = {};
-  api.getByStatus = function(req, res) {
+  api.getByStatus = (req, res) => {
     var status = parseInt(req.params.id, 10);
     db.evento.findAll({
       where: {
         status: status
       },
       include: [db.estabelecimento]
-    }).then(function(eventos) {
+    }).then((eventos) => {
       if(!!eventos) return res.status(200).json(eventos);
       res.json('Nenhum evento econtrado');
-    }, function(err) {
+    }).catch((err) => {
       res.status(500).send(err);
     })
   }
 
-  api.getById = function(req, res){
-
+  api.getById = (req, res) => {
     var id = parseInt(req.params.id, 10);
-
     db.evento.findOne({
       where: {
         id:id
       },
       include: [db.estabelecimento]
-    }).then(function(evento){
-      if(!evento) return res.status(404).send('Nenhum evento encontrado');
-      res.json(evento);
-    }, function(err) {
+    }).then((evento) => {
+      if(!!evento) return res.status(200).json(evento);
+      res.status(404).send('Nenhum evento encontrado')
+    }).catch((err) => {
       res.status(500).send(err);
     })
   }
 
 
-  api.list = function(req, res) {
+  api.list = (req, res) => {
     db.evento.findAll({
       include: [db.estabelecimento]
-    }).then(function (evento) {
+    }).then((evento) => {
       if(!!evento) return res.status(200).json(evento);
         res.status(404).send('Not found!');
-    }, function (err) {
-      res.status(500).send(e);
+    }).catch((err) => {
+      res.status(500).send(err);
     })
   }
 
 
-  api.create = function(req, res) {
+  api.create = (req, res) => {
     var body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
-    console.log(body);
-     db.evento.create(body).then(function(evento) {
+     db.evento.create(body).then((evento) => {
          res.json(evento);
-     }, function(e) {
-         res.status(400).json(e);
+     }).catch((err) => {
+         res.status(400).json(err);
      });
   }
 
-  api.update = function(req, res) {
+  api.update = (req, res) => {
     var id = parseInt(req.params.id, 10);
     var body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
     var where = {};
@@ -75,22 +69,20 @@ module.exports = function(app){
       where: {
         id: id
       }
-    }).then(function (evento) {
-      if(evento)
-        evento.update(where).then(function (evento) {
-            res.status(200).json(evento);
-        }).catch(function (err) {
+    }).then((evento) => {
+      if(!!evento)
+        evento.update(where).then((evento) => {
+            return res.status(200).json(evento);
+        }).catch((err) => {
             res.status(400).send(err);
         });
       else
         res.status(404).send();
 
-    }).catch(function (err) {
+    }).catch((err) => {
         res.status(500).send(err);
     });
   }
-
-
 
   return api;
 }

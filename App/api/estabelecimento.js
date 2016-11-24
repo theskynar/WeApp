@@ -1,27 +1,21 @@
-const _ = require('underscore');
-const db = require('./../../db.js');
 var api = {};
-  // RESTANDO APENAS GET COMPRAS;
 
-module.exports = function(app) {
+module.exports = (app, io, jwt, cryptojs, db, _) => {
 
-  api.list = function(req, res) {
+  api.list = (req, res) => {
     db.estabelecimento.findAll({
       where: {
-        vencPlano: { $gte: Date.now()}
+        vencPlano: { $gte: Date.now() }
       },
       attributes: {
         exclude: ['CNPJ', 'nomeProprietario', 'dataEntrada', 'vencPlano', 'premiosSorteados', 'capitalRodado']
       }
-    }).then(function (estabelecimento) {
-      if(!!estabelecimento) {
-        res.status(200).json(estabelecimento);
-      } else {
-        res.status(404).send('Not found!');
-      }
-    }, function (err) {
+    }).then((estabelecimento) => {
+      if(!!estabelecimento) return res.status(200).json(estabelecimento);
+      res.status(404).send('Not found!');
+    }).catch((err) => {
       res.status(500).send(e);
-    })
+    });
   }
 
   return api;

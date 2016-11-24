@@ -1,14 +1,14 @@
 module.exports = function(app){
 
+  var api = app.Dash.api.user;
+
   app.route('/manager/user/:id?')
-    .put(app.Dash.api.user.update)
-    .get(app.Dash.api.user.getUserById)
-    .post(app.Dash.api.user.createUser)
-    .delete(app.Dash.api.user.delete);
+    .put(api.update)
+    .get(api.getUserById)
+    .post(api.createUser)
+    .delete(api.delete);
 
   app.route('/manager/users/:type?')
-    .get(app.Dash.api.user.list);
-
-
+    .get(api.list);
 
 }

@@ -1,12 +1,13 @@
 module.exports = function(app){
 
+  var api = app.Dash.api.estabelecimento;
+
   app.route('/manager/estabelecimentos')
-    .get(app.Dash.api.estabelecimento.list);
+    .get(api.list);
 
   app.route('/manager/estabelecimento/:id?')
-    .get(app.Dash.api.estabelecimento.getById)
-    .post(app.Dash.api.estabelecimento.create)
-    .put(app.Dash.api.estabelecimento.update);
-
+    .get(api.getById)
+    .post(api.create)
+    .put(api.update);
 
 }

@@ -5,7 +5,7 @@ var toMoney = require('../helpers/toMoney.js');
 
 var api = {
 
-  "getCompras": function(){
+  "getCompras": () => {
     return new Promise( (resolve, reject) => {
       db.produto.findAll()
       .then(compras => {
@@ -14,7 +14,6 @@ var api = {
         resolve({desconto: money, total: compras});
       })
       .catch(err => {
-        console.log(err);
         reject(err);
       });
     });

@@ -63,12 +63,10 @@ module.exports = function(sequelize, dataTypes) {
             }
             admin.findOne({where: {email: body.email} }).then(function(admin) {
               if(!admin || !bcrypt.compareSync(body.password, admin.get('passwordHashed'))) {
-                console.log("model admin + " + admin);
                 return reject();
               }
               resolve(admin);
             }, function(e) {
-              console.log(e);
                 reject();
             });
         });
@@ -110,7 +108,6 @@ module.exports = function(sequelize, dataTypes) {
             var token = jwt.sign({token: encryptedData}, 'qwerty');
             return token;
         } catch (e) {
-          console.error(e);
           return undefined;
         }
       }

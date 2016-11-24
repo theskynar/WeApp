@@ -1,6 +1,7 @@
 module.exports = function(app){
 
-  app.post('/manager/auth.js', app.Dash.api.auth.autenticaLogin);
+  var api = app.Dash.api.auth;
+  app.post('/manager/auth.js', api.autenticaLogin);
   // /app.use('/manager/*', app.Dash.api.auth.verificarToken);
 
 }

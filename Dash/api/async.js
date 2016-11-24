@@ -1,6 +1,6 @@
 module.exports = function(app) {
   var funcs = {};
-  var api = require('./stats_v2.js');
+  var api = require('./estatistica_async.js');
   funcs.getPromises = (req, res) => {
 
     var types = req.params.type.split('+');

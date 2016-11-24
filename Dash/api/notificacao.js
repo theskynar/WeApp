@@ -1,17 +1,14 @@
-const restApiKey = 'ZTdmOTAyNGYtZmYxNi00OTc3LWI2MjktYjhhM2VmMzJkYzQw';
-const appKey = '240ee338-aac8-4c32-a872-4d4437df97c2';
-const app_id = '524878552485';
+const config = require('../../config/notifications.js');
 const https = require('https');
-const _ = require('underscore');
-const db = require('./../../db.js');
+var api = {};
 
-module.exports = function(app) {
-  var api = {};
+module.exports = (app, io, jwt, cryptojs, db, _) => {
 
-  api.send = function(req, res) {
+
+  api.send = (req, res) => {
     var body = _.pick(req.body, 'titulo', 'subtitulo', 'descricao', 'texto', 'adminId');
     var message = {
-      app_id: appKey,
+      app_id: config.appKey,
       included_segments: ["All"]
     };
 
@@ -22,10 +19,10 @@ module.exports = function(app) {
     //message.send_after = body.dataEnvio;
     //SENDING via NODE HTTP CORE
 
-    var sendNotification = function(data) {
+    var sendNotification = (data) => {
       var headers = {
         "Content-Type": "application/json; charset=utf-8",
-        "Authorization": "Basic ZTdmOTAyNGYtZmYxNi00OTc3LWI2MjktYjhhM2VmMzJkYzQw"
+        "Authorization": "Basic " + config.restApiKey
       };
 
       var options = {
@@ -38,10 +35,7 @@ module.exports = function(app) {
 
       var request = https.request(options, function(response) {
         response.on('data', function(data) {
-          console.log("Response:");
-          console.log(response.statusCode);
-          console.log(data);
-          db.notificacao.create(body).then(function(notificacao) {
+          db.notificacao.create(body).then((notificacao) => {
             if(!!notificacao) res.send(data);
             else res.send('Houve um erro');
           }, function (err) {
@@ -51,8 +45,7 @@ module.exports = function(app) {
       }); // fim resquest
 
       request.on('error', function(e) {
-        console.log("ERROR:");
-        console.log(e);
+        throw new Error(e);
       });
 
       request.write(JSON.stringify(data));
@@ -65,15 +58,14 @@ module.exports = function(app) {
     sendNotification(message);
   };
 
-  api.list = function(req, res) {
+  api.list = (req, res) => {
     db.notificacao.findAll({
       include: [db.admin]
-    }).then(function (notifications) {
-      console.log(JSON.stringify(notifications));
+    }).then((notifications) => {
       if(!!notifications) return res.status(200).json(notifications);
       res.status(404).send('Nenhuma notifcação encontrada.');
-    }, function(err) {
-        res.status(500).send(err);
+    }).catch((err) => {
+      res.status(500).send(err);
     })
   };
 

@@ -1,10 +1,8 @@
-const db = require('./../../db.js');
-const _ = require('underscore');
-var randomize = require('../helpers/randomize.js');
+const randomize = require('../helpers/randomize.js');
 
 var api = {};
 
-module.exports = function(app) {
+module.exports = (app, io, jwt, cryptojs, db, _) => {
   api.randomPrize = (req, res) => {
     db.produto.findAndCountAll()
     .then(compras => {

@@ -1,6 +1,7 @@
-
+const cryptojs = require('crypto-js');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+const jwt = require('jsonwebtoken');
 
 module.exports = function(sequelize, dataTypes) {
 	var estabelecimento = sequelize.define('estabelecimento', {
@@ -19,9 +20,9 @@ module.exports = function(sequelize, dataTypes) {
 			}
 		},
 		email: {
-      			type: dataTypes.STRING,
-      			allowNull: false,
-     			unique: true, /* VALOR ÚNICO */
+  		type: dataTypes.STRING,
+  		allowNull: false,
+ 			unique: true, /* VALOR ÚNICO */
       			validate: {
         			isEmail: true
       			}
@@ -117,14 +118,75 @@ module.exports = function(sequelize, dataTypes) {
 			type:dataTypes.STRING,
 			defaultValue:"https://forums.roku.com/styles/canvas/theme/images/no_avatar.jpg"
 		},
+		token: {
+      type: dataTypes.STRING,
+    },
+    tokenHash: dataTypes.STRING,
 	}, {
+		hooks: {
+			beforeCreate: function(estabelecimento, options) {
+					obj: {estabelecimento.CNPJ, estabelecimento.nomeProprietario, estabelecimento.id}
+					try {
+						var token = jwt.sign(estabelecimento.CNPJ, 'secr3t');
+						estabelecimento.token = token;
+					} catch(e) {
+						throw new Error('Erro ao assinar token: ' + e);
+					}
+
+			}
+		},
+		classMethods: {
+      verificar: function (body) {
+        return new Promise(function (resolve, reject) {
+            if(typeof body.email !== 'string') {
+                return reject();
+            }
+            cliente.findOne({
+			where: {
+					email: body.email
+	    	}
+	    }).then(function(cliente) {
+              if(!cliente) {
+                return reject();
+              }
+              resolve(cliente);
+            }, function(e) {
+                reject();
+            });
+        });
+      }, /* END OF autenticar */
+			findByToken: function(token, cb) {
+					try {
+					var decodeJWT = jwt.verify(token, 'secr3t');
+					process.nextTick(function() {
+						estabelecimento.findOne({
+							where: {
+								token:token
+							}
+						})
+						.then((res) =>{
+							if(res) return cb(null, res);
+							return cb(null,null);
+						})
+				  });
+				} catch (e) {
+					throw new Error('Erro ao verificar token ' + e);
+				}
+			}
+
+
+    },
 			instanceMethods: {
 				toPublicJSON : function() {
+					try {
 					var json = this.toJSON();
 					return _.pick(json, 'nomeEmpresa', 'segmento', 'cidade', 'bairro',
 						'descontoAplicado', 'url', 'urlFace');
+					} catch (e) {
+						throw new Error('Erro ao converter JSON Objects ' + e);
+					}
 				}
-			}
+			},
 	});
 
 	return estabelecimento;
