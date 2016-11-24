@@ -1,8 +1,8 @@
-var api = {};
+let api = {};
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.getByStatus = (req, res) => {
-    var status = parseInt(req.params.id, 10);
+    let status = parseInt(req.params.id, 10);
     db.evento.findAll({
       where: {
         status: status
@@ -17,7 +17,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.getById = (req, res) => {
-    var id = parseInt(req.params.id, 10);
+    let id = parseInt(req.params.id, 10);
     db.evento.findOne({
       where: {
         id:id
@@ -45,7 +45,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 
 
   api.create = (req, res) => {
-    var body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
+    let body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
      db.evento.create(body).then((evento) => {
          res.json(evento);
      }).catch((err) => {
@@ -54,9 +54,9 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.update = (req, res) => {
-    var id = parseInt(req.params.id, 10);
-    var body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
-    var where = {};
+    let id = parseInt(req.params.id, 10);
+    let body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'estabelecimentoId');
+    let where = {};
 
     if(body.hasOwnProperty('titulo'))  where.titulo = body.titulo;
     if(body.hasOwnProperty('desc'))  where.desc = body.desc;

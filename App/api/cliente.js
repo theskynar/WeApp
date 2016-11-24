@@ -1,12 +1,12 @@
-var api = {};
+let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.autenticaCliente = (req, res) => {
-    var body = _.pick(req.body, 'email');
-	  var clienteInstance;
+    let body = _.pick(req.body, 'email');
+	  let clienteInstance;
 	db.cliente.verificar(body).then((cliente) => {
-			var token = cliente.genToken('authentication');
+			let token = cliente.genToken('authentication');
 			clienteInstance = cliente;
 			return db.token.create({
 				token:token
@@ -19,7 +19,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 }
 
   api.autenticaUser = (req, res) => {
-    var body = _.pick(req.body, 'email');
+    let body = _.pick(req.body, 'email');
   	db.cliente.verificar(body).then((cliente) => {
       		if(!!cliente) return res.status(200).json(cliente);
           res.status(400).send('Oops!');
@@ -29,7 +29,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.cadastraUser = (req, res) => {
-    var body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
+    let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
     db.cliente.create(body).then((cliente) => {
       if(!!cliente) {
         res.status(200).json(cliente);
@@ -41,9 +41,9 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.atualizaUser = (req, res) => {
-    var id = parseInt(req.params.id, 10);
-    var body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
-    var where = {};
+    let id = parseInt(req.params.id, 10);
+    let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
+    let where = {};
 
     if(body.hasOwnProperty('email'))  where.email = body.email;
     if(body.hasOwnProperty('nome'))  where.nome = body.nome;
@@ -73,7 +73,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.delete = (req, res) => {
-    var id = parseInt(req.params.id, 10);
+    let id = parseInt(req.params.id, 10);
     db.cliente.findOne({
       where: {
         id:id
@@ -94,7 +94,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.gerarDesconto = (req, res) => {
-    var body = _.pick(req.body, 'valor', 'valorTotal', 'isChecked', 'avaliacao', 'clienteId', 'estabelecimentoId');
+    let body = _.pick(req.body, 'valor', 'valorTotal', 'isChecked', 'avaliacao', 'clienteId', 'estabelecimentoId');
     db.produto.create(body).then((produto) => {
         req.cliente.addProduto(produto).then(()=> {
           return produto.reload();

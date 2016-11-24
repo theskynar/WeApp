@@ -2,15 +2,15 @@ const nodemailer = require('nodemailer');
 const config = require('../../config/email.js');
 const transporter = nodemailer.createTransport(config.smtpConfig);
 
-var api = {};
+let api = {};
 
 
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.send = (req, res) => {
-    var body = _.pick(req.body, 'nome', 'email', 'telefone', 'empresa', 'assunto', 'msg');
-    var mailOptions = {
+    let body = _.pick(req.body, 'nome', 'email', 'telefone', 'empresa', 'assunto', 'msg');
+    let mailOptions = {
         from: body.nome + ' - ' + body.empresa + ' <breno.agnani@gmail.com>', // sender address
         to: 'mabordin@gmail.com, enricomalvarenga@gmail.com, agnani@weappm.com.br, thiego_silva@hotmail.com, claudioemboava@hotmail.com, breno_agnani@hotmail.com, thiego_campos@weappm.com.br, claudio@weappm.com.br', // list of receivers
         subject: 'Novo Contato - Comerciante ✔', // Subject line

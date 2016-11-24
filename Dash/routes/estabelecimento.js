@@ -1,6 +1,6 @@
 module.exports = function(app){
 
-  var api = app.Dash.api.estabelecimento;
+  let api = app.Dash.api.estabelecimento;
 
   app.route('/manager/estabelecimentos')
     .get(api.list);

@@ -1,17 +1,17 @@
 const db = require('./../../db.js');
 const _ = require('underscore');
-var toMonth = require('../helpers/toMonth.js');
-var toMoney = require('../helpers/toMoney.js');
+let toMonth = require('../helpers/toMonth.js');
+let toMoney = require('../helpers/toMoney.js');
 
-var api = {};
+let api = {};
 
 module.exports = function(app) {
 
   api.getComprasMes = function (req, res) {
     db.produto.findAll().then(function (compras) {
       if(!!compras) {
-        var money = toMoney(compras,"desconto");
-        var compras = toMoney(compras,"valorTotal");
+        let money = toMoney(compras,"desconto");
+        let compras = toMoney(compras,"valorTotal");
         return res.status(200).json({total: compras, desconto: money});
       }
       res.status(404).send('Nenhum registro de compra encontrado!');
@@ -23,8 +23,8 @@ module.exports = function(app) {
   api.getUsersMes = (req, res) => {
     db.cliente.findAndCountAll()
     .then(cliente => {
-      var clienteMes = toMonth(cliente.rows);
-      var clienteTotal = cliente.count;
+      let clienteMes = toMonth(cliente.rows);
+      let clienteTotal = cliente.count;
       return res.status(200).json({clienteMes: clienteMes, clienteTotal: clienteTotal});
     })
     .catch(err => {
@@ -35,8 +35,8 @@ module.exports = function(app) {
   api.getEstabelecimentoMes = (req, res) => {
     db.estabelecimento.findAndCountAll()
     .then(estabelecimento => {
-      var estabMes = toMonth(estabelecimento.rows);
-      var estabTotal = estabelecimento.count;
+      let estabMes = toMonth(estabelecimento.rows);
+      let estabTotal = estabelecimento.count;
       return res.status(200).json({estabMes: estabMes, estabTotal: estabTotal});
     })
     .catch(err => {

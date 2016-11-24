@@ -1,6 +1,6 @@
 module.exports = function(app){
 
-  var api = app.Dash.api.notificacao;
+  let api = app.Dash.api.notificacao;
 
   app.get('/manager/notificacoes', api.list);
 

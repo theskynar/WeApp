@@ -1,10 +1,9 @@
-var api = {};
-var cryptojs
+let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.getById = (req, res) => {
-    var id = parseInt(req.params.id, 10);
+    let id = parseInt(req.params.id, 10);
     db.estabelecimento.findOne({
       where: {
         id:id
@@ -29,7 +28,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 
 
   api.create = (req, res) => {
-    var body = _.pick(req.body, 'CNPJ', 'Tel', 'img', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
+    let body = _.pick(req.body, 'CNPJ', 'Tel', 'img', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
       'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'descontoAplicado', 'localizacao');
      db.estabelecimento.create(body).then((estabelecimento) => {
          return res.status(200).json(estabelecimento);
@@ -39,10 +38,10 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.update = (req, res) => {
-    var id = parseInt(req.params.id, 10);
-    var body = _.pick(req.body, 'CNPJ', 'Tel', 'email', 'img', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
+    let id = parseInt(req.params.id, 10);
+    let body = _.pick(req.body, 'CNPJ', 'Tel', 'email', 'img', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'cidade', 'bairro', 'CEP',
       'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'localizacao');
-    var where = {};
+    let where = {};
 
     if(body.hasOwnProperty('CNPJ'))  where.CNPJ = body.CNPJ;
     if(body.hasOwnProperty('Tel'))  where.Tel = body.Tel;

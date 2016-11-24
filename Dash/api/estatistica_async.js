@@ -1,16 +1,16 @@
 const db = require('./../../db.js');
 const _ = require('underscore');
-var toMonth = require('../helpers/toMonth.js');
-var toMoney = require('../helpers/toMoney.js');
+let toMonth = require('../helpers/toMonth.js');
+let toMoney = require('../helpers/toMoney.js');
 
-var api = {
+let api = {
 
   "getCompras": () => {
     return new Promise( (resolve, reject) => {
       db.produto.findAll()
       .then(compras => {
-        var money = toMoney(compras,"desconto");
-        var compras = toMoney(compras,"valorTotal");
+        let money = toMoney(compras,"desconto");
+        let compras = toMoney(compras,"valorTotal");
         resolve({desconto: money, total: compras});
       })
       .catch(err => {
@@ -23,8 +23,8 @@ var api = {
     return new Promise ( (resolve, reject) => {
       db.cliente.findAndCountAll()
       .then(cliente => {
-        var clienteMes = toMonth(cliente.rows);
-        var clienteTotal = cliente.count;
+        let clienteMes = toMonth(cliente.rows);
+        let clienteTotal = cliente.count;
         return resolve({mes: clienteMes, total: clienteTotal});
       })
       .catch(err => {
@@ -37,8 +37,8 @@ var api = {
     return new Promise((resolve, reject) => {
       db.estabelecimento.findAndCountAll()
       .then(estabelecimento => {
-        var estabMes = toMonth(estabelecimento.rows);
-        var estabTotal = estabelecimento.count;
+        let estabMes = toMonth(estabelecimento.rows);
+        let estabTotal = estabelecimento.count;
         return resolve({mes: estabMes, total: estabTotal});
       })
       .catch(err => {

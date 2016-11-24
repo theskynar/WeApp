@@ -4,7 +4,7 @@ const cryptojs = require('crypto-js');
 const jwt = require('jsonwebtoken');
 
 module.exports = function(sequelize, dataTypes) {
-  var admin = sequelize.define('admin', {
+  let admin = sequelize.define('admin', {
     name: {
       type:dataTypes.STRING,
       allowNull: false,
@@ -40,14 +40,14 @@ module.exports = function(sequelize, dataTypes) {
         len: [8,50]
       },
       set: function(val) {
-        var salt = bcrypt.genSaltSync(10);
-        var hashed = bcrypt.hashSync(val, salt);
+        let salt = bcrypt.genSaltSync(10);
+        let hashed = bcrypt.hashSync(val, salt);
         this.setDataValue('password', val);
         this.setDataValue('salted', salt);
         this.setDataValue('passwordHashed', hashed);
       }
     }/* END OF COLUNM PASSWORD */
-  }, { /* END OF VAR ADMIN */
+  }, { /* END OF let ADMIN */
     hooks: {
       beforeValidate: function(admin, options) {
         if(typeof admin.email === 'string') {
@@ -74,9 +74,9 @@ module.exports = function(sequelize, dataTypes) {
       findByToken: function (token) {
           return new Promise(function (resolve, reject) {
             try {
-                var decodeJWT = jwt.verify(token, 'qwerty');
-                var bytes = cryptojs.AES.decrypt(decodeJWT.token, '12345t');
-                var tokenData = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
+                let decodeJWT = jwt.verify(token, 'qwerty');
+                let bytes = cryptojs.AES.decrypt(decodeJWT.token, '12345t');
+                let tokenData = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
 
                 admin.findById(tokenData.id).then(function(admin) {
                     if(admin) {
@@ -95,7 +95,7 @@ module.exports = function(sequelize, dataTypes) {
     },
     instanceMethods: {
       toPublicJSON: function() {
-        var json = this.toJSON();
+        let json = this.toJSON();
         return _.pick(json, 'id', 'name', 'email', 'img', 'createdAt', 'updatedAt');
       },
       generateToken: function(type) {
@@ -103,9 +103,9 @@ module.exports = function(sequelize, dataTypes) {
           return undefined;
         }
         try {
-            var stringData = JSON.stringify({id: this.get('id'), type: type});
-            var encryptedData = cryptojs.AES.encrypt(stringData, '12345t').toString();
-            var token = jwt.sign({token: encryptedData}, 'qwerty');
+            let stringData = JSON.stringify({id: this.get('id'), type: type});
+            let encryptedData = cryptojs.AES.encrypt(stringData, '12345t').toString();
+            let token = jwt.sign({token: encryptedData}, 'qwerty');
             return token;
         } catch (e) {
           return undefined;

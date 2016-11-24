@@ -1,9 +1,9 @@
-var api = {};
+let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.createUser = (req, res) => {
-    var body = _.pick(req.body,  'name', 'email', 'img', 'password');
+    let body = _.pick(req.body,  'name', 'email', 'img', 'password');
      db.admin.create(body).then((admin) => {
          res.status(200).json(admin.toPublicJSON());
      }).catch((err) => {
@@ -12,10 +12,10 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.update = (req, res) => {
-    var id = parseInt(req.params.id, 10);
-    var body = _.pick(req.body, 'name', 'email', 'img');
-    var where = {};
-    var adminInstance;
+    let id = parseInt(req.params.id, 10);
+    let body = _.pick(req.body, 'name', 'email', 'img');
+    let where = {};
+    let adminInstance;
 
     if(body.hasOwnProperty('name')) where.name = body.name;
     if(body.hasOwnProperty('email')) where.email = body.email;
@@ -51,7 +51,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.getUserById = (req, res) => {
-    var id = parseInt(req.params.id, 10);
+    let id = parseInt(req.params.id, 10);
     db.admin.findOne({
       where: {
         id: id
@@ -68,7 +68,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.delete = (req, res) => {
-    var id = parseInt(req.params.id, 10);
+    let id = parseInt(req.params.id, 10);
     db.admin.findOne({
       where: {
         id:id

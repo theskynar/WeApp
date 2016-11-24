@@ -1,4 +1,4 @@
-var api = {};
+let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
   api.getByStatus = (req, res) => {

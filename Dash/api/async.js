@@ -1,10 +1,10 @@
 module.exports = function(app) {
-  var funcs = {};
-  var api = require('./estatistica_async.js');
+  let funcs = {};
+  let api = require('./estatistica_async.js');
   funcs.getPromises = (req, res) => {
 
-    var types = req.params.type.split('+');
-    var funcs = [];
+    let types = req.params.type.split('+');
+    let funcs = [];
     types.forEach(function(elem, index){
       funcs.push(api[elem]());
     });
@@ -12,7 +12,7 @@ module.exports = function(app) {
     Promise.all(funcs)
       .then(function(data){
 
-        var result = {};
+        let result = {};
         types.forEach(function(elem, index){
           result[elem] = data[index];
         });

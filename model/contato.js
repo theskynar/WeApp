@@ -1,5 +1,5 @@
 module.exports = function(sequelize, dataTypes) {
-  var contato = sequelize.define('contato', {
+  let contato = sequelize.define('contato', {
     nome: {
       type: dataTypes.STRING,
       validate:{

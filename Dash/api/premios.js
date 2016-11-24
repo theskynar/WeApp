@@ -1,12 +1,12 @@
 const randomize = require('../helpers/randomize.js');
 
-var api = {};
+let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
   api.randomPrize = (req, res) => {
     db.produto.findAndCountAll()
     .then(compras => {
-      var randomCliente = randomize.sorteio2(compras.rows);
+      let randomCliente = randomize.sorteio2(compras.rows);
       return res.status(200).json({randomCliente:randomCliente});
     }).catch(err => {
       res.status(500).send(err);

@@ -1,6 +1,6 @@
 module.exports = function(app) {
 
-  var api = app.Dash.api.evento;
+  let api = app.Dash.api.evento;
 
   app.route('/manager/eventos')
     .get(api.list);

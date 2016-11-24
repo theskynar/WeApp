@@ -1,9 +1,9 @@
-var api = {};
+let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
 api.autentica = (req, res, next) => {
-  var token = req.get('Auth') || '';
+  let token = req.get('Auth') || '';
   db.token.findOne({
     where: {
       tokenHash:cryptojs.MD5(token).toString()

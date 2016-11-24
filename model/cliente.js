@@ -4,7 +4,7 @@ const cryptojs = require('crypto-js');
 const jwt = require('jsonwebtoken');
 
 module.exports = function(sequelize, dataTypes) {
-  var cliente = sequelize.define('cliente', {
+  let cliente = sequelize.define('cliente', {
     nome: {
       type:dataTypes.STRING,
       allowNull: false,
@@ -83,9 +83,9 @@ module.exports = function(sequelize, dataTypes) {
       findByToken: function (token) {
         return new Promise(function (resolve, reject) {
           try {
-              var decodeJWT = jwt.verify(token, 'fuckingAssHolexxx123452323');
-              var bytes = cryptojs.AES.decrypt(decodeJWT.token, 'fuckingAssHolexxx12345');
-              var tokenData = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
+              let decodeJWT = jwt.verify(token, 'fuckingAssHolexxx123452323');
+              let bytes = cryptojs.AES.decrypt(decodeJWT.token, 'fuckingAssHolexxx12345');
+              let tokenData = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
               cliente.findById(tokenData.id).then(function(cliente) {
                   if(cliente) {
                     resolve(cliente);
@@ -103,7 +103,7 @@ module.exports = function(sequelize, dataTypes) {
     },
     instanceMethods: {
       toPublicJSON: function() {
-        var json = this.toJSON();
+        let json = this.toJSON();
         return _.pick(json, 'nome', 'email', 'genero', 'cel', 'bairroMora', 'bairroTrabalha', 'dob');
       },
       genToken: function(type) {
@@ -111,9 +111,9 @@ module.exports = function(sequelize, dataTypes) {
           return undefined;
         }
         try {
-            var stringData = JSON.stringify({id: this.get('id'), type: type});
-            var encryptedData = cryptojs.AES.encrypt(stringData, 'fuckingAssHolexxx12345').toString();
-            var token = jwt.sign({token: encryptedData}, 'fuckingAssHolexxx123452323');
+            let stringData = JSON.stringify({id: this.get('id'), type: type});
+            let encryptedData = cryptojs.AES.encrypt(stringData, 'fuckingAssHolexxx12345').toString();
+            let token = jwt.sign({token: encryptedData}, 'fuckingAssHolexxx123452323');
 
             return token;
         } catch (e) {

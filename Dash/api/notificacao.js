@@ -1,13 +1,13 @@
 const config = require('../../config/notifications.js');
 const https = require('https');
-var api = {};
+let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
 
   api.send = (req, res) => {
-    var body = _.pick(req.body, 'titulo', 'subtitulo', 'descricao', 'texto', 'adminId');
-    var message = {
+    let body = _.pick(req.body, 'titulo', 'subtitulo', 'descricao', 'texto', 'adminId');
+    let message = {
       app_id: config.appKey,
       included_segments: ["All"]
     };
@@ -19,13 +19,13 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
     //message.send_after = body.dataEnvio;
     //SENDING via NODE HTTP CORE
 
-    var sendNotification = (data) => {
-      var headers = {
+    let sendNotification = (data) => {
+      let headers = {
         "Content-Type": "application/json; charset=utf-8",
         "Authorization": "Basic " + config.restApiKey
       };
 
-      var options = {
+      let options = {
         host: "onesignal.com",
         port: 443,
         path: "/api/v1/notifications",
@@ -33,7 +33,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         headers: headers
       };
 
-      var request = https.request(options, function(response) {
+      let request = https.request(options, function(response) {
         response.on('data', function(data) {
           db.notificacao.create(body).then((notificacao) => {
             if(!!notificacao) res.send(data);

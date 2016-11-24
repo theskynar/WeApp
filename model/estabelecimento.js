@@ -4,7 +4,7 @@ const _ = require('underscore');
 const jwt = require('jsonwebtoken');
 
 module.exports = function(sequelize, dataTypes) {
-	var estabelecimento = sequelize.define('estabelecimento', {
+	let estabelecimento = sequelize.define('estabelecimento', {
 		CNPJ: {
 			type: dataTypes.STRING,
 			allowNull:false,
@@ -127,7 +127,7 @@ module.exports = function(sequelize, dataTypes) {
 			beforeCreate: function(estabelecimento, options) {
 					obj: {estabelecimento.CNPJ, estabelecimento.nomeProprietario, estabelecimento.id}
 					try {
-						var token = jwt.sign(estabelecimento.CNPJ, 'secr3t');
+						let token = jwt.sign(estabelecimento.CNPJ, 'secr3t');
 						estabelecimento.token = token;
 					} catch(e) {
 						throw new Error('Erro ao assinar token: ' + e);
@@ -157,7 +157,7 @@ module.exports = function(sequelize, dataTypes) {
       }, /* END OF autenticar */
 			findByToken: function(token, cb) {
 					try {
-					var decodeJWT = jwt.verify(token, 'secr3t');
+					let decodeJWT = jwt.verify(token, 'secr3t');
 					process.nextTick(function() {
 						estabelecimento.findOne({
 							where: {
@@ -179,7 +179,7 @@ module.exports = function(sequelize, dataTypes) {
 			instanceMethods: {
 				toPublicJSON : function() {
 					try {
-					var json = this.toJSON();
+					let json = this.toJSON();
 					return _.pick(json, 'nomeEmpresa', 'segmento', 'cidade', 'bairro',
 						'descontoAplicado', 'url', 'urlFace');
 					} catch (e) {

@@ -1,6 +1,6 @@
 module.exports = function(app){
 
-  var api = app.Dash.api.user;
+  let api = app.Dash.api.user;
 
   app.route('/manager/user/:id?')
     .put(api.update)

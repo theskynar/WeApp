@@ -1,14 +1,14 @@
-var api = {};
+let api = {};
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.autenticaLogin = (req, res) => {
-    var body = _.pick(req.body, 'email', 'password');
-    var adminInstance;
+    let body = _.pick(req.body, 'email', 'password');
+    let adminInstance;
     db.admin.verificar(body).then((admin) => {
       if(!admin) {
         res.status(401).send('Não autorizado');
       } else {
-        var token = jwt.sign(admin , app.get('secret'));
+        let token = jwt.sign(admin , app.get('secret'));
         res.set('x-access-token', token);
         adminInstance = admin;
         return res.status(200).json(adminInstance.toPublicJSON());
@@ -19,7 +19,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.verificarToken = (req, res, next) => {
-    var token = req.headers['x-access-token'];
+    let token = req.headers['x-access-token'];
     if(!!token) {
       jwt.verify(token, app.get('secret'), function(err, decoded) {
           if(err) {

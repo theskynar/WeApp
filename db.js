@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-var env = process.env.NODE_ENV || 'development';
+let env = process.env.NODE_ENV || 'development';
 
-var sequelize;
+let sequelize;
 
 sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
   dialect: 'sqlite',
@@ -11,7 +11,7 @@ sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
   }
 });
 
-var db = {};
+let db = {};
 
 db.admin = sequelize.import(__dirname + '/model/admin.js');
 db.cliente = sequelize.import(__dirname + '/model/cliente.js');

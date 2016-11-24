@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  var api = app.PublicAPI.api.evento;
+  let api = app.PublicAPI.api.evento;
 
   app.route('/v1/weapp/api/eventos')
     .get(api.listAll);

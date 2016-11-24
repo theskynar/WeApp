@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
 module.exports = function(sequelize, dataTypes) {
-  var evento = sequelize.define('evento', {
+  let evento = sequelize.define('evento', {
     titulo: {
       type: dataTypes.STRING,
       allowNull:false,

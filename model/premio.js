@@ -1,5 +1,5 @@
 module.exports = function(sequelize, dataTypes) {
-  var premio = sequelize.define('premio', {
+  let premio = sequelize.define('premio', {
 
   });
 

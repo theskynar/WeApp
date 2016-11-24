@@ -1,5 +1,5 @@
 module.exports = (app) {
-  var api = app.PublicAPI.api.notification;
+  let api = app.PublicAPI.api.notification;
 
   app.route('/v1/weapp/api/notificacoes')
     .get(api.listAll);
@@ -9,5 +9,5 @@ module.exports = (app) {
     .post(api.create)
     .put(api.update)
     .delete(api.destroy);
-    
+
 };
