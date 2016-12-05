@@ -44,16 +44,25 @@ html, body {
   justify-content: center; }
 
 button.outline {
-  background: transparent;
+background: transparent;
+margin: 5px;
+border: 1px solid #EEE;
+color: #FFF; }
+button.outline:hover {
+  background: #eee;
+  color: #333; }
+
+button.outline2 {
+  background: #eee;
   margin: 5px;
   border: 1px solid #EEE;
-  color: #eee; }
-  button.outline:hover {
+  color: #333; }
+  button.outline2:hover {
     background: #eee;
     color: #333; }
 
 footer {
-  background: #388e3c;
+  background: #dbd118;
   color: #eee;
   padding: 10px 20px;
   font-size: 14px; }
@@ -84,7 +93,7 @@ header {
     text-align: left; }
   header h2 {
     margin: 0;
-    color: #4caf50;
+    color: #efe52c;
     font-weight: 700;
     clear: both;
     width: 100%;
@@ -110,7 +119,6 @@ nav.navbar.navbar-default {
     padding: 0 15px;
     border-radius: 5px;
     z-index: 999;
-    border: 1px solid #eee;
     margin: 20px 0;
     box-sizing: border-box;
     transition: all 0.7s; }
@@ -133,10 +141,10 @@ nav.navbar.navbar-default {
       align-items: center; }
       nav.navbar.navbar-default ul.nav.navbar-nav li.button a button {
         background: transparent;
-        border: 1px solid #4caf50;
-        color: #4caf50; }
+        border: 1px solid #efe52c;
+        color: #efe52c; }
         nav.navbar.navbar-default ul.nav.navbar-nav li.button a button:hover {
-          background: #4caf50;
+          background: #efe52c;
           color: #eee; }
 
 ul.link-buttons {
@@ -191,16 +199,16 @@ section {
       position: relative;
       border: 4px solid;
       padding: 5px;
-      -webkit-border-image: -webkit-linear-gradient(right, #7cb342, #689f38, #4caf50) 100% 1;
-      -o-border-image: -o-linear-gradient(right, #7cb342, #689f38, #4caf50) 100% 1;
-      -moz-border-image: -moz-linear-gradient(right, #7cb342, #689f38, #4caf50) 100% 1; }
+      -webkit-border-image: -webkit-linear-gradient(right, #dbd118, #efe52c) 100% 1;
+      -o-border-image: -o-linear-gradient(right, #dbd118, #efe52c) 100% 1;
+      -moz-border-image: -moz-linear-gradient(right, #dbd118, #efe52c) 100% 1; }
   section h3 {
     font-size: 22px;
     width: 100%;
     text-align: left;
     padding: 20px; }
     section h3.green {
-      color: #4caf50; }
+      color: #dbd118; }
   section article {
     background: transparent;
     width: 90%;
@@ -214,18 +222,18 @@ section {
     overflow: hidden;
     width: 100%; }
   section.contact {
-    background: #4caf50;
+    background: #efe52c;
     color: #eee;
     border: none; }
 
 p.dica {
   font-size: 12px;
   padding: 5px 0;
-  color: #4caf50; }
+  color: #efe52c; }
 
 input.form-control:focus {
-  border-color: #4caf50;
-  box-shadow: 0 0 10px -3px #4caf50; }
+  border-color: #efe52c;
+  box-shadow: 0 0 10px -3px #efe52c; }
 
 .ui-skynar input, .ui-skynar textarea {
   width: 100%;
@@ -241,7 +249,7 @@ input.form-control:focus {
     border: 1px solid #c8e6c9; }
 
 span.green {
-  color: #4caf50;
+  color: #efe52c;
   font-weight: 700; }
 
 .slider {
@@ -260,11 +268,11 @@ span.green {
     height: 100%;
     width: 40px;
     font-size: 42px;
-    color: rgba(76, 175, 80, 0.6);
+    color: #dbd118;
     transition: all 0.3s ease-out;
     z-index: 950; }
     .slider .arrow-l:hover {
-      color: rgba(76, 175, 80, 0.9);
+      color: #dbd118;
       transform: scale(1.05); }
   .slider .arrow-r {
     display: flex;
@@ -277,11 +285,11 @@ span.green {
     height: 100%;
     width: 40px;
     font-size: 42px;
-    color: rgba(76, 175, 80, 0.6);
+    color: #dbd118;
     transition: all 0.3s ease-out;
     z-index: 950; }
     .slider .arrow-r:hover {
-      color: rgba(76, 175, 80, 0.9);
+      color: #dbd118;
       transform: scale(1.05); }
 
 .content {
@@ -322,7 +330,7 @@ span.green {
       max-height: 100px;
       display: block; }
     .content .item h3 {
-      color: #4caf50;
+      color: #dbd118;
       font-weight: 500;
       font-size: 22px;
       width: 100%;
@@ -348,7 +356,7 @@ span.green {
   .menu-toogle.navbar-toggle {
     display: block;
     padding: 5px;
-    color: #4caf50;
+    color: #efe52c;
     border: none;
     margin: 38px 15px;
     z-index: 999;

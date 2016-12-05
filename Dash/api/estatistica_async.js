@@ -8,9 +8,9 @@ let api = {
   "getCompras": () => {
     return new Promise( (resolve, reject) => {
       db.produto.findAll()
-      .then(compras => {
-        let money = toMoney(compras,"desconto");
-        let compras = toMoney(compras,"valorTotal");
+      .then(comprasDb => {
+        let money = toMoney(comprasDb,"desconto");
+        let compras = toMoney(comprasDb,"valorTotal");
         resolve({desconto: money, total: compras});
       })
       .catch(err => {
