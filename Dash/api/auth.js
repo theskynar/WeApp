@@ -8,7 +8,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
       if(!admin) {
         res.status(401).send('Não autorizado');
       } else {
-        let token = jwt.sign(admin , app.get('secret'));
+        let token = jwt.sign(admin.email , app.get('secret'));
         res.set('x-access-token', token);
         adminInstance = admin;
         return res.status(200).json(adminInstance.toPublicJSON());
