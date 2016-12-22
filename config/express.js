@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const db = require('../db.js');
+const compression = require('compression');
 const _ = require('underscore');
 const cryptojs = require('crypto-js');
 const jwt =require('jsonwebtoken');
@@ -27,6 +28,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+app.use(compression());
 passport.use(new Strategy(
   function(token, cb) {
     db.estabelecimento.findByToken(token, function(err, est){
@@ -40,6 +42,7 @@ console.log("## Carregando arquivos ##");
 
 consign()
   .include('App/api')
+  .then('App/routes/auth.js')
   .then('App/routes')
   .then('Dash/api')
   .then('Dash/routes/auth.js')

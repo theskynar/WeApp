@@ -1,4 +1,5 @@
-module.exports = (app) {
+
+module.exports = (app) => {
   let api = app.PublicAPI.api.notification;
 
   app.route('/v1/weapp/api/notificacoes')
@@ -10,4 +11,4 @@ module.exports = (app) {
     .put(api.update)
     .delete(api.destroy);
 
-};
+}

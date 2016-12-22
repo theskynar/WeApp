@@ -17,15 +17,5 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
      });
   }
 
-  api.estabelecimentoImg = (req, res) => {
-    db.estabelecimento.findAll({
-      attributes: {include: ['id', 'img', 'url', 'urlFace', 'nomeEmpresa']}
-    })
-    .then(estabelecimento => res.json(estabelecimento))
-    .catch(err => {
-      res.status(500).send(err);
-    });
-  }
-
   return api;
 }

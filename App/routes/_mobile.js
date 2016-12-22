@@ -1,5 +1,5 @@
-module.exports = function(app) {
-  // RESTANDO TOLEN FACEBOOK;
+/*module.exports = function(app) {
+  // RESTANDO TOKEN FACEBOOK;
 
   app.route('/mobile/verUsuario')
      .post(app.App.api.cliente.autenticaCliente);
@@ -20,4 +20,4 @@ module.exports = function(app) {
 
   app.route('/mobile/eventos')
      .get(app.App.api.evento.getByStatus);
-}
+}*/

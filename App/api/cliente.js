@@ -2,22 +2,6 @@ let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
-  api.autenticaCliente = (req, res) => {
-    let body = _.pick(req.body, 'email');
-	  let clienteInstance;
-	db.cliente.verificar(body).then((cliente) => {
-			let token = cliente.genToken('authentication');
-			clienteInstance = cliente;
-			return db.token.create({
-				token:token
-			});
-	}).then((tokenInstance) => {
-		res.header('Auth', tokenInstance.get('token')).json(clienteInstance.toPublicJSON());
-	}).catch(() => {
-			res.status(401).send();
-  });
-}
-
   api.autenticaUser = (req, res) => {
     let body = _.pick(req.body, 'email');
   	db.cliente.verificar(body).then((cliente) => {
@@ -28,7 +12,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
     });
   }
 
-  api.cadastraUser = (req, res) => {
+  api.create = (req, res) => {
     let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
     db.cliente.create(body).then((cliente) => {
       if(!!cliente) {
@@ -40,7 +24,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
     });
   }
 
-  api.atualizaUser = (req, res) => {
+  api.update = (req, res) => {
     let id = parseInt(req.params.id, 10);
     let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
     let where = {};

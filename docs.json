@@ -1,0 +1,29 @@
+{
+  "titulo":"WeApp - Notificação",
+  "subtitulo": "Testando",
+  "descricao": "Testando API",
+  "texto":"XXX",
+  "adminId":"1"
+}
+
+{
+  "titulo": "Novo Evento",
+  "desc": "20% tralala",
+  "dataInicio":"01-21-2017",
+  "dataFim":"06-21-2017",
+  "estabelecimentoId":"1"
+}
+
+
+
+
+
+
+{
+  "nome":"Enrico",
+  "email":"enricom@gmail.com",
+  "telefone":"131231",
+  "empresa":"XXX",
+  "assunto":"XXX",
+  "msg":"Envia Email"
+}
