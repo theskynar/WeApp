@@ -1,4 +1,4 @@
-const upload = require('../helpers/upload.js')(5000000, 1);
+const upload = require('../../Util/upload.js')(5000000, 1);
 const geocoderConfig = require('../../config/geocoder.js');
 const NodeGeocoder = require('node-geocoder');
 let geocoder = NodeGeocoder(geocoderConfig);

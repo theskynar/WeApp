@@ -5,6 +5,9 @@ module.exports = function(app){
   app.get('/manager/notificacoes', api.list);
 
   app.route('/manager/notificacao')
-     .post(api.send);
+     .post(api.sendAll);
+
+  app.route('/manager/notificacaoPorBairros')
+     .post(api.sendByLocation);
 
 }

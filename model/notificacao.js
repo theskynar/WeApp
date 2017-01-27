@@ -34,7 +34,13 @@ module.exports =  function(sequelize, dataTypes) {
         len:[3, 255]
       }
     },
-    dataEnvio: {
+    agendar_diahora: {
+      type: dataTypes.STRING,
+      validate: {
+        len:[3, 255]
+      }
+    },
+    enviar_hora: {
       type: dataTypes.STRING,
       validate: {
         len:[3, 255]

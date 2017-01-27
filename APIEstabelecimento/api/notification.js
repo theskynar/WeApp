@@ -1,18 +1,19 @@
 const db = require('../../db.js');
 const _ = require('underscore');
 const config = require('../../config/notifications.js');
-const notificationModule = require('../helpers/notificacao.js')();
+const notificationModule = require('../../Util/notificacao.js')();
 const https = require('https');
 let api = {};
 
 api.send = (req, res) => {
-  let body = _.pick(req.body, 'titulo', 'subtitulo', 'descricao', 'texto');
+  let body = _.pick(req.body, 'titulo', 'subtitulo', 'descricao', 'texto', 'date');
   let message = {
     app_id: config.appKey,
     included_segments: ["All"],
     contents: {"en": body.texto},
     heading: {"en": body.titulo},
     subtitle: {"en": body.subtitulo},
+    //send_after: {body.date.toTimeString()}
   };
   db.notificacao.create(body).then(notificacao => {
     return req.user.addNotificacao(notificacao).then(response => {

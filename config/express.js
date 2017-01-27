@@ -51,11 +51,11 @@ consign()
   .then('Dash/routes')
   .then('Site/api')
   .then('Site/routes')
-  .then('PublicAPI/api')
-  .then('PublicAPI/routes/auth.js')
-  .then('PublicAPI/routes/evento.js')
-  .then('PublicAPI/routes/notification.js')
-  .then('PublicAPI/routes/estatistica.js')
+  .then('APIEstabelecimento/api')
+  .then('APIEstabelecimento/routes/auth.js')
+  .then('APIEstabelecimento/routes/evento.js')
+  .then('APIEstabelecimento/routes/notification.js')
+  .then('APIEstabelecimento/routes/estatistica.js')
   .into(app, io, jwt, cryptojs, db, _, passport);
 
 

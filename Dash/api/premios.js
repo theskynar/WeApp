@@ -1,4 +1,4 @@
-const randomize = require('../helpers/randomize.js');
+const randomize = require('../../Util/randomize.js');
 
 let api = {};
 

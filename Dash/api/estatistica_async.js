@@ -1,7 +1,7 @@
 const db = require('./../../db.js');
 const _ = require('underscore');
-let toMonth = require('../helpers/toMonth.js');
-let toMoney = require('../helpers/toMoney.js');
+let toMonth = require('../../Util/toMonth.js');
+let toMoney = require('../../Util/toMoney.js');
 function cmp(a,b) {
   if(a.n_compras < b.n_compras) return -1;
   if(a.n_compras > b.n_compras) return 1;

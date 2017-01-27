@@ -9,17 +9,17 @@ module.exports = function(sequelize, dataTypes) {
 			type:dataTypes.STRING,
 			allowNull: false,
 			validate: {
-				len:[2,55] /* Tamanho entre 2 e 55 incluindo ambos */
+				len:[2,55]
 			}
-		},/* END OF COLUNM NOME */
+		},
 		email: {
 			type:dataTypes.STRING,
 			allowNull: false,
-			unique: true, /* VALOR ÚNICO */
+			unique: true,
 			validate: {
 				isEmail: true,
 			}
-		},/* END OF COLUNM EMAIL */
+		},
 		genero: {
 			type:dataTypes.CHAR(1),
 			allowNull:false
@@ -30,29 +30,37 @@ module.exports = function(sequelize, dataTypes) {
 			validate : {
 				len: [2, 55]
 			}
-		}, /* END OF COLUNM Bairro onde mora */
+		},
 		bairroTrabalha: {
 			type:dataTypes.STRING,
 			allowNull: false,
 			validate : {
 				len: [2, 55]
 			}
-		}, /* END OF COLUNM Bairro onde trabalha */
-		/*ruaMora: {
+		},
+		ruaMora: {
       type:dataTypes.STRING,
-      defaultValue: "xyz"
-    },*/
+      defaultValue: "Nenhuma informação"
+    },
 		cel: {
 			type:dataTypes.STRING,
 			allowNull: false,
 			validate: {
 				len:[6, 50]
 			}
-		}, /* END OF COLUNM CELULAR */
+		},
 		dob: {
 			type:dataTypes.DATE
-		}, /* END OF COLUNM DATA DE NIVER - FORMATO  07-05-2016 */
-	}, { /* END OF CLIENTE*/
+		},
+		notificacoes: {
+			type:dataTypes.BOOLEAN,
+			defaultValue: true
+		},
+		one_signal_id: {
+			type: dataTypes.STRING
+		}
+
+	}, {
 		hooks: {
 			beforeValidate: function(cliente, options) {
 				if(typeof cliente.email === 'string') {
@@ -104,7 +112,7 @@ module.exports = function(sequelize, dataTypes) {
 		instanceMethods: {
 			toPublicJSON: function() {
 				let json = this.toJSON();
-				return _.pick(json, 'nome', 'email', 'genero', 'cel', 'bairroMora', 'bairroTrabalha', 'dob');
+				return _.pick(json, 'nome', 'email', 'genero', 'cel', 'bairroMora', 'bairroTrabalha', 'dob', 'notificacao');
 			},
 			genToken: function(type) {
 				if(!_.isString(type)){
