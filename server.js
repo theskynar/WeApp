@@ -1,5 +1,5 @@
 const http = require('./config/express.js');
-const db = require('./db.js');
+const db = require('./config/db.js');
 const PORT = process.env.PORT || 8080;
 const exec = require('child_process').exec
 
