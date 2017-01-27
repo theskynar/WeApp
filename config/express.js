@@ -55,6 +55,7 @@ consign()
   .then('PublicAPI/routes/auth.js')
   .then('PublicAPI/routes/evento.js')
   .then('PublicAPI/routes/notification.js')
+  .then('PublicAPI/routes/estatistica.js')
   .into(app, io, jwt, cryptojs, db, _, passport);
 
 

@@ -2,23 +2,20 @@ const db = require('./../../db.js');
 const _ = require('underscore');
 let toMonth = require('../helpers/toMonth.js');
 let toMoney = require('../helpers/toMoney.js');
-function cmp(a,b) {
-  if(a.n_compras < b.n_compras) return -1;
-  if(a.n_compras > b.n_compras) return 1;
-  return 0;
-}
 
 let api = {
 
-  "getCompras": () => {
+  "getCompras": (q, userId) => {
     return new Promise( (resolve, reject) => {
-      db.produto.findAll()
-      .then(comprasDb => {
+      db.produto.findAll({
+        where: {
+          estabelecimentoId: userId
+        }
+      }).then(comprasDb => {
         let money = toMoney(comprasDb,"desconto");
         let compras = toMoney(comprasDb,"valorTotal");
         resolve({desconto: money, total: compras});
-      })
-      .catch(err => {
+      }).catch(err => {
         reject(err);
       });
     });
@@ -39,7 +36,7 @@ let api = {
   },
 
   "getQtdComprasUsuario": (q, userId) => {
-    if(!q.hasOwnProperty('limite')) {
+    if(!q.hasOwnProperty('limite') || typeof q.limite !== 'number') {
       q.limite = 5;
     }
     let query = `select cliente.*, count(produto.clienteId) as n_compras from
@@ -49,27 +46,14 @@ let api = {
                     group by cliente.id
                     order by n_compras desc limit ${q.limite}`;
     return new Promise( (resolve, reject) => {
-      db.sequelize.query(query).then(comprasDb => {
-        resolve({result: comprasDb});
+      db.sequelize.query(query, null).then(comprasDb => {
+        let arr = _.omit(comprasDb, '1');
+        resolve(arr[0]);
       }).catch(err => {
         reject(err);
       });
     });
   },
-
-  "getEstabelecimento": () => {
-    return new Promise((resolve, reject) => {
-      db.estabelecimento.findAndCountAll()
-      .then(estabelecimento => {
-        let estabMes = toMonth(estabelecimento.rows);
-        let estabTotal = estabelecimento.count;
-        return resolve({mes: estabMes, total: estabTotal});
-      })
-      .catch(err => {
-        reject(err);
-      });
-    });
-  }
 
 }
 

@@ -8,8 +8,8 @@ module.exports = (app) => {
   let parseForm = bodyParser.urlencoded({ extended: false });
   app.use(cookieParser());
 
-  app.post('/mobile/usuario', parseForm, csrfProtection,  app.App.api.cliente.create);
-  app.post('/mobile/verUsuario', parseForm, csrfProtection, api.autenticaCliente);
+  app.post('/mobile/usuario', app.App.api.cliente.create);
+  app.post('/mobile/verUsuario', api.autenticaCliente);
   app.use('/mobile/*', api.autentica);
 
 }
