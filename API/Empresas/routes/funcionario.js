@@ -8,5 +8,5 @@ module.exports = (app) => {
     .get(api.listById)
     .post(api.create)
     .put(api.update)
-    .delete(api.destroy);
+    .delete(api.delete);
 }

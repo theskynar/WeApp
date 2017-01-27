@@ -143,11 +143,11 @@ module.exports = function(sequelize, dataTypes) {
       set: function(val) {
         let salt = bcrypt.genSaltSync(10);
         let hashed = bcrypt.hashSync(val, salt);
-        let crypto = cryptojs.AES.encrypt(val.toString(), "provisorio");
+        let crypto = cryptojs.AES.encrypt(val, "provisorio");
         this.setDataValue('password', val);
         this.setDataValue('salted', salt);
         this.setDataValue('passwordHashed', hashed);
-        this.setDataValue('passwordCrypto', crypto);
+        this.setDataValue('passwordCrypto', crypto.toString());
       }
     }
 	}, {

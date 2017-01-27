@@ -1,14 +1,26 @@
 const db = require('../../../config/db.js');
 const _ = require('underscore');
+const codes = require('voucher-code-generator');
 let api = {};
 
 api.create = (req, res) => {
-  let body = _.pick(req.body,  'nome', 'email', 'cargo', 'departamento', 'CPF');
-   db.funcionario.create(body).then(funcionario => {
-     req.empresa.addFuncionario(funcionario => {
-       return funcionario.reload();
-     }).then(funcionario => {
-       return res.status(200).json(funcionario.toPublicJSON());
+  let body = _.pick(req.body, 'nome', 'dataInicio', 'dataFim', 'valor', 'cupom');
+    try {
+      let cupom = codes.generate({
+         length: 6,
+         count: 1,
+         prefix: body.nome,
+         suffix: "*"+req.user.id
+       });
+    } catch (e) {
+      throw new Error(e);
+    }
+    body.cupom = cupom[0];
+   db.cupom.create(body).then(cupom => {
+     return req.user.addCupom(response => {
+       return cupom.reload();
+     }).then(response => {
+       return res.status(200).json(response.toPublicJSON());
      }).catch(err => {
         res.status(400).json({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
      })
@@ -17,37 +29,23 @@ api.create = (req, res) => {
    });
 }
 
-/*api.bulkCreate= (req, res) => {
-  let body = _.pick(req.body,  'nome', 'email', 'cargo', 'departamento', 'CPF');
-   db.funcionario.bulkCreate(body).then(funcionario => {
-     req.empresa.addFuncionario(funcionario => {
-       return funcionario.reload();
-     }).then(funcionario => {
-       return res.status(200).json(funcionario.toPublicJSON());
-     }).catch(err => {
-        res.status(400).json({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
-     })
-   }).catch(err => {
-       res.status(400).json({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
-   });
-}*/
-
 api.update = (req, res) => {
   let id = parseInt(req.params.id, 10);
-  let body = _.pick(req.body, 'nome', 'email', 'cargo', 'departamento', 'CPF');
-  db.funcionario.findOne({
+  db.cupom.findOne({
     where: {
-      $and: [{id: id}, {empresaId: req.empresa.id}]
+      $and: [{id: id}, {empresaId: req.user.id}]
     }
-  }).then(funcionario => {
-    if(!!funcionario) {
-      return funcionario.update(body).then(funcionario => {
-          res.status(200).json(funcionario.toPublicJSON());
+  }).then(cupom => {
+    if(!!cupom) {
+      return cupom.updateAttributes({
+        dataFim: req.body.dataFim
+      }).then(cupom => {
+          res.status(200).json(cupom.toPublicJSON());
       }).catch((err) => {
           res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
       });
     } else {
-      res.status(404).send("Funcionário não encontrado.");
+      res.status(404).send("Cupom não encontrado.");
     }
   }).catch((err) => {
       res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
@@ -56,23 +54,23 @@ api.update = (req, res) => {
 
 
 api.list = (req, res) => {
-  db.funcionario.findAll({ where : { empresaId : req.empresa.id }}).then(funcionarios => {
-    if(!!funcionarios) return res.status(200).json(funcionarios);
-      res.status(404).send('Nenhum funcionário encontrado.');
+  db.cupom.findAll({ where : { empresaId : req.user.id }}).then(cupoms => {
+    if(!!cupoms) return res.status(200).json(cupoms);
+      res.status(404).send('Nenhum cupom encontrado.');
   }).catch(err => {
       res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
   });
-}
+};
 
 api.listById = (req, res) => {
   let id = parseInt(req.params.id, 10);
-  db.funcionario.findOne({
+  db.cupom.findOne({
     where: {
-      $and: [{id: id}, {empresaId: req.empresa.id}]
+      $and: [{id: id}, {empresaId: req.user.id}]
     }
-  }).then(funcionario => {
-      if(!!funcionario) return res.status(200).json(funcionario);
-      res.status(404).send('Nenhum funcionário encontrado.')
+  }).then(cupom => {
+      if(!!cupom) return res.status(200).json(cupom);
+      res.status(404).send('Nenhum cupom encontrado.')
   }).catch(err => {
       res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
   })
@@ -80,19 +78,19 @@ api.listById = (req, res) => {
 
 api.delete = (req, res) => {
   let id = parseInt(req.params.id, 10);
-  db.funcionario.findOne({
+  db.cupom.findOne({
     where: {
-      $and: [{id: id}, {empresaId: req.empresa.id}]
+      $and: [{id: id}, {empresaId: req.user.id}]
     }
-  }).then(funcionario => {
-    if(!!funcionario) {
-      return funcionario.destroy(funcionario).then(funcionarioDeletado => {
+  }).then(cupom => {
+    if(!!cupom) {
+      return cupom.destroy(cupom).then(cupomDeletado => {
          return res.status(204).send();
       }).catch(err => {
         res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
       });
     }
-    res.status(404).send('Funcionario não encontrado');
+    res.status(404).send('cupom não encontrado');
   }).catch(err => {
     res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
   });

@@ -5,11 +5,12 @@ let geocoder = NodeGeocoder(geocoderConfig);
 let api = {};
 
 module.exports = (app, io, jwt, cryptojs, db, _) => {
+
   api.getById = (req, res) => {
     let id = parseInt(req.params.id, 10);
-    db.estabelecimento.findById(id).then((estabelecimento) => {
-      if(!!estabelecimento) return res.status(200).json(estabelecimento);
-      res.status(404).json('Nenhum estabelecimento encontrado!');
+    db.empresa.findById(id).then(empresa => {
+      if(!!empresa) return res.status(200).json(empresa);
+      res.status(404).json('Nenhuma empresa encontrado!');
     }).catch((err) =>  {
       res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
     })
@@ -17,9 +18,9 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 
 
   api.list = (req, res) => {
-    db.estabelecimento.findAll().then((estabelecimento) => {
-      if(!!estabelecimento) return res.status(200).json(estabelecimento);
-      res.status(404).send('Nenhum estabelecimento encontrado.');
+    db.empresa.findAll().then((empresa) => {
+      if(!!empresa) return res.status(200).json(empresa);
+      res.status(404).send('Nenhuma empresa encontrado.');
     }).catch((err) => {
       res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
     })
@@ -27,13 +28,13 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 
 
   api.create = (req, res) => {
-    let body = _.pick(req.body, 'CNPJ', 'Tel', 'img', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'endereco',
-      'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano',
-      'bairro', 'cidade', 'CEP', 'endereco', 'latitude',
-      'longitude', 'password');
+    let body = _.pick(req.body, 'CNPJ', 'nomeEmpresa', 'nomeFantasia', 'nomeResponsavel', 'telResponsavel',
+      'emailResponsavel', 'emailEmpresa', 'endereco', 'telEmpresa', 'url',
+      'dataEntrada', 'vencPlano', 'bairro', 'cidade', 'CEP', 'endereco', 'password',
+      'plano', 'levelPlano', 'img');
       let hashing = body.CNPJ + body.nomeEmpresa;
       let hashedCompany = cryptojs.AES.encrypt(hashing, "provisorio");
-      let up = upload.uploadFiles("Estabelecimentos", hashedCompany, body.nomeEmpresa);
+      let up = upload.uploadFiles("Empresas", hashedCompany, body.nomeEmpresa);
       let rgxPath = /(public\/)/g;
       /*up(req, res, function(err) {
         if(err) {
@@ -42,27 +43,23 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         req.files.images.forEach(p => {
           p['path'] = p['path'].replace(rgxPath, "");
         });*/
+        //body.img = p['path'];
         geocoder.geocode(body.endereco).then(function(res) {
-          //body.img = p['path'];
           res.forEach(data => {
             body.img ="algo";
             body.endereco = data['formattedAddress'];
             body.bairro = data['extra'].neighborhood;
-            body.latitude = data['latitude'];
-            body.longitude = data['longitude'];
             body.cidade = data['administrativeLevels'].level2long;
             body.CEP = data['zipcode'];
           })
           return body;
         }).then(body => {
-          return db.estabelecimento.create(body).then(estabelecimento => {
-            return res.status(201).json(estabelecimento.toPublicJSON());
+          return db.empresa.create(body).then(empresa => {
+            return res.status(201).json(empresa.toPublicJSON());
           }).catch(err => {
-            console.log(err);
-            return res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
+            res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
           })
-        }).catch(err => {
-          console.log(err);
+        }).catch(function(err) {
           res.status(500).send({Mensagem: "Não foi possível obter dados corretos a partir do endereço passado.", Erro: err});
         });
       /*})*/
@@ -70,12 +67,13 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.update = (req, res) => {
     let id = parseInt(req.params.id, 10);
-    let body = _.pick(req.body, 'CNPJ', 'Tel', 'img', 'email', 'nomeEmpresa', 'nomeProprietario', 'segmento', 'endereco',
-      'descontoAplicado', 'url', 'urlFace', 'dataEntrada', 'vencPlano', 'bairro', 'cidade', 'CEP',
-      'endereco', 'latitude', 'longitude');
+    let body = _.pick(req.body, 'CNPJ', 'nomeEmpresa', 'nomeFantasia', 'nomeResponsavel', 'telResponsavel',
+      'emailResponsavel', 'emailEmpresa', 'endereco', 'telEmpresa', 'url',
+      'dataEntrada', 'vencPlano', 'bairro', 'cidade', 'CEP', 'endereco',
+      'plano', 'levelPlano', 'img');
       let hashing = body.CNPJ + body.nomeEmpresa;
       let hashedCompany = cryptojs.AES.encrypt(hashing, "provisorio");
-      let up = upload.uploadFiles("Estabelecimentos", hashedCompany, body.nomeEmpresa);
+      let up = upload.uploadFiles("Empresas", hashedCompany, body.nomeEmpresa);
       let rgxPath = /(public\/)/g;
       up(req, res, function(err) {
         if(err) {
@@ -96,15 +94,15 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
           });
             return body;
           }).then(body => {
-            db.estabelecimento.findById(id).then(estabelecimento => {
-              if(!!estabelecimento) {
-                return estabelecimento.update(body).then((estabelecimento) => {
-                    return res.status(200).json(estabelecimento);
+            db.empresa.findById(id).then(empresa => {
+              if(!!empresa) {
+                return empresa.update(body).then((empresa) => {
+                    return res.status(200).json(empresa);
                 }).catch((err) => {
                     res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
                 });
               } else {
-                return res.status(404).send("Nenhum estabelecimento encontrado");
+                return res.status(404).send("Nenhum empresa encontrado");
               }
             }).catch((err) => {
                 res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
@@ -117,13 +115,13 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.generateBearerToken = (req, res) => {
     let id = parseInt(req.params.id, 10);
-    db.estabelecimento.findById(id).then(estabelecimento => {
+    db.empresa.findById(id).then(empresa => {
       try {
-        let token = jwt.sign({data : estabelecimento.id}, 'secr3t');
-        return estabelecimento.updateAttributes({
+        let token = jwt.sign({data : empresa.id}, 'secr3t');
+        return empresa.updateAttributes({
           token: token
-        }).then(estabAtualizado => {
-          return res.status(200).json(estabAtualizado.toPublicJSON());
+        }).then(empresaAtualizada => {
+          return res.status(200).json(empresaAtualizada.toPublicJSON());
         }).catch(err => {
           res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
         })

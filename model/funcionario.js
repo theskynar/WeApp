@@ -35,10 +35,7 @@ module.exports = function(sequelize, dataTypes) {
     CPF: {
       type: dataTypes.STRING,
       unique:true,
-      allowNull:false,
-      validate: {
-        len:[5, 50]
-      }
+      allowNull:false
     }
   }, { /* END OF let funcionario */
     hooks: {

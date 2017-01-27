@@ -5,14 +5,16 @@ let api = {};
 api.create = (req, res) => {
   let body = _.pick(req.body,  'nome', 'email', 'cargo', 'departamento', 'CPF');
    db.funcionario.create(body).then(funcionario => {
-     req.empresa.addFuncionario(funcionario => {
+     return req.user.addFuncionario(funcionario).then(response => {
        return funcionario.reload();
-     }).then(funcionario => {
-       return res.status(200).json(funcionario.toPublicJSON());
+     }).then(response => {
+       return res.status(200).json(response.toPublicJSON());
      }).catch(err => {
+       console.log(err);
         res.status(400).json({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
      })
    }).catch(err => {
+      console.log(err);
        res.status(400).json({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
    });
 }
@@ -20,7 +22,7 @@ api.create = (req, res) => {
 /*api.bulkCreate= (req, res) => {
   let body = _.pick(req.body,  'nome', 'email', 'cargo', 'departamento', 'CPF');
    db.funcionario.bulkCreate(body).then(funcionario => {
-     req.empresa.addFuncionario(funcionario => {
+     req.user.addFuncionario(funcionario => {
        return funcionario.reload();
      }).then(funcionario => {
        return res.status(200).json(funcionario.toPublicJSON());
@@ -37,7 +39,7 @@ api.update = (req, res) => {
   let body = _.pick(req.body, 'nome', 'email', 'cargo', 'departamento', 'CPF');
   db.funcionario.findOne({
     where: {
-      $and: [{id: id}, {empresaId: req.empresa.id}]
+      $and: [{id: id}, {empresaId: req.user.id}]
     }
   }).then(funcionario => {
     if(!!funcionario) {
@@ -56,7 +58,7 @@ api.update = (req, res) => {
 
 
 api.list = (req, res) => {
-  db.funcionario.findAll({ where : { empresaId : req.empresa.id }}).then(funcionarios => {
+  db.funcionario.findAll({ where : { empresaId : req.user.id }}).then(funcionarios => {
     if(!!funcionarios) return res.status(200).json(funcionarios);
       res.status(404).send('Nenhum funcionário encontrado.');
   }).catch(err => {
@@ -68,7 +70,7 @@ api.listById = (req, res) => {
   let id = parseInt(req.params.id, 10);
   db.funcionario.findOne({
     where: {
-      $and: [{id: id}, {empresaId: req.empresa.id}]
+      $and: [{id: id}, {empresaId: req.user.id}]
     }
   }).then(funcionario => {
       if(!!funcionario) return res.status(200).json(funcionario);
@@ -82,7 +84,7 @@ api.delete = (req, res) => {
   let id = parseInt(req.params.id, 10);
   db.funcionario.findOne({
     where: {
-      $and: [{id: id}, {empresaId: req.empresa.id}]
+      $and: [{id: id}, {empresaId: req.user.id}]
     }
   }).then(funcionario => {
     if(!!funcionario) {
