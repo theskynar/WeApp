@@ -38,6 +38,9 @@ db.premio.belongsTo(db.produto);
 db.admin.hasMany(db.notificacao);
 db.notificacao.belongsTo(db.admin);
 
+db.estabelecimento.hasMany(db.notificacao);
+db.notificacao.belongsTo(db.estabelecimento);
+
 db.estabelecimento.hasMany(db.evento);
 db.evento.belongsTo(db.estabelecimento);
 

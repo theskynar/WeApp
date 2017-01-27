@@ -32,13 +32,15 @@ app.use(compression());
 passport.use(new Strategy(
   function(token, cb) {
     db.estabelecimento.findByToken(token, function(err, est){
-      if (err) { return cb(err); }
+      if (err) {  return cb(err); }
       if (!est) { return cb(null, false); }
-      return cb(null, est);
+      return cb(null, est, { scope: 'read' });
     });
   }));
 
-console.log("## Carregando arquivos ##");
+app.get("/up", (req, res) => {
+  res.render("upload.ejs");
+})
 
 consign()
   .include('App/api')
@@ -51,9 +53,10 @@ consign()
   .then('Site/routes')
   .then('PublicAPI/api')
   .then('PublicAPI/routes/auth.js')
+  .then('PublicAPI/routes/evento.js')
+  .then('PublicAPI/routes/notification.js')
   .into(app, io, jwt, cryptojs, db, _, passport);
 
-console.log("## Todos os arquivos foram carregados ##");
 
 
 module.exports = http;

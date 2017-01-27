@@ -8,13 +8,13 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
       if(!admin) {
         res.status(401).send('Não autorizado');
       } else {
-        let token = jwt.sign(admin.email , app.get('secret'));
+        let token = jwt.sign({data: admin.id }, app.get('secret'), {expiresIn: 60*15});
         res.set('x-access-token', token);
         adminInstance = admin;
         return res.status(200).json(adminInstance.toPublicJSON());
       }
     }).catch((err) => {
-        res.status(401).send('Não autorizado!');
+        res.status(401).send({Erro : err, Auth:"Não Autorizado"});
     });
   }
 
@@ -23,7 +23,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
     if(!!token) {
       jwt.verify(token, app.get('secret'), function(err, decoded) {
           if(err) {
-            res.status(401);
+            res.status(401).send({Erro: err, Auth:"Não Autorizado"});
           }
           req.admin = decoded;
           next();

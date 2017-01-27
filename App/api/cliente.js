@@ -4,22 +4,22 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.autenticaUser = (req, res) => {
     let body = _.pick(req.body, 'email');
-  	db.cliente.verificar(body).then((cliente) => {
+  	db.cliente.verificar(body).then(cliente => {
       		if(!!cliente) return res.status(200).json(cliente);
           res.status(400).send('Oops!');
-  	}).catch((err) => {
+  	}).catch(err => {
       res.status(401).send(err);
     });
   }
 
   api.create = (req, res) => {
     let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
-    db.cliente.create(body).then((cliente) => {
+    db.cliente.create(body).then(cliente => {
       if(!!cliente) {
-        res.status(200).json(cliente);
+        return res.status(200).json(cliente);
         io.emit('attgraph');
       }
-    }).catch((err) => {
+    }).catch(err => {
         res.status(400).send('Não foi possível criar o usuário: ' + err);
     });
   }
@@ -27,66 +27,48 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   api.update = (req, res) => {
     let id = parseInt(req.params.id, 10);
     let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
-    let where = {};
-
-    if(body.hasOwnProperty('email'))  where.email = body.email;
-    if(body.hasOwnProperty('nome'))  where.nome = body.nome;
-    if(body.hasOwnProperty('genero'))  where.genero = body.genero;
-    if(body.hasOwnProperty('bairroMora')) where.bairroMora = body.bairroMora;
-    if(body.hasOwnProperty('bairroTrabalha')) where.bairroTrabalha = body.bairroTrabalha;
-    if(body.hasOwnProperty('cel'))  where.cel = body.cel;
-    if(body.hasOwnProperty('dob'))  where.dob = body.dob;
-
-    db.cliente.findOne({
-      where: {
-        id: id
-      }
-    }).then((cliente) =>{
+    db.cliente.findById(id).then(cliente => {
       if(!!cliente) {
-        cliente.update(where).then((cliente) => {
+        return cliente.update(body).then(cliente => {
             return res.status(200).json(cliente);
-        }).catch((err) => {
-            res.status(400).send(err);
+        }).catch(err => {
+            res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
         });
       } else {
-        res.status(404).send();
+        res.status(404).send("Cliente não encontrado");
       }
-    }).catch((err) => {
-        res.status(500).send(err);
+    }).catch(err => {
+        res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
     });
   }
 
   api.delete = (req, res) => {
     let id = parseInt(req.params.id, 10);
-    db.cliente.findOne({
-      where: {
-        id:id
-      }
-    }).then((clienteDeletado) => {
+    db.cliente.findById(id).then(clienteDeletado => {
       if(!!clienteDeletado) {
-        return clienteDeletado.destroy(clienteDeletado).then((cliente) => {
+        return clienteDeletado.destroy(clienteDeletado).then(cliente => {
             res.status(204).send();
             io.emit('attgraph');
-        }).catch((err) => {
-            res.status(400).send(err);
+        }).catch(err => {
+            res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
         });
       }
       res.status(404).send('Não encontrado');
-    }).catch((err) => {
-      res.status(500).send(err);
+    }).catch(err => {
+      res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
     })
   }
 
   api.gerarDesconto = (req, res) => {
     let body = _.pick(req.body, 'valor', 'valorTotal', 'isChecked', 'avaliacao', 'clienteId', 'estabelecimentoId');
-    db.produto.create(body).then((produto) => {
+    db.produto.create(body).then(produto => {
         req.cliente.addProduto(produto).then(()=> {
           return produto.reload();
         }).then(produto => {
-          res.status(200).send('Registro criado')
+          res.status(200).send('Registro criado');
         });
-    }).catch((err) => {
-      res.status(400).send('Erro ao criar registro ' + err);
+    }).catch(err => {
+      res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
     });
     io.emit('attdesc', body.valorTotal - body.valor);
     io.emit('attgraph');

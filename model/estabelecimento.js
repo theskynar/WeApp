@@ -48,6 +48,18 @@ module.exports = function(sequelize, dataTypes) {
 				len:[2, 255]
 			}
 		},
+		endereco: {
+			type: dataTypes.STRING,
+			allowNull:false
+		},
+		latitude: {
+			type: dataTypes.STRING,
+			allowNull:false
+		},
+		longitude: {
+			type: dataTypes.STRING,
+			allowNull:false
+		},
 		cidade: {
 			type: dataTypes.STRING,
 			allowNull:false,
@@ -66,7 +78,6 @@ module.exports = function(sequelize, dataTypes) {
 			type: dataTypes.STRING,
 			allowNull:false,
 			validate: {
-				isNumeric:true,
 				len: [3, 25]
 			}
 		},
@@ -91,16 +102,6 @@ module.exports = function(sequelize, dataTypes) {
 				isDate: true
 			}
 		},
-		premiosSorteados: {
-			type: dataTypes.STRING,
-			allowNull: false,
-			defaultValue: "0"
-		},
-		capitalRodado: {
-			type: dataTypes.DOUBLE,
-			allowNull:false,
-			defaultValue:0.0
-		},
 		descontoAplicado: {
 			type:dataTypes.DOUBLE,
 			allowNull:false,
@@ -110,17 +111,23 @@ module.exports = function(sequelize, dataTypes) {
 				max: 100.0
 			}
 		},
-		localizacao: {
-			type:dataTypes.STRING,
-			defaultValue:"Coordenadas para Google Maps"
+		levelPlano: {
+			type:dataTypes.INTEGER,
+			defaultValue: 1,
+			validate: {
+				min: 1,
+				max: 10
+			}
 		},
 		img: {
 			type:dataTypes.STRING,
 			defaultValue:"https://forums.roku.com/styles/canvas/theme/images/no_avatar.jpg"
 		},
-		/*token: {
+		token_teste: {
+			type:dataTypes.STRING
+		},
+		token: {
 			type: dataTypes.VIRTUAL,
-			allowNull: false,
 			validate: {
 				len:[1]
 			},
@@ -128,21 +135,13 @@ module.exports = function(sequelize, dataTypes) {
 				let hash =  cryptojs.MD5(value).toString();
 				this.setDataValue('token', value);
 				this.setDataValue('tokenHash', hash);
+				this.setDataValue('token_teste', value);
 			}
 		},
-		tokenHash: dataTypes.STRING,*/
-
+		tokenHash: dataTypes.STRING,
 	}, {
 		hooks: {
 			beforeCreate: function(estabelecimento, options) {
-			/*	obj: {estabelecimento.CNPJ, estabelecimento.nomeProprietario, estabelecimento.id}
-				try {
-					let token = jwt.sign(estabelecimento.CNPJ, 'secr3t');
-					estabelecimento.token = token;
-				} catch(e) {
-					throw new Error('Erro ao assinar token: ' + e);
-				}*/
-
 			}
 		},
 		classMethods: {
@@ -166,22 +165,20 @@ module.exports = function(sequelize, dataTypes) {
 				});
 			}, /* END OF autenticar */
 			findByToken: function(token, cb) {
-				try {
-					let decodeJWT = jwt.verify(token, 'secr3t');
 					process.nextTick(function() {
 						estabelecimento.findOne({
 							where: {
-								token:token
+								tokenHash:cryptojs.MD5(token).toString()
 							}
 						})
-						.then((res) =>{
+						.then(res =>{
 							if(res) return cb(null, res);
 							return cb(null,null);
 						})
+						.catch(err => {
+							throw new Error(err);
+						})
 					});
-				} catch (e) {
-					throw new Error('Erro ao verificar token ' + e);
-				}
 			}
 
 
@@ -190,7 +187,7 @@ module.exports = function(sequelize, dataTypes) {
 			toPublicJSON : function() {
 				try {
 					let json = this.toJSON();
-					return _.pick(json, 'nomeEmpresa', 'segmento', 'cidade', 'bairro',
+					return _.pick(json, 'id', 'latitude', 'longitude', 'endereco', 'nomeEmpresa', 'segmento', 'cidade', 'bairro',
 							'descontoAplicado', 'url', 'urlFace');
 				} catch (e) {
 					throw new Error('Erro ao converter JSON Objects ' + e);

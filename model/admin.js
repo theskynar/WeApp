@@ -9,30 +9,35 @@ module.exports = function(sequelize, dataTypes) {
       type:dataTypes.STRING,
       allowNull: false,
       validate: {
-        len:[2,55] /* Tamanho entre 2 e 55 incluindo ambos */
+        len:[2,55]
       }
-    },/* END OF COLUNM NAME */
+    },
     email: {
       type:dataTypes.STRING,
       allowNull: false,
-      unique: true, /* VALOR ÚNICO */
+      unique: true,
       validate: {
         isEmail: true,
       }
-    },/* END OF COLUNM EMAIL */
+    },
+    level: {
+      type:dataTypes.INTEGER,
+      defaultValue:1,
+      validate: {
+        min:1,
+        max:5
+      }
+    },
     img: {
       type:dataTypes.STRING,
       defaultValue:"https://forums.roku.com/styles/canvas/theme/images/no_avatar.jpg"
-    }, /* END OF COLUNM IMG */
+    },
     salted: {
-      type:dataTypes.STRING,
-      validate: {
-        notEmpty: true
-      }
-    },/* END OF COLUNM SALTED */
+      type:dataTypes.STRING
+    },
     passwordHashed : {
       type:dataTypes.STRING
-    },/* END OF COLUNM passhashed */
+    },
     password: {
       type:dataTypes.VIRTUAL,
       allowNull:false,
@@ -40,13 +45,24 @@ module.exports = function(sequelize, dataTypes) {
         len: [8,50]
       },
       set: function(val) {
+        console.log(val);
         let salt = bcrypt.genSaltSync(10);
         let hashed = bcrypt.hashSync(val, salt);
         this.setDataValue('password', val);
         this.setDataValue('salted', salt);
         this.setDataValue('passwordHashed', hashed);
       }
-    }/* END OF COLUNM PASSWORD */
+    },
+    tokenReset: {
+      type:dataTypes.VIRTUAL
+    },
+    tokenHash: {
+      type:dataTypes.STRING,
+      unique:true
+    },
+    resetDate: {
+      type:dataTypes.DATE
+    }
   }, { /* END OF let ADMIN */
     hooks: {
       beforeValidate: function(admin, options) {
@@ -96,20 +112,38 @@ module.exports = function(sequelize, dataTypes) {
     instanceMethods: {
       toPublicJSON: function() {
         let json = this.toJSON();
-        return _.pick(json, 'id', 'name', 'email', 'img', 'createdAt', 'updatedAt');
+        return _.pick(json, 'id', 'name', 'level', 'email', 'img', 'createdAt', 'updatedAt');
       },
       generateToken: function(type) {
         if(!_.isString(type)){
           return undefined;
         }
         try {
-            let stringData = JSON.stringify({id: this.get('id'), type: type});
+            let stringData = JSON.stringify({id: this.get('id'), email: this.get('email'), type: type});
             let encryptedData = cryptojs.AES.encrypt(stringData, '12345t').toString();
             let token = jwt.sign({token: encryptedData}, 'qwerty');
             return token;
         } catch (e) {
           return undefined;
         }
+      },
+      resetTokenHashed: function(token) {
+        this.tokenReset = token;
+        this.update({
+          tokenHash: cryptojs.MD5(this.tokenReset).toString(),
+          resetDate: new Date().getTime()
+        })
+      },
+      resetPass: function() {
+        this.password = null;
+        this.update({
+          passwordHashed: null,
+          salted: null
+        })
+      },
+      passwordTokenExpired: function() {
+        let later = new Date().getTime() - 900000;
+        return new Date(this.resetDate).getTime() < later;
       }
     }
   });

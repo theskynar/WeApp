@@ -8,13 +8,13 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         vencPlano: { $gte: Date.now() }
       },
       attributes: {
-        exclude: ['CNPJ', 'nomeProprietario', 'dataEntrada', 'vencPlano', 'premiosSorteados', 'capitalRodado']
+        exclude: ['CNPJ', 'nomeProprietario', 'dataEntrada', 'vencPlano', 'levelPlano', 'token', 'tokenHash']
       }
-    }).then((estabelecimento) => {
+    }).then(estabelecimento => {
       if(!!estabelecimento) return res.status(200).json(estabelecimento);
-      res.status(404).send('Not found!');
-    }).catch((err) => {
-      res.status(500).send(e);
+      res.status(404).send('Estabelecimento não encontrado');
+    }).catch(err => {
+      res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
     });
   }
 

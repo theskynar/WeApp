@@ -24,6 +24,9 @@ module.exports =  function(sequelize, dataTypes) {
         len:[3, 255]
       }
     },
+    bairros: {
+      type:dataTypes.STRING
+    },
     texto: {
       type: dataTypes.STRING,
       allowNull:false,

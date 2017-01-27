@@ -10,4 +10,7 @@ module.exports = function(app){
     .post(api.create)
     .put(api.update);
 
+  app.route('/manager/novoTokenEstabalecimento/:id?')
+    .put(api.generateBearerToken);
+
 }

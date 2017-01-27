@@ -24,8 +24,8 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         db.contato.create(body).then((contato) => {
           if(!contato) return res.status(400).send('Não foi possível gravar o contato no banco!');
           res.status(200).send('Obrigado por entrar em contato com a WeApp.\nLogo entraremos em contato para esclarecer sua dúvidas...');
-        }).catch((err) => {
-            res.status(500).send('Erro => ' + err);
+        }).catch(err => {
+            res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
         });
     });
   }

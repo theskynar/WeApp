@@ -7,7 +7,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
      db.admin.create(body).then((admin) => {
          res.status(200).json(admin.toPublicJSON());
      }).catch((err) => {
-         res.status(400).json(e);
+         res.status(400).json(err);
      });
   }
 

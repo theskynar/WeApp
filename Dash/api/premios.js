@@ -21,7 +21,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
       var n = d.getMilliseconds();
       return res.status(200).json({randomCliente: randomCliente, n: n});
     }).catch(err => {
-      res.status(500).send(err);
+      res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
     })
   }
 
@@ -48,7 +48,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         Promise.all(arr);
         return res.status(200).json(arr);
       }).catch(err => {
-        res.status(500).send(err);
+        res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
       })
     }
 
