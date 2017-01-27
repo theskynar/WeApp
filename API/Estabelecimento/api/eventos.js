@@ -1,5 +1,5 @@
 let api = {};
-const db = require('../../db.js');
+const db = require('../../../config/db.js');
 const _ = require('underscore');
 
 api.create = (req, res) => {

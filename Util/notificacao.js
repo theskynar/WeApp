@@ -1,4 +1,4 @@
-const config = require('../../config/notifications.js');
+const config = require('../config/notifications.js');
 const https = require('https');
 
 let obj = {};

@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
 const consign =  require('consign');
+const consignAPI =  require('consign');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const db = require('../db.js');
+const db = require('./db.js');
 const compression = require('compression');
 const _ = require('underscore');
 const cryptojs = require('crypto-js');
@@ -19,7 +20,7 @@ app.set('secret', 'fuckinGAssHole12345');
 app.engine('html', require('ejs').renderFile);
 app.set('views', './public');
 app.set('view engine', 'ejs');
-app.use(express.static('./public'));
+app.use('/', express.static('public'));
 app.use(bodyParser.json());
 app.use(helmet());
 app.disable('x-powered-by');
@@ -29,15 +30,6 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(compression());
-passport.use(new Strategy(
-  function(token, cb) {
-    db.estabelecimento.findByToken(token, function(err, est){
-      if (err) {  return cb(err); }
-      if (!est) { return cb(null, false); }
-      return cb(null, est, { scope: 'read' });
-    });
-  }));
-
 app.get("/up", (req, res) => {
   res.render("upload.ejs");
 })
@@ -51,12 +43,12 @@ consign()
   .then('Dash/routes')
   .then('Site/api')
   .then('Site/routes')
-  .then('APIEstabelecimento/api')
-  .then('APIEstabelecimento/routes/auth.js')
-  .then('APIEstabelecimento/routes/evento.js')
-  .then('APIEstabelecimento/routes/notification.js')
-  .then('APIEstabelecimento/routes/estatistica.js')
   .into(app, io, jwt, cryptojs, db, _, passport);
+
+consignAPI({cwd: 'API'})
+  .include('Estabelecimento/api')
+  .then('Estabelecimento/routes')
+  .into(app, io, jwt, cryptojs, db, _, passport, Strategy);
 
 
 

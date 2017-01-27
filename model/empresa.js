@@ -4,7 +4,7 @@ const _ = require('underscore');
 const jwt = require('jsonwebtoken');
 
 module.exports = function(sequelize, dataTypes) {
-	let estabelecimento = sequelize.define('estabelecimento', {
+	let empresa = sequelize.define('empresa', {
 		CNPJ: {
 			type: dataTypes.STRING,
 			allowNull:false,
@@ -12,14 +12,14 @@ module.exports = function(sequelize, dataTypes) {
 				len: [1,255]
 			}
 		},
-		Tel: {
-			type: dataTypes.STRING,
-			allowNull: false,
-			validate: {
-				len:[1]
-			}
-		},
-		email: {
+    telResponsavel: {
+      type: dataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len:[1]
+      }
+    },
+		emailResponsavel: {
 			type: dataTypes.STRING,
 			allowNull: false,
 			unique: true, /* VALOR ÚNICO */
@@ -27,6 +27,21 @@ module.exports = function(sequelize, dataTypes) {
 				isEmail: true
 			}
 		},
+    telEmpresa: {
+      type: dataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len:[1]
+      }
+    },
+    emailEmpresa: {
+      type: dataTypes.STRING,
+      allowNull: false,
+      unique: true, /* VALOR ÚNICO */
+      validate: {
+        isEmail: true
+      }
+    },
 		nomeEmpresa: {
 			type:dataTypes.STRING,
 			allowNull:false,
@@ -34,29 +49,21 @@ module.exports = function(sequelize, dataTypes) {
 				len: [1, 255]
 			}
 		},
-		nomeProprietario: {
-			type: dataTypes.STRING,
-			allowNull: false,
-			validate: {
-				len: [2, 255]
-			}
-		},
-		segmento: {
-			type: dataTypes.STRING,
-			allowNull:false,
-			validate: {
-				len:[2, 255]
-			}
-		},
+    nomeFantasia: {
+      type:dataTypes.STRING,
+      allowNull:false,
+      validate: {
+        len: [1, 255]
+      }
+    },
+    nomeResponsavel: {
+      type:dataTypes.STRING,
+      allowNull:false,
+      validate: {
+        len: [1, 255]
+      }
+    },
 		endereco: {
-			type: dataTypes.STRING,
-			allowNull:false
-		},
-		latitude: {
-			type: dataTypes.STRING,
-			allowNull:false
-		},
-		longitude: {
 			type: dataTypes.STRING,
 			allowNull:false
 		},
@@ -81,12 +88,8 @@ module.exports = function(sequelize, dataTypes) {
 				len: [3, 25]
 			}
 		},
-		url: {
-			type: dataTypes.STRING
-		},
-		urlFace: {
-			type: dataTypes.STRING
-		},
+		url:dataTypes.STRING,
+    plano:dataTypes.STRING,
 		dataEntrada: {
 			type: dataTypes.DATE,
 			allowNull: false,
@@ -102,15 +105,6 @@ module.exports = function(sequelize, dataTypes) {
 				isDate: true
 			}
 		},
-		descontoAplicado: {
-			type:dataTypes.DOUBLE,
-			allowNull:false,
-			defaultValue: 5.0,
-			validate: {
-				min: 5.0,
-				max: 100.0
-			}
-		},
 		levelPlano: {
 			type:dataTypes.INTEGER,
 			defaultValue: 1,
@@ -123,9 +117,7 @@ module.exports = function(sequelize, dataTypes) {
 			type:dataTypes.STRING,
 			defaultValue:"https://forums.roku.com/styles/canvas/theme/images/no_avatar.jpg"
 		},
-		token_teste: {
-			type:dataTypes.STRING
-		},
+		token_teste:dataTypes.STRING,
 		token: {
 			type: dataTypes.VIRTUAL,
 			validate: {
@@ -139,28 +131,31 @@ module.exports = function(sequelize, dataTypes) {
 			}
 		},
 		tokenHash: dataTypes.STRING,
-		salted: dataTypes.STRING,
-		passwordHashed:dataTypes.STRING,
-		passwordCrypto:dataTypes.STRING,
-		password: {
-			type:dataTypes.VIRTUAL,
-			allowNull:false,
-			validate: {
-				len: [8,50]
-			},
-			set: function(val) {
-				let salt = bcrypt.genSaltSync(10);
-				let hashed = bcrypt.hashSync(val, salt);
-				let crypto = cryptojs.AES.encrypt(val.toString(), "provisorio");
-				this.setDataValue('password', val);
-				this.setDataValue('salted', salt);
-				this.setDataValue('passwordHashed', hashed);
-				this.setDataValue('passwordCrypto', crypto);
-			}
-		}
+    salted: dataTypes.STRING,
+    passwordHashed:dataTypes.STRING,
+    passwordCrypto:dataTypes.STRING,
+    password: {
+      type:dataTypes.VIRTUAL,
+      allowNull:false,
+      validate: {
+        len: [8,50]
+      },
+      set: function(val) {
+        let salt = bcrypt.genSaltSync(10);
+        let hashed = bcrypt.hashSync(val, salt);
+        let crypto = cryptojs.AES.encrypt(val.toString(), "provisorio");
+        this.setDataValue('password', val);
+        this.setDataValue('salted', salt);
+        this.setDataValue('passwordHashed', hashed);
+        this.setDataValue('passwordCrypto', crypto);
+      }
+    }
 	}, {
 		hooks: {
-			beforeCreate: function(estabelecimento, options) {
+			beforeCreate: function(empresa, options) {
+        if(typeof empresa.email === 'string') {
+          empresa.email = empresa.email.toLowerCase();
+        }
 			}
 		},
 		classMethods: {
@@ -185,7 +180,7 @@ module.exports = function(sequelize, dataTypes) {
 			}, /* END OF autenticar */
 			findByToken: function(token, cb) {
 					process.nextTick(function() {
-						estabelecimento.findOne({
+						empresa.findOne({
 							where: {
 								tokenHash:cryptojs.MD5(token).toString()
 							}
@@ -206,8 +201,8 @@ module.exports = function(sequelize, dataTypes) {
 			toPublicJSON : function() {
 				try {
 					let json = this.toJSON();
-					return _.pick(json, 'id', 'latitude', 'longitude', 'endereco', 'nomeEmpresa', 'segmento', 'cidade', 'bairro',
-							'descontoAplicado', 'url', 'urlFace');
+					return _.pick(json, 'id', 'nomeEmpresa', 'nomeFantasia', 'nomeResponsavel', 'telResponsavel',
+           'emailResponsavel', 'emailEmpresa', 'endereco','vencPlano', 'dataEntrada', 'plano', 'levelPlano');
 				} catch (e) {
 					throw new Error('Erro ao converter JSON Objects ' + e);
 				}
@@ -215,6 +210,6 @@ module.exports = function(sequelize, dataTypes) {
 		},
 	});
 
-	return estabelecimento;
+	return empresa;
 
 }

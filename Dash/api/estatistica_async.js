@@ -1,4 +1,4 @@
-const db = require('./../../db.js');
+const db = require('../../config/db.js');
 const _ = require('underscore');
 let toMonth = require('../../Util/toMonth.js');
 let toMoney = require('../../Util/toMoney.js');
