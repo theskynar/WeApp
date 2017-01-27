@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  let api = app.APIEmpresas.api.funcionario;
+  let api = app.Empresas.api.funcionario;
   app.route('/v1/empresas/funcionarios')
     .get(api.list);
     //.post(api.bulkCreate);

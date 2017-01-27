@@ -48,6 +48,8 @@ consign()
 consignAPI({cwd: 'API'})
   .include('Estabelecimento/api')
   .then('Estabelecimento/routes')
+  .then('Empresas/api')
+  .then('Empresas/routes')
   .into(app, io, jwt, cryptojs, db, _, passport, Strategy);
 
 
