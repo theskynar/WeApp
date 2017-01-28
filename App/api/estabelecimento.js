@@ -8,7 +8,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         vencPlano: { $gte: Date.now() }
       },
       attributes: {
-        exclude: ['CNPJ', 'nomeProprietario', 'dataEntrada', 'vencPlano', 'levelPlano', 'token', 'tokenHash']
+        exclude: ['CNPJ', 'nomeProprietario', 'dataEntrada', 'vencPlano', 'levelPlano', 'token', 'tokenHash', 'token_teste']
       }
     }).then(estabelecimento => {
       if(!!estabelecimento) return res.status(200).json(estabelecimento);

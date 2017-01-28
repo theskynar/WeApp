@@ -7,8 +7,8 @@ module.exports = (app, io, jwt, cryptojs, db, _, passport, Strategy) => {
           return cb(null, est, { scope: 'read' });
         });
       }));
-    app.use('/v1/api/*', passport.authenticate('bearer', { session: false }));
-    app.route('/v1/api/teste')
+    app.use('/v1/api/estabelecimentos/*', passport.authenticate('bearer', { session: false }));
+    app.route('/v1/api/estabelecimentos/teste')
       .get(function(req, res) {
         res.send(req.user);
     });

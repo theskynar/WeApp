@@ -10,7 +10,7 @@ module.exports = function(app) {
     .post(api.create)
     .put(api.update);
 
-  /*app.route('/manager/evento/:status')
-    .get(app.Dash.api.evento.getByStatus);*/
+  app.route('/manager/evento/:status')
+    .get(app.Dash.api.evento.getByStatus);
 
 }

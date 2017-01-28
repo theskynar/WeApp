@@ -13,7 +13,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   }
 
   api.create = (req, res) => {
-    let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob');
+    let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob', 'one_signal_id');
     db.cliente.create(body).then(cliente => {
       if(!!cliente) {
         return res.status(200).json(cliente);
