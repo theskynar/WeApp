@@ -117,7 +117,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
     let id = parseInt(req.params.id, 10);
     db.empresa.findById(id).then(empresa => {
       try {
-        let token = jwt.sign({data : empresa.id}, 'secr3t');
+        let token = jwt.sign({data: empresa.id, tipo:'empresa'}, 'secr3t');
         return empresa.updateAttributes({
           token: token
         }).then(empresaAtualizada => {
