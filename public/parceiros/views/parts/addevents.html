@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="form-group">
+      <label>Titulo</label>
+      <input ng-model="notify.titulo" type="text" class="form-control border-input">
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="form-group">
+      <label>Descrição</label>
+      <input ng-model="notify.desc" type="text" class="form-control border-input">
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group">
+      <label>Data de inicio</label>
+      <input ng-model="notify.dataInicio" type="date" class="form-control border-input">
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group">
+      <label>Data de encerramento</label>
+      <input ng-model="notify.dataFim" type="date" class="form-control border-input">
+    </div>
+  </div>
+  <div class="col-md-4 autocomplete">
+    <div class="form-group">
+      <label>Estabelecimento</label>
+      <angucomplete id="estabelecimento"
+              placeholder="Procurar estabelecimento"
+              pause="400"
+              selectedobject="notify.estabelecimento"
+              localdata="estabelecimentos"
+              searchfields="nomeEmpresa"
+              titlefield="nomeEmpresa"
+              inputclass="form-control border-input"/>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <button ng-click="salvar(notify)" class="btn btn-success pull-right">Criar</button>
+  </div>
+
+</div>

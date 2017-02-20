@@ -1,0 +1,25 @@
+div.add-category {
+  border-top: 1px solid #CCC5B9;
+  border-bottom: 1px solid #CCC5B9;
+
+  & div {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: -o-flex;
+
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    & .form-group {
+      min-width: 100%;
+    }
+  }
+}
+
+.add-category, .add-notify {
+  border-top: 1px solid #CCC5B9;
+  border-bottom: 1px solid #CCC5B9;
+  padding: 20px;
+}
