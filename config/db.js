@@ -3,11 +3,22 @@ let env = process.env.NODE_ENV || 'development';
 
 let sequelize;
 
-sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
+/*sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
   dialect: 'sqlite',
   storage: __dirname + '/../data/weapp_2.sqlite',
   define: {
     freezeTableName: true
+  }
+});*/
+
+sequelize = new Sequelize('weapp', 'root', 'tucano44', {
+  dialect: 'mysql',
+  //storage: __dirname + '/../data/weapp_2.sqlite',
+  define: {
+    freezeTableName: true
+  },
+  pool: {
+    maxConnections: 5
   }
 });
 
