@@ -1,0 +1,36 @@
+
+<div class="container-fluid">
+    <div class="row">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Usuários
+                      <button type="button"  data-toggle="modal" data-target="#adduser" class="btn no-bgcolor-success pull-right"><i class="ti-plus"></i></button>
+                    </h4>
+                </div>
+                <div class="content table-responsive table-full-width">
+                  <table class="table table-striped ltd-effect">
+                      <thead>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Criado em</th>
+                        <th></th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in users">
+                          <td>{{item.name}}</td>
+                          <td>{{item.email}}</td>
+                          <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
+                          <td>
+                            <button ng-click="removeuser(item.id)" class="btn btn-danger btn-sm pull-right"><i class="ti-trash"></i></button>
+                            <button ng-click="edituser(item.id)" class="btn btn-primary btn-sm pull-right"><i class="ti-pencil"></i></button>
+                          </td>
+                        </tr>
+                      </tbody>
+                  </table>
+                </div>
+        </div>
+
+
+    </div>
+</div>
+<div ng-include="'views/parts/modal.html'"></div>

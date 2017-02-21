@@ -1,0 +1,42 @@
+
+<div class="container-fluid">
+    <div class="row">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Estabelecimentos
+                      <button type="button" data-toggle="collapse" data-target="#addcategory" aria-expanded="false" aria-controls="addcategory" class="btn no-bgcolor-success pull-right"><i class="ti-plus"></i></button>
+                    </h4>
+                </div>
+                <div class="content table-responsive table-full-width">
+                  <div class="collapse add-category" id="addcategory" ng-include="'views/parts/addest.html'">
+
+                  </div>
+                  <table class="table table-striped ltd-effect">
+                      <thead>
+                        <th>Nome</th>
+                        <th>Proprietario</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                        <th>Vencimento</th>
+                        <th></th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in estabelecimentos">
+                          <td>{{item.nomeEmpresa}}</td>
+                          <td>{{item.nomeProprietario}}</td>
+                          <td>{{item.Tel}}</td>
+                          <td>{{item.email}}</td>
+                          <td>{{item.vencPlano | date: 'dd/MM/yyyy'}}</td>
+                          <td>
+                            <button ng-click="remove(item.id)" class="btn btn-danger btn-sm pull-right"><i class="ti-trash"></i></button>
+                            <button ng-click="editest(item.id)" class="btn btn-info btn-sm pull-right"><i class="ti-pencil"></i></button>
+                          </td>
+                        </tr>
+                      </tbody>
+                  </table>
+                </div>
+        </div>
+
+
+    </div>
+</div>
