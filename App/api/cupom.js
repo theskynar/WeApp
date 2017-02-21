@@ -1,6 +1,5 @@
 const db = require('../../../config/db.js');
 const _ = require('underscore');
-const codes = require('voucher-code-generator');
 let api = {};
 
 api.create = (req, res) => {
