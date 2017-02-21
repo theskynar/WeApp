@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  let api = app.Estabelecimento.api.desconto;
+  let api = app.App.api.desconto;
   app.route('/estabelecimento/desconto')
     .post(api.genDesconto);
 }

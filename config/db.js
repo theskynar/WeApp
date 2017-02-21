@@ -14,15 +14,15 @@ let db  = mysql.createPool({
 
  let sequelize;
 
- /*sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
+ sequelize = new Sequelize('undefined', 'undefined', 'undefined', {
    dialect: 'sqlite',
    storage: __dirname + '/../data/weapp_2.sqlite',
    define: {
      freezeTableName: true
    }
- });*/
+ });
 
- sequelize = new Sequelize('weapp', 'root', 'tucano44', {
+ /*sequelize = new Sequelize('weapp', 'root', 'tucano44', {
    dialect: 'mysql',
    //storage: __dirname + '/../data/weapp_2.sqlite',
    define: {
@@ -31,7 +31,7 @@ let db  = mysql.createPool({
    pool: {
      maxConnections: 5
    }
- });
+ });*/
 
  let db = {};
 
