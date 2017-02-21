@@ -166,21 +166,17 @@ module.exports = function(sequelize, dataTypes) {
 		classMethods: {
 			verificar: function (body) {
 				return new Promise(function (resolve, reject) {
-					if(typeof body.email !== 'string') {
-						return reject();
-					}
-					cliente.findOne({
-						where: {
-							email: body.email
+						if(typeof body.email !== 'string' || typeof body.password !== 'string') {
+								return reject();
 						}
-					}).then(function(cliente) {
-						if(!cliente) {
-							return reject();
-						}
-						resolve(cliente);
-					}, function(e) {
-						reject();
-					});
+						estabelecimento.findOne({where: {email: body.email} }).then(function(estabelecimento) {
+							if(!estabelecimento || !bcrypt.compareSync(body.password, estabelecimento.get('passwordHashed'))) {
+								reject(estabelecimento);
+							}
+							resolve(estabelecimento);
+						}, function(e) {
+								reject(e);
+						});
 				});
 			}, /* END OF autenticar */
 			findByToken: function(token, cb) {

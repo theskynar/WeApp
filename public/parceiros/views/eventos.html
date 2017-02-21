@@ -1,0 +1,52 @@
+
+<div class="container-fluid">
+    <div class="row">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Eventos
+
+                      <button type="button" data-toggle="collapse" data-target="#addeventos" aria-expanded="false" aria-controls="addeventos" class="btn btn-sm btn-info pull-right">Novo</button>
+                    </h4>
+                </div>
+
+                <div class="content table-responsive table-full-width">
+                  <div class="collapse add-notify" id="addeventos" ng-include="'views/parts/addevents.html'">
+
+                  </div>
+
+                  <div class="row" style="padding: 20px 20px 0 20px">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Procurando por: </label>
+                        <input type="text" ng-model="search" class="form-control border-input block">
+                      </div>
+                    </div>
+                  </div>
+
+                  <table class="table table-striped ltd-effect status-effect">
+                      <thead>
+                        <th>Titulo</th>
+                        <th>Descrição</th>
+                        <th>Data Inicio</th>
+                        <th>Data Encerramento</th>
+                        <th></th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in eventos | filter: search | orderBy: '':true">
+                          <td ng-class="{on: item.status == 1, off: item.status == 0}">{{item.titulo}}</td>
+                          <td>{{item.desc}}</td>
+                          <td>{{item.dataInicio | date: 'dd/MM/yyyy'}}</td>
+                          <td>{{item.dataFim | date: 'dd/MM/yyyy'}}</td>
+                          <td>
+                            <button ng-click="edit(item)" class="btn btn-info btn-sm pull-right"><i class="ti-pencil"></i></button>
+                          </td>
+                        </tr>
+                      </tbody>
+                  </table>
+                </div>
+        </div>
+
+
+    </div>
+</div>
+<div ng-include="'views/parts/modal-evento.html'"></div>

@@ -161,21 +161,17 @@ module.exports = function(sequelize, dataTypes) {
 		classMethods: {
 			verificar: function (body) {
 				return new Promise(function (resolve, reject) {
-					if(typeof body.email !== 'string') {
-						return reject();
-					}
-					cliente.findOne({
-						where: {
-							email: body.email
+						if(typeof body.email !== 'string' || typeof body.password !== 'string') {
+								return reject();
 						}
-					}).then(function(cliente) {
-						if(!cliente) {
-							return reject();
-						}
-						resolve(cliente);
-					}, function(e) {
-						reject();
-					});
+						empresa.findOne({where: {emailResponsavel: body.email} }).then(function(empresa) {
+							if(!empresa || !bcrypt.compareSync(body.password, empresa.get('passwordHashed'))) {
+								return reject();
+							}
+							resolve(empresa);
+						}, function(e) {
+								reject();
+						});
 				});
 			}, /* END OF autenticar */
 			findByToken: function(token, cb) {

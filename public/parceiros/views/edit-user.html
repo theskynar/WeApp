@@ -1,0 +1,75 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-md-5">
+            <div class="card card-user">
+                <div class="image">
+                    <img src="assets/img/background.jpg" alt="..."/>
+                </div>
+                <div class="content">
+                    <div class="author">
+                      <img class="avatar border-white" src="{{user.img}}" alt="..."/>
+                      <h4 class="title">{{user.name}}<br />
+                         <a href="#"><small>{{user.email}}</small></a>
+                      </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-7">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Editar Usuário</h4>
+                </div>
+                <div class="content">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Endereço de Email</label>
+                                    <input type="email" class="form-control border-input" ng-model="user.email" placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nome</label>
+                                    <input type="text" class="form-control border-input" placeholder="Nome" ng-model="user.name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Última atualização</label>
+                                    <input type="text" class="form-control border-input" placeholder="Level" ng-value="user.updatedAt | date: 'dd/MM/yyyy hh:mm'" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Data de Criação</label>
+                                    <input type="text" class="form-control border-input" disabled ng-value="user.createdAt | date: 'dd/MM/yyyy'">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Imagem</label>
+                                    <input type="text" class="form-control border-input" ng-model="user.img" placeholder="Imagem">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" ng-click="save()" class="btn btn-info btn-fill btn-wd">Salvar usuario</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

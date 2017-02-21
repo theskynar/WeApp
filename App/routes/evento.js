@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  let api = app.Estabelecimento.api.eventos;
+  let api = app.App.api.eventos;
 
   app.route('/estabelecimento/eventos')
     .get(api.list);
