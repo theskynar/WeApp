@@ -1,15 +1,14 @@
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="image">
-                      <img src="{{estabelecimento.img}}" alt="..."/>
+                    <img src="{{estabelecimento.img}}" alt="..." />
                 </div>
                 <div class="content">
-                      <h4 class="title">{{estabelecimento.nomeEmpresa}}<br />
-                         <a href="#"><small>{{estabelecimento.CNPJ}}</small></a>
-                      </h4>
+                    <h4 class="title">{{estabelecimento.nomeEmpresa}}<br />
+                        <a href="#"><small>{{estabelecimento.CNPJ}}</small></a>
+                    </h4>
                 </div>
             </div>
         </div>
@@ -20,112 +19,118 @@
                 </div>
                 <div class="content">
                     <form>
-                      <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Nome Empresa</label>
-                                <input type="text" class="form-control border-input" placeholder="Nome" ng-model="estabelecimento.nomeEmpresa">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nome Empresa</label>
+                                    <input type="text" class="form-control border-input" placeholder="Nome" ng-model="estabelecimento.nomeEmpresa">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>CNPJ</label>
+                                    <input type="text" class="form-control border-input" placeholder="CNPJ" ng-model="estabelecimento.CNPJ">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>CNPJ</label>
-                                <input type="text" class="form-control border-input" placeholder="CNPJ" ng-model="estabelecimento.CNPJ">
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Imagem</label>
+                                    <input type="text" class="form-control border-input" placeholder="Imagem" ng-model="estabelecimento.img">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Senha de Acesso</label>
+                                    <input type="text" class="form-control border-input" placeholder="Senha" ng-model="estabelecimento.password">
+                                </div>
                             </div>
                         </div>
-                      </div>
 
-                      <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Imagem</label>
-                                <input type="text" class="form-control border-input" placeholder="Imagem" ng-model="estabelecimento.img">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Telefone</label>
+                                    <input type="text" class="form-control border-input" placeholder="Telefone" ng-model="estabelecimento.Tel">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control border-input" placeholder="Email" ng-model="estabelecimento.email">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Proprietário</label>
+                                    <input type="text" class="form-control border-input" placeholder="Proprietario" ng-model="estabelecimento.nomeProprietario">
+                                </div>
                             </div>
                         </div>
-                      </div>
 
                         <div class="row">
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Telefone</label>
-                                  <input type="text" class="form-control border-input" placeholder="Telefone" ng-model="estabelecimento.Tel">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Email</label>
-                                  <input type="text" class="form-control border-input" placeholder="Email" ng-model="estabelecimento.email">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Proprietário</label>
-                                  <input type="text" class="form-control border-input" placeholder="Proprietario" ng-model="estabelecimento.nomeProprietario">
-                              </div>
-                          </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Segmento</label>
+                                    <input type="text" class="form-control border-input" placeholder="Segmento" ng-model="estabelecimento.segmento">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Cidade</label>
+                                    <input type="text" class="form-control border-input" placeholder="Cidade" ng-model="estabelecimento.cidade">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Bairro</label>
+                                    <input type="text" class="form-control border-input" placeholder="Bairro" ng-model="estabelecimento.bairro">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Segmento</label>
-                                  <input type="text" class="form-control border-input" placeholder="Segmento" ng-model="estabelecimento.segmento">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Cidade</label>
-                                  <input type="text" class="form-control border-input" placeholder="Cidade" ng-model="estabelecimento.cidade">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Bairro</label>
-                                  <input type="text" class="form-control border-input" placeholder="Bairro" ng-model="estabelecimento.bairro">
-                              </div>
-                          </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>CEP</label>
+                                    <input type="text" class="form-control border-input" placeholder="CEP" ng-model="estabelecimento.CEP">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Desconto Aplicado</label>
+                                    <input type="text" class="form-control border-input" placeholder="Desconto" ng-model="estabelecimento.descontoAplicado">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Url</label>
+                                    <input type="text" class="form-control border-input" placeholder="Url" ng-model="estabelecimento.url">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>CEP</label>
-                                  <input type="text" class="form-control border-input" placeholder="CEP" ng-model="estabelecimento.CEP">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Desconto Aplicado</label>
-                                  <input type="text" class="form-control border-input" placeholder="Desconto" ng-model="estabelecimento.descontoAplicado">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Url</label>
-                                  <input type="text" class="form-control border-input" placeholder="Url" ng-model="estabelecimento.url">
-                              </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Url Facebook</label>
-                                  <input type="text" class="form-control border-input" placeholder="Url Facebook" ng-model="estabelecimento.urlFace">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Data de Assinatura</label>
-                                  <input type="text" class="form-control border-input" placeholder="Data da Assinatura" ng-value="estabelecimento.dataEntrada | date: 'dd-MM-yyyy'" disabled="">
-                              </div>
-                          </div>
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Vencimento do Plano</label>
-                                  <input type="date" class="form-control border-input" placeholder="Vencimento" ng-model="estabelecimento.vencPlano">
-                              </div>
-                          </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Url Facebook</label>
+                                    <input type="text" class="form-control border-input" placeholder="Url Facebook" ng-model="estabelecimento.urlFace">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Data de Assinatura</label>
+                                    <input type="text" class="form-control border-input" placeholder="Data da Assinatura" ng-value="estabelecimento.dataEntrada | date: 'dd-MM-yyyy'" disabled="">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Vencimento do Plano</label>
+                                    <input type="date" class="form-control border-input" placeholder="Vencimento" ng-model="estabelecimento.vencPlano">
+                                </div>
+                            </div>
                         </div>
                         <div class="text-center">
                             <button type="submit" ng-click="save(estabelecimento)" class="btn btn-info btn-fill btn-wd">Salvar usuario</button>

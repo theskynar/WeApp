@@ -1,0 +1,40 @@
+<div class="sidebar-wrapper">
+      <div class="logo">
+          <a href="" class="simple-text">
+              WeAPP
+          </a>
+      </div>
+
+      <ul class="nav">
+          <li ng-class="{active: $route.current.active == 'home'}">
+              <a ui-sref="dash.home">
+                  <i class="ti-panel"></i>
+                  <p>Dashboard</p>
+              </a>
+          </li>
+          <li ng-class="{active: $route.current.active == 'user'}">
+              <a ui-sref="dash.user">
+                  <i class="ti-user"></i>
+                  <p>Usuarios</p>
+              </a>
+          </li>
+          <li ng-class="{active: $route.current.active == 'estabelecimento'}">
+              <a ui-sref="dash.estabelecimentos">
+                  <i class="ti-view-list-alt"></i>
+                  <p>Estabelecimentos</p>
+              </a>
+          </li>
+          <li ng-class="{active: $route.current.active == 'notificacoes'}">
+              <a ui-sref="dash.notificacao">
+                  <i class="ti-comments"></i>
+                  <p>Notificações</p>
+              </a>
+          </li>
+          <li ng-class="{active: $route.current.active == 'eventos'}">
+              <a ui-sref="dash.evento">
+                  <i class="ti-medall-alt"></i>
+                  <p>Eventos</p>
+              </a>
+          </li>
+      </ul>
+</div>

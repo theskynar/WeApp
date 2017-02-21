@@ -14,7 +14,7 @@ module.exports = function(grunt) {
       watch: {
 
         concat: {
-          files: ['public/manager/app/**/*.js'],
+          files: ['public/**/app/**/*.js'],
           tasks: ['concat'],
           options: {
             spawn: false,
@@ -37,20 +37,29 @@ module.exports = function(grunt) {
         options: {
             sourceMap: true
         },
-        dist: {
+        manager: {
             files: {
                 'public/manager/assets/css/style.css': 'public/manager/assets/scss/style.scss'
+            }
+        },
+        parceiros: {
+            files: {
+                'public/parceiros/assets/css/style.css': 'public/manager/assets/scss/style.scss'
             }
         }
       },
 
       concat: {
         options: {
-          separator: '',
+          separator: ''
         },
-        dist: {
-          src: ['public/manager/app/modules.js','public/manager/app/services/*.js','public/manager/app/directives/*.js','public/manager/app/controllers/*.js'],
-          dest: 'public/manager/app/app.concat.js',
+        manager: {
+          src: ['public/manager/app/modules.js','public/manager/app/services/*.js','public/manager/app/filters/*.js','public/manager/app/directives/*.js','public/manager/app/controllers/*.js'],
+          dest: 'public/manager/app/app.concat.js'
+        },
+        parceiros: {
+            src: ['public/parceiros/app/modules.js','public/parceiros/app/services/*.js','public/parceiros/app/filters/*.js','public/parceiros/app/directives/*.js','public/parceiros/app/controllers/*.js'],
+            dest: 'public/parceiros/app/app.concat.js'
         }
       }
 
