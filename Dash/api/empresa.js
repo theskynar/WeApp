@@ -9,7 +9,12 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
   api.getById = (req, res) => {
     let id = parseInt(req.params.id, 10);
     db.empresa.findById(id).then(empresa => {
-      if(!!empresa) return res.status(200).json(empresa);
+      if(!!empresa) {
+        let aux = empresa.passwordCrypto;
+        aux = cryptojs.AES.decrypt(aux.toString(), "provisorio");
+        empresa.passwordCrypto = aux.toString(cryptojs.enc.Utf8);
+        return res.status(200).json(empresa);
+      }
       res.status(404).json('Nenhuma empresa encontrado!');
     }).catch((err) =>  {
       res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
@@ -18,8 +23,21 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
 
 
   api.list = (req, res) => {
-    db.empresa.findAll().then((empresa) => {
-      if(!!empresa) return res.status(200).json(empresa);
+    db.empresa.findAll({
+      attributes: {
+        exclude: ['passwordHashed', 'passwordCrypto', 'salted']
+      }
+    }).then((empresa) => {
+      let result =[];
+
+      if(!!empresa) {
+        empresa.forEach(e => {
+              e.passwordCrypto = cryptojs.AES.decrypt(e.passwordCrypto.toString(), "provisorio");
+              e.passwordCrypto = e.passwordCrypto.toString(cryptojs.enc.Utf8);
+              result.push(e);
+        })
+        return res.status(200).json(result);
+      }
       res.status(404).send('Nenhuma empresa encontrado.');
     }).catch((err) => {
       res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
