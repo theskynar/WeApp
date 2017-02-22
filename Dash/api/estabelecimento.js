@@ -47,7 +47,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         let hashedCompany = cryptojs.AES.encrypt(hashing, "provisorio");
         let up = upload.uploadFiles("Estabelecimentos", hashedCompany, body.nomeEmpresa);
         let rgxPath = /(public\/)/g;
-        /*up(req, res, function(err) {
+        up(req, res, function(err) {
           if(err) {
             return res.status(500).send({Erro: err});
           }
@@ -55,7 +55,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
             p['path'] = p['path'].replace(rgxPath, "");
           });*/
         geocoder.geocode(body.CEP).then(function(res) {
-            //body.img = p['path'];
+            body.img = p['path'];
             res.forEach(data => {
                 body.img = req.body.img;
                 body.endereco = data['formattedAddress'];
@@ -78,7 +78,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
             console.log(err);
             res.status(500).send({ Mensagem: "Não foi possível obter dados corretos a partir do endereço passado.", Erro: err });
         });
-        /*})*/
+        })
     }
 
     api.update = (req, res) => {
