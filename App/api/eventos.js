@@ -3,13 +3,10 @@ const db = require('../../config/db.js');
 const _ = require('underscore');
 
 api.create = (req, res) => {
-  let body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status');
+  let body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'estabelecimentoId', 'status');
+    body.estabelecimentoId = req.user.id;
    db.evento.create(body).then(evento => {
-     req.user.addEvento(evento).then(()=> {
-       return evento.reload();
-     }).then(evento => {
-       return res.status(201).send('Evento criado com sucesso.');
-     });
+     if(!!evento) return res.status(201).send('Evento criado com sucesso.');
    }).catch(err => {
        res.status(400).json({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
    });
@@ -33,11 +30,12 @@ api.update = (req, res) => {
   let body = _.pick(req.body, 'titulo', 'desc', 'dataInicio', 'dataFim', 'status');
   db.evento.findOne({
     where: {
-      $and: [ {id : id}, {estabelecimentoId: req.user.id} ]
+      $and: [ {id : id}, {estabelecimentoId: parseInt(req.user.id, 10)} ]
     }
   }).then(evento => {
     if(!!evento) {
       return evento.update(body).then(evento => {
+          evento = _.pick(evento, 'id','titulo', 'desc', 'dataInicio', 'dataFim', 'status', 'updatedAt');
           return res.status(200).json(evento);
       }).catch((err) => {
           res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});

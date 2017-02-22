@@ -23,6 +23,7 @@
     "sequelize": "^3.30.0",
     "sequelize-auto": "^0.4.18",
     "sqlite3": "^3.1.8",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "voucher-code-generator": "^1.1.1"
   }
 }

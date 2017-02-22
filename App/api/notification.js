@@ -7,8 +7,8 @@ let api = {};
 
 api.sendAll = (req, res) => {
   let body = _.pick(req.body, 'titulo', 'subtitulo', 'descricao', 'texto',
-  'agendar_data', 'enviar_hora');
-
+  'agendar_data', 'enviar_hora', 'estabelecimentoId');
+  body.estabelecimentoId = req.user.id;
   let message = {
     app_id: config.appKey,
     included_segments: ["All"],
@@ -23,11 +23,9 @@ api.sendAll = (req, res) => {
   notificationModule.sendNotification(message, res).then(data => {
     if(!!data) {
       db.notificacao.create(body).then(notificacao => {
-        return req.user.addNotificacao(notificacao).then(response => {
-          return notificacao.reload();
-        }).then(response => {
-          return res.status(200).send({Mensagem: "Notificação enviada com sucesso!", Data: JSON.parse(data), Notificacao: response.toJSON()});
-        });
+          if(!!notificacao) {
+            return res.status(200).send({Mensagem: "Notificação enviada com sucesso!", Data: JSON.parse(data), Notificacao: notificacao.toJSON()});
+          }
       }).catch(err => {
         return res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
       })
@@ -39,8 +37,8 @@ api.sendAll = (req, res) => {
 
 api.sendByLocation = (req, res) => {
   let body = _.pick(req.body, 'titulo', 'subtitulo', 'descricao', 'texto',
-  'agendar_data', 'enviar_hora');
-
+  'agendar_data', 'enviar_hora', 'bairros', 'estabelecimentoId');
+  body.estabelecimentoId = req.user.id;
   if(!Array.isArray(body.bairros) || _.isEmpty(body.bairros))
     return res.status(400).send("Lista de bairros deve ser um array.");
 
@@ -67,11 +65,7 @@ api.sendByLocation = (req, res) => {
       notificationModule.sendNotification(message, res).then(data => {
         if(!!data) {
           db.notificacao.create(body).then(notificacao => {
-            return req.user.addNotificacao(notificacao).then(response => {
-              return notificacao.reload();
-            }).then(response => {
-              return res.status(200).send({Mensagem: "Notificação enviada com sucesso!", Data: JSON.parse(data), Notificacao: response.toJSON()});
-            });
+              return res.status(200).send({Mensagem: "Notificação enviada com sucesso!", Data: JSON.parse(data), Notificacao: notificacao.toJSON()});
           }).catch(err => {
             return res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
           })
