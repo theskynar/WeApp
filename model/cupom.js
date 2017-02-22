@@ -14,6 +14,9 @@ module.exports = function(sequelize, dataTypes) {
     },
     descricao: {
       type:dataTypes.TEXT
+    },
+    valorEmPorcentagem: {
+      type:dataTypes.INTEGER
     }
   });
 

@@ -9,6 +9,12 @@ module.exports = function(app) {
   app.route('/mobile/desconto')
      .post(api.gerarDesconto);
 
+  app.route('/mobile/cadastraCupom')
+     .post(api.cadastraCupom);
+
+  app.route('/mobile/verificaCupom')
+     .get(api.clientHasCupom);
+
   app.route('/mobile/descontos/:id')
      .get(api.listarDescontos);
 

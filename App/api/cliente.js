@@ -3,14 +3,65 @@ let api = {};
 module.exports = (app, io, jwt, cryptojs, db, _) => {
 
   api.autenticaUser = (req, res) => {
-    let body = _.pick(req.body, 'email');
+    let body = _.pick(req.body, 'email', 'one_signal_id');
   	db.cliente.verificar(body).then(cliente => {
-      		if(!!cliente) return res.status(200).json(cliente);
-          res.status(400).send('Oops!');
+      if(cliente.one_signal_id !== body.one_signal_id) {
+        return cliente.updateAttributes({
+          one_signal_id:body.one_signal_id
+        }).then(clienteAtt => {
+          return res.status(200).send({success: "One signal ID foi atualizado pois era diferente", clienteAtual: cliente})
+        })
+      } else {
+    		if(!!cliente) return res.status(200).json({success: "One signal ID não foi atualizado pois não era diferente", cliente: cliente});
+        return res.status(404).send('Oops! Este cliente não existe');
+      }
   	}).catch(err => {
-      res.status(401).send(err);
+      return res.status(401).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors, Auth: "Não Autorizado"});
     });
   }
+
+  api.clientHasCupom = (req, res) => {
+    let param = parseInt(req.params.id, 10);
+    let id = param || req.cliente.id;
+    db.cliente.findOne({
+      where: {
+        id: id
+      },
+      include:[
+        {model:db.cupom, where: {clienteId: id}}
+      ]
+    }).then(cliente => {
+          if(!!cliente || cliente != null) return res.status(200).json({cliente: cliente, success: "Contém cupom cadastrado"});
+          return res.status(400).send({success: "Não contém cupom cadastrado"});
+    }).catch(err => {
+      res.status(401).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
+    });
+  }
+
+  api.cadastraCupom = (req, res) => {
+    let cliente = req.body.id || req.cliente.id;
+    db.cupom.findOne({
+      where: {
+        cupom: req.body.cupom
+      }
+    }).then(cupom => {
+      if(cupom.clienteId !== null || cupom.clienteId !== '') return res.status(400).send("Este cupom já está sendo utilizado");
+      if(!!cupom) {
+        return cupom.updateAttributes({
+          clienteId: cliente
+        }).then(cupomAtt => {
+           return res.status(200).send("Cupom atualizado com sucesso, agora você já pode utilizar esse cupom em suas compras");
+        }).catch(err => {
+          return res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
+        })
+      } else {
+        return res.status(404).send("Cupom não é válido");
+      }
+    }).catch(err => {
+        return res.status(500).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
+    })
+  }
+
 
   api.create = (req, res) => {
     let body = _.pick(req.body, 'email', 'nome', 'genero', 'bairroMora', 'bairroTrabalha', 'cel', 'dob', 'one_signal_id');
@@ -20,7 +71,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         io.emit('attgraph');
       }
     }).catch(err => {
-        res.status(400).send('Não foi possível criar o usuário: ' + err);
+        res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
     });
   }
 
