@@ -74,6 +74,26 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
     io.emit('attgraph');
   }
 
+  api.listarDescontos = (req, res) => {
+    let param = parseInt(req.params.id, 10);
+    let id =  param || req.cliente.id;
+    db.produto.findAll({
+      where: {
+        clienteId: id
+      },
+      include:[
+        {model:db.estabelecimento, attributes: ['id', 'url', 'nomeEmpresa', 'descontoAplicado', 'img',
+        'latitude', 'longitude', 'segmento', 'endereco',
+        'urlFace', 'cidade', 'bairro']},
+      ]
+    }).then(produtos => {
+      if(!!produtos) return res.status(200).json(produtos);
+      return res.status(404).send("Não houveram descontos gerados em estabelecimentos credenciados");
+    }).catch(err => {
+      res.status(400).send({ErroMsg: err.message, ErroNome: err.name, Erro: err.errors});
+    });
+  }
+
   return api;
 
 };

@@ -9,4 +9,7 @@ module.exports = function(app) {
   app.route('/mobile/desconto')
      .post(api.gerarDesconto);
 
+  app.route('/mobile/descontos/:id')
+     .get(api.listarDescontos);
+
 }

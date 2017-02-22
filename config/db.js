@@ -34,7 +34,7 @@ db.contato = sequelize.import(__dirname + '/../model/contato.js');
 db.premio = sequelize.import(__dirname + '/../model/premio.js');
 db.token = sequelize.import(__dirname + '/../model/token.js');
 db.empresa = sequelize.import(__dirname + '/../model/empresa.js');
-db.funcionario = sequelize.import(__dirname + '/../model/funcionario.js');
+db.cupom = sequelize.import(__dirname + '/../model/cupom.js');
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
@@ -57,8 +57,12 @@ db.notificacao.belongsTo(db.estabelecimento);
 db.estabelecimento.hasMany(db.evento);
 db.evento.belongsTo(db.estabelecimento);
 
-db.empresa.hasMany(db.funcionario);
-db.funcionario.belongsTo(db.empresa);
+db.cliente.hasMany(db.cupom);
+db.cupom.belongsTo(db.cliente);
+
+db.empresa.hasMany(db.cupom);
+db.cupom.belongsTo(db.empresa);
+
 
 
 module.exports = db;

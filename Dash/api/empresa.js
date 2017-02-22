@@ -54,14 +54,14 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
       let hashedCompany = cryptojs.AES.encrypt(hashing, "provisorio");
       let up = upload.uploadFiles("Empresas", hashedCompany, body.nomeEmpresa);
       let rgxPath = /(public\/)/g;
-      /*up(req, res, function(err) {
+      up(req, res, function(err) {
         if(err) {
           return res.status(500).send({Erro: err});
         }
         req.files.images.forEach(p => {
           p['path'] = p['path'].replace(rgxPath, "");
-        });*/
-        //body.img = p['path'];
+        });
+        body.img = p['path'];
         geocoder.geocode(body.endereco).then(function(res) {
           res.forEach(data => {
             body.img ="algo";
@@ -80,7 +80,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
         }).catch(function(err) {
           res.status(500).send({Mensagem: "Não foi possível obter dados corretos a partir do endereço passado.", Erro: err});
         });
-      /*})*/
+      })
   }
 
   api.update = (req, res) => {

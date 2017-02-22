@@ -30,7 +30,7 @@ module.exports = (app, io, jwt, cryptojs, db, _) => {
           token:token
         });
     }).then((tokenInstance) => {
-      res.header('Auth', tokenInstance.get('token')).json(clienteInstance.toPublicJSON());
+      res.header('Auth', tokenInstance.get('token')).json(clienteInstance);
     }).catch(() => {
         res.status(401).send('Não Autorizado');
     });
